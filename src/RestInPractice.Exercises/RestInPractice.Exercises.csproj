@@ -31,8 +31,43 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ApplicationServer.Common">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Http">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements.Tests">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.HttpEnhancements.Tests.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Serialization">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\lib\http\Microsoft.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QueryComposition">
+      <HintPath>..\..\lib\http\Microsoft.QueryComposition.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Runtime.Serialization.Json">
+      <HintPath>..\..\lib\http\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Web.jQuery">
+      <HintPath>..\..\lib\http\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\tools\nunit\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +75,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exercise01\RoomResourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RestInPractice.Server\RestInPractice.Server.csproj">
+      <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>
+      <Name>RestInPractice.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
