@@ -140,6 +140,16 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
+        public void FeedIdShouldBeTagUri()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(body.Id, "tag:restinpractice.com,2011-09-05:/rooms/1");
+        }
+
+        [Test]
         public void ShouldReturn404NotFoundIfRoomDoesNotExist()
         {
             try

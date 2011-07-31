@@ -35,6 +35,7 @@ namespace RestInPractice.Server.Resources
 
             var body = new SyndicationFeed
                            {
+                               Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
                                BaseUri = new Uri("http://localhost/"),
                                Title = SyndicationContent.CreatePlaintextContent(room.Title),
                                Description = SyndicationContent.CreatePlaintextContent(room.Description)
