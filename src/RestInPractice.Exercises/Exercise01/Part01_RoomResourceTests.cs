@@ -54,17 +54,17 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void BodyShouldBeSyndicationFeed()
+        public void BodyShouldBeSyndicationItem()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationFeed), body);
+            Assert.IsInstanceOf(typeof (SyndicationItem), body);
         }
 
         [Test]
-        public void FeedTitleShouldReturnRoomDescription()
+        public void ItemTitleShouldReturnRoomTitle()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
@@ -74,17 +74,17 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void FeedDescriptionShouldReturnRoomDescription()
+        public void ItemSummaryShouldReturnRoomDescription()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Room.Description, body.Description.Text);
+            Assert.AreEqual(Room.Description, body.Summary.Text);
         }
 
         [Test]
-        public void FeedShouldIncludeBaseUri()
+        public void ItemShouldIncludeBaseUri()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
@@ -94,7 +94,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void FeedShouldIncludeLinkToNorth()
+        public void ItemShouldIncludeLinkToNorth()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
@@ -106,7 +106,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void FeedShouldIncludeLinkToEast()
+        public void ItemShouldIncludeLinkToEast()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
@@ -118,7 +118,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void FeedShouldIncludeLinkToWest()
+        public void ItemShouldIncludeLinkToWest()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
@@ -130,7 +130,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void FeedShouldNotIncludeLinkToSouth()
+        public void ItemShouldNotIncludeLinkToSouth()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
@@ -140,7 +140,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void FeedIdShouldBeTagUri()
+        public void ItemIdShouldBeTagUri()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());

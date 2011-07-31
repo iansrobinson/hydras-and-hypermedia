@@ -21,7 +21,7 @@ namespace RestInPractice.Server.Resources
         }
 
         [WebGet]
-        public HttpResponseMessage<SyndicationFeed> Get(string id, HttpRequestMessage request)
+        public HttpResponseMessage<SyndicationItem> Get(string id, HttpRequestMessage request)
         {
             Room room;
             try
@@ -33,12 +33,12 @@ namespace RestInPractice.Server.Resources
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var body = new SyndicationFeed
+            var body = new SyndicationItem
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
                                BaseUri = new Uri("http://localhost/"),
                                Title = SyndicationContent.CreatePlaintextContent(room.Title),
-                               Description = SyndicationContent.CreatePlaintextContent(room.Description)
+                               Summary = SyndicationContent.CreatePlaintextContent(room.Description)
                            };
 
             foreach (var exit in room.Exits)
@@ -51,7 +51,7 @@ namespace RestInPractice.Server.Resources
                 body.Links.Add(link);
             }
 
-            var response = new HttpResponseMessage<SyndicationFeed>(body) {StatusCode = HttpStatusCode.OK};
+            var response = new HttpResponseMessage<SyndicationItem>(body) {StatusCode = HttpStatusCode.OK};
             response.Headers.CacheControl = new CacheControlHeaderValue {Public = true, MaxAge = new TimeSpan(0, 0, 0, 10)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
 
