@@ -13,14 +13,13 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part01_RoomResourceTests
     {
-        private static readonly Room Room = new Room(1, "Entrance", "You descend a rope into a rubble-strewn hall. The air is cold and dank.", Exit.North(2), Exit.East(3), Exit.West(4));
-        private static readonly Rooms Rooms = new Rooms(Room);
+        private static readonly Room Room = Rooms.Instance.Get(1);
         private const string InvalidRoomId = "999";
 
         [Test]
         public void ShouldReturn200Ok()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
@@ -29,7 +28,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ResponseShouldBePublicallyCacheable()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
 
             Assert.IsTrue(response.Headers.CacheControl.Public);
@@ -38,7 +37,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ResponseShouldBeCacheableFor10Seconds()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
 
             Assert.AreEqual(new TimeSpan(0, 0, 0, 10), response.Headers.CacheControl.MaxAge);
@@ -47,7 +46,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ResponseContentTypeShouldBeApplicationAtomPlusXml()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
 
             Assert.AreEqual("application/atom+xml", response.Content.Headers.ContentType.MediaType);
@@ -56,7 +55,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void BodyShouldBeSyndicationItemFormatter()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault();
 
@@ -66,7 +65,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemTitleShouldReturnRoomTitle()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -76,7 +75,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemSummaryShouldReturnRoomDescription()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -86,7 +85,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemAuthorShouldReturnSystemAdminDetails()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
             var author = body.Authors.First();
@@ -98,7 +97,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemShouldIncludeBaseUri()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -108,7 +107,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemShouldIncludeLinkToNorth()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -120,7 +119,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemShouldIncludeLinkToEast()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -132,7 +131,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemShouldIncludeLinkToWest()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -144,7 +143,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemShouldNotIncludeLinkToSouth()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -154,7 +153,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemIdShouldBeTagUri()
         {
-            var resource = new RoomResource(Rooms);
+            var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
@@ -166,7 +165,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             try
             {
-                var resource = new RoomResource(Rooms);
+                var resource = CreateResourceUnderTest();
                 resource.Get(InvalidRoomId, new HttpRequestMessage());
                 Assert.Fail("Expected HttpResponseException");
             }
@@ -174,6 +173,11 @@ namespace RestInPractice.Exercises.Exercise01
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, ex.Response.StatusCode);
             }
+        }
+
+        private static RoomResource CreateResourceUnderTest()
+        {
+            return new RoomResource(Rooms.Instance);
         }
     }
 }

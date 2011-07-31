@@ -13,10 +13,8 @@ namespace RestInPractice.Server
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            var rooms = new Rooms(
-                new Room(1, "Entrance", "You descend a rope into a rubble-strewn hall. The air is cold and dank.", Exit.North(2), Exit.East(3), Exit.West(4)));
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(rooms), (instanceContext, obj) => { })
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Rooms.Instance), (instanceContext, obj) => { })
                 .AddFormatters(AtomFormatter.Instance);
             RouteTable.Routes.MapServiceRoute<RoomResource>("rooms", configuration);
         }
