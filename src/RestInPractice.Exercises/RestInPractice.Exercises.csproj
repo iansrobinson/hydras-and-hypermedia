@@ -80,12 +80,13 @@
   <ItemGroup>
     <Compile Include="Exercise01\Part01_RoomResourceTests.cs" />
     <Compile Include="Exercise01\Part02_AtomFormatterTests.cs" />
+    <Compile Include="Exercise01\Part03_FunctionalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.Server\RestInPractice.Server.csproj">
-      <Project>{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}</Project>
-      <Name>RestInPractice.Server</Name>
+    <ProjectReference Include="..\..\master-src\RestInPractice.Server\RestInPractice.Server.Master.csproj">
+      <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>
+      <Name>RestInPractice.Server.Master</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.ServiceModel;
 using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
 using Microsoft.ApplicationServer.Http;
@@ -11,6 +12,7 @@ using RestInPractice.Server.Domain;
 
 namespace RestInPractice.Server.Resources
 {
+    [ServiceContract]
     public class RoomResource
     {
         private readonly Rooms rooms;
@@ -20,7 +22,7 @@ namespace RestInPractice.Server.Resources
             this.rooms = rooms;
         }
 
-        [WebGet]
+        [WebGet(UriTemplate = "{id}")]
         public HttpResponseMessage<SyndicationItem> Get(string id, HttpRequestMessage request)
         {
             Room room;

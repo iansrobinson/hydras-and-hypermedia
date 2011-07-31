@@ -1,4 +1,3 @@
-C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\ResolveAssemblyReference.cache
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\RestInPractice.Server.dll
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\RestInPractice.Server.pdb
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\Microsoft.ApplicationServer.Common.dll
@@ -11,5 +10,6 @@ C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\Microsoft.Net.Http
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\Microsoft.QueryComposition.dll
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\Microsoft.Runtime.Serialization.Json.dll
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\Microsoft.ServiceModel.Web.jQuery.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\ResolveAssemblyReference.cache
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\RestInPractice.Server.dll
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\RestInPractice.Server.pdb

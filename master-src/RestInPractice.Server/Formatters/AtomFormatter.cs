@@ -10,9 +10,11 @@ namespace RestInPractice.Server.Formatters
 {
     public class AtomFormatter : MediaTypeFormatter
     {
+        public static readonly MediaTypeFormatter Instance = new AtomFormatter();
+        
         private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates };
         
-        public AtomFormatter()
+        private AtomFormatter()
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/atom+xml"));
         }
