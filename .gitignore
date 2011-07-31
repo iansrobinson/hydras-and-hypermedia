@@ -1,5 +1,5 @@
 _ReSharper.*
-src/*/bin
-src/*/obj
+src/*/bin/
+src/*/obj/
 *.user
 *.suo
