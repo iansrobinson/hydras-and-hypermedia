@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
@@ -10,9 +11,9 @@ using RestInPractice.Server.Resources;
 namespace RestInPractice.Exercises.Exercise01
 {
     [TestFixture]
-    public class RoomResourceTests
+    public class Part01_RoomResourceTests
     {
-        private static readonly Room Room = new Room(1, "Entrance", "You descend a rope into a rubble-strewn hall. The air is cold and dank.");
+        private static readonly Room Room = new Room(1, "Entrance", "You descend a rope into a rubble-strewn hall. The air is cold and dank.", Exit.North(2), Exit.East(3), Exit.West(4));
         private static readonly Rooms Rooms = new Rooms(Room);
         private const string InvalidRoomId = "999";
 
@@ -80,6 +81,62 @@ namespace RestInPractice.Exercises.Exercise01
             var body = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(Room.Description, body.Description.Text);
+        }
+
+        [Test]
+        public void FeedShouldIncludeBaseUri()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(new Uri("http://localhost/"), body.BaseUri);
+        }
+
+        [Test]
+        public void FeedShouldIncludeLinkToNorth()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault();
+
+            var link = body.Links.First(l => l.RelationshipType.Equals("north"));
+            
+            Assert.AreEqual(new Uri("/rooms/2", UriKind.Relative),link.Uri);
+        }
+
+        [Test]
+        public void FeedShouldIncludeLinkToEast()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault();
+
+            var link = body.Links.First(l => l.RelationshipType.Equals("east"));
+
+            Assert.AreEqual(new Uri("/rooms/3", UriKind.Relative), link.Uri);
+        }
+
+        [Test]
+        public void FeedShouldIncludeLinkToWest()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault();
+
+            var link = body.Links.First(l => l.RelationshipType.Equals("west"));
+
+            Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative), link.Uri);
+        }
+
+        [Test]
+        public void FeedShouldNotIncludeLinkToSouth()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.IsNull(body.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
         }
 
         [Test]
