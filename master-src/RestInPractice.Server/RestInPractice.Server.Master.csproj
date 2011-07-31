@@ -100,7 +100,7 @@
     <Compile Include="..\..\src\RestInPractice.Server\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Formatters\AtomMediaTypeFormatter.cs" />
+    <Compile Include="Formatters\AtomMediaType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

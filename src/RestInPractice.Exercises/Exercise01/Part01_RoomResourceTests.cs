@@ -6,6 +6,7 @@ using System.ServiceModel.Syndication;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
 using RestInPractice.Server.Domain;
+using RestInPractice.Server.Formatters;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise01
@@ -49,7 +50,7 @@ namespace RestInPractice.Exercises.Exercise01
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", new HttpRequestMessage());
 
-            Assert.AreEqual("application/atom+xml", response.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual(AtomMediaType.Value, response.Content.Headers.ContentType.MediaType);
         }
 
         [Test]

@@ -9,6 +9,7 @@ using System.ServiceModel.Web;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using RestInPractice.Server.Domain;
+using RestInPractice.Server.Formatters;
 
 namespace RestInPractice.Server.Resources
 {
@@ -57,7 +58,7 @@ namespace RestInPractice.Server.Resources
 
             var response = new HttpResponseMessage<SyndicationItemFormatter>(new Atom10ItemFormatter(body)) { StatusCode = HttpStatusCode.OK };
             response.Headers.CacheControl = new CacheControlHeaderValue {Public = true, MaxAge = new TimeSpan(0, 0, 0, 10)};
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/atom+xml");
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue(AtomMediaType.Value);
 
             return response;
         }

@@ -8,15 +8,16 @@ using Microsoft.ApplicationServer.Http;
 
 namespace RestInPractice.Server.Formatters
 {
-    public class AtomMediaTypeFormatter : MediaTypeFormatter
+    public class AtomMediaType : MediaTypeFormatter
     {
-        public static readonly MediaTypeFormatter Instance = new AtomMediaTypeFormatter();
+        public const String Value = "application/atom+xml";
+        public static readonly MediaTypeFormatter Instance = new AtomMediaType();
         
         private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates };
         
-        private AtomMediaTypeFormatter()
+        private AtomMediaType()
         {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/atom+xml"));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue(Value));
         }
         
         public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)

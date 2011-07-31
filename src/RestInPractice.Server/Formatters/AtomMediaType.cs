@@ -7,9 +7,10 @@ using Microsoft.ApplicationServer.Http;
 
 namespace RestInPractice.Server.Formatters
 {
-    public class AtomFormatter : MediaTypeFormatter
+    public class AtomMediaType : MediaTypeFormatter
     {
-        public static readonly MediaTypeFormatter Instance = new AtomFormatter();
+        public const String Value = "application/atom+xml";
+        public static readonly MediaTypeFormatter Instance = new AtomMediaType();
         
         private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings {Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates};
 

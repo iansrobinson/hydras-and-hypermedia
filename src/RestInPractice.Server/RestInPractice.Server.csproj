@@ -98,7 +98,7 @@
     <Compile Include="Domain\IRooms.cs" />
     <Compile Include="Domain\Room.cs" />
     <Compile Include="Domain\Rooms.cs" />
-    <Compile Include="Formatters\AtomFormatter.cs" />
+    <Compile Include="Formatters\AtomMediaType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
