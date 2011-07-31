@@ -1,0 +1,6 @@
+To avoid -
+
+The provided URI scheme 'https' is invalid; expected 'http'.
+Parameter name: context.ListenUriBaseAddress
+
+- remove HTTPS bindings for site (usually default site)

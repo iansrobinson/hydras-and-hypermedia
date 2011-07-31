@@ -102,7 +102,7 @@ namespace RestInPractice.Exercises.Exercise01
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault().Item;
 
-            Assert.AreEqual(new Uri("http://localhost/"), body.BaseUri);
+            Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
         }
 
         [Test]
