@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exercise01\Part01_RoomResourceTests.cs" />
-    <Compile Include="Exercise01\Part02_AtomFormatterTests.cs" />
+    <Compile Include="Exercise01\Part02_AtomMediaTypeFormatterTests.cs" />
     <Compile Include="Exercise01\Part03_FunctionalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

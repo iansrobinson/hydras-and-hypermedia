@@ -43,6 +43,8 @@ namespace RestInPractice.Server.Resources
                                Summary = SyndicationContent.CreatePlaintextContent(room.Description)
                            };
 
+            body.Authors.Add(new SyndicationPerson{Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
+
             foreach (var exit in room.Exits)
             {
                 var link = new SyndicationLink

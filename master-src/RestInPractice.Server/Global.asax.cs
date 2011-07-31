@@ -17,7 +17,7 @@ namespace RestInPractice.Server
                 new Room(1, "Entrance", "You descend a rope into a rubble-strewn hall. The air is cold and dank.", Exit.North(2), Exit.East(3), Exit.West(4)));
             var configuration = HttpHostConfiguration.Create()
                 .SetResourceFactory((type, instanceContext, request) => new RoomResource(rooms), (instanceContext, obj) => { })
-                .AddFormatters(AtomFormatter.Instance);
+                .AddFormatters(AtomMediaTypeFormatter.Instance);
             RouteTable.Routes.MapServiceRoute<RoomResource>("rooms", configuration);
         }
     }

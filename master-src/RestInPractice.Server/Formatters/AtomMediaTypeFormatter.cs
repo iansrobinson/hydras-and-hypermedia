@@ -8,13 +8,13 @@ using Microsoft.ApplicationServer.Http;
 
 namespace RestInPractice.Server.Formatters
 {
-    public class AtomFormatter : MediaTypeFormatter
+    public class AtomMediaTypeFormatter : MediaTypeFormatter
     {
-        public static readonly MediaTypeFormatter Instance = new AtomFormatter();
+        public static readonly MediaTypeFormatter Instance = new AtomMediaTypeFormatter();
         
         private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates };
         
-        private AtomFormatter()
+        private AtomMediaTypeFormatter()
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/atom+xml"));
         }

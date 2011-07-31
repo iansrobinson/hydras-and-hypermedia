@@ -84,6 +84,18 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
+        public void ItemAuthorShouldReturnSystemAdminDetails()
+        {
+            var resource = new RoomResource(Rooms);
+            var response = resource.Get("1", new HttpRequestMessage());
+            var body = response.Content.ReadAsOrDefault().Item;
+            var author = body.Authors.First();
+
+            Assert.AreEqual("Dungeon Master", author.Name);
+            Assert.AreEqual("dungeon.master@restinpractice.com", author.Email);
+        }
+
+        [Test]
         public void ItemShouldIncludeBaseUri()
         {
             var resource = new RoomResource(Rooms);

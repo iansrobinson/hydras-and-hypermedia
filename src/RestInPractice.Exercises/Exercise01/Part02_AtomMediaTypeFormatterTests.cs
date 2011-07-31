@@ -9,7 +9,7 @@ using RestInPractice.Server.Formatters;
 namespace RestInPractice.Exercises.Exercise01
 {
     [TestFixture]
-    public class Part02_AtomFormatterTests
+    public class Part02_AtomMediaTypeFormatterTests
     {
         private const string FeedXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <feed xmlns=""http://www.w3.org/2005/Atom"">
@@ -32,7 +32,7 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ShouldSupportAtomMediaType()
         {
-            var formatter = AtomFormatter.Instance;
+            var formatter = AtomMediaTypeFormatter.Instance;
             Assert.IsNotNull(formatter.SupportedMediaTypes.FirstOrDefault(m => m.MediaType.Equals("application/atom+xml")));
         }
 
@@ -42,7 +42,7 @@ namespace RestInPractice.Exercises.Exercise01
             var feed = new SyndicationFeed("feed-title", "feed-description", new Uri("http://localhost/feed/alternate"), "feed-id", new DateTimeOffset(new DateTime(2011, 9, 5)));
             var output = new MemoryStream();
 
-            var formatter = AtomFormatter.Instance;
+            var formatter = AtomMediaTypeFormatter.Instance;
             formatter.WriteToStream(typeof(SyndicationFeedFormatter), new Atom10FeedFormatter(feed), output, null, null);
 
             output.Seek(0, SeekOrigin.Begin);
@@ -57,7 +57,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(FeedXml)))
             {
-                var formatter = AtomFormatter.Instance;
+                var formatter = AtomMediaTypeFormatter.Instance;
                 var feed = ((SyndicationFeed)formatter.ReadFromStream(typeof(SyndicationFeedFormatter), input, null));
 
                 Assert.AreEqual("feed-id", feed.Id);
@@ -73,7 +73,7 @@ namespace RestInPractice.Exercises.Exercise01
             var entry = new SyndicationItem("entry-title", SyndicationContent.CreatePlaintextContent("entry-content"), new Uri("http://localhost/entry/alternate"), "entry-id", new DateTimeOffset(new DateTime(2011, 9, 5)));
             var output = new MemoryStream();
 
-            var formatter = AtomFormatter.Instance;
+            var formatter = AtomMediaTypeFormatter.Instance;
             formatter.WriteToStream(typeof(SyndicationItemFormatter), new Atom10ItemFormatter(entry), output, null, null);
 
             output.Seek(0, SeekOrigin.Begin);
@@ -88,7 +88,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(EntryXml)))
             {
-                var formatter = AtomFormatter.Instance;
+                var formatter = AtomMediaTypeFormatter.Instance;
                 var entry = (SyndicationItem)formatter.ReadFromStream(typeof(SyndicationItemFormatter), input, null);
 
                 Assert.AreEqual("entry-id", entry.Id);
@@ -103,7 +103,7 @@ namespace RestInPractice.Exercises.Exercise01
         [ExpectedException(ExpectedException = typeof(InvalidOperationException))]
         public void ShouldThrowExceptionWhenAttemptingToWriteTypesOtherThanSyndicationItemAndSyndicationFeed()
         {
-            var formatter = AtomFormatter.Instance;
+            var formatter = AtomMediaTypeFormatter.Instance;
             formatter.WriteToStream(typeof (String), new object(), new MemoryStream(), null, null);
         }
 
@@ -111,7 +111,7 @@ namespace RestInPractice.Exercises.Exercise01
         [ExpectedException(ExpectedException = typeof(InvalidOperationException))]
         public void ShouldThrowExceptionWhenAttemptingToReadTypesOtherThanSyndicationItemAndSyndicationFeed()
         {
-            var formatter = AtomFormatter.Instance;
+            var formatter = AtomMediaTypeFormatter.Instance;
             formatter.ReadFromStream(typeof(String), new MemoryStream(), null);
         }
     }
