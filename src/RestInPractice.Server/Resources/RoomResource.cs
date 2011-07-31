@@ -11,7 +11,7 @@ namespace RestInPractice.Server.Resources
         {
         }
 
-        public HttpResponseMessage<SyndicationItem> Get(string id, HttpRequestMessage request)
+        public HttpResponseMessage<SyndicationItemFormatter> Get(string id, HttpRequestMessage request)
         {
             return null;
         }

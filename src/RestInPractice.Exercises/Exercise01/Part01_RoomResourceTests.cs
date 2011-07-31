@@ -54,13 +54,13 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void BodyShouldBeSyndicationItem()
+        public void BodyShouldBeSyndicationItemFormatter()
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
             var body = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationItem), body);
+            Assert.IsInstanceOf(typeof (SyndicationItemFormatter), body);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(Room.Title, body.Title.Text);
         }
@@ -78,7 +78,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(Room.Description, body.Summary.Text);
         }
@@ -88,7 +88,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(new Uri("http://localhost/"), body.BaseUri);
         }
@@ -98,7 +98,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("north"));
             
@@ -110,7 +110,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("east"));
 
@@ -122,7 +122,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("west"));
 
@@ -134,7 +134,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.IsNull(body.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
         }
@@ -144,7 +144,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = new RoomResource(Rooms);
             var response = resource.Get("1", new HttpRequestMessage());
-            var body = response.Content.ReadAsOrDefault();
+            var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(body.Id, "tag:restinpractice.com,2011-09-05:/rooms/1");
         }

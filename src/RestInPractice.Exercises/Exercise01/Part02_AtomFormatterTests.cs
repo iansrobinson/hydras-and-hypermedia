@@ -43,7 +43,7 @@ namespace RestInPractice.Exercises.Exercise01
             var output = new MemoryStream();
 
             var formatter = AtomFormatter.Instance;
-            formatter.WriteToStream(typeof(SyndicationFeed), feed, output, null, null);
+            formatter.WriteToStream(typeof(SyndicationFeedFormatter), new Atom10FeedFormatter(feed), output, null, null);
 
             output.Seek(0, SeekOrigin.Begin);
             using (var reader = new StreamReader(output))
@@ -58,7 +58,7 @@ namespace RestInPractice.Exercises.Exercise01
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(FeedXml)))
             {
                 var formatter = AtomFormatter.Instance;
-                var feed = (SyndicationFeed)formatter.ReadFromStream(typeof(SyndicationFeed), input, null);
+                var feed = ((SyndicationFeed)formatter.ReadFromStream(typeof(SyndicationFeedFormatter), input, null));
 
                 Assert.AreEqual("feed-id", feed.Id);
                 Assert.AreEqual("feed-title", feed.Title.Text);
@@ -74,7 +74,7 @@ namespace RestInPractice.Exercises.Exercise01
             var output = new MemoryStream();
 
             var formatter = AtomFormatter.Instance;
-            formatter.WriteToStream(typeof(SyndicationItem), entry, output, null, null);
+            formatter.WriteToStream(typeof(SyndicationItemFormatter), new Atom10ItemFormatter(entry), output, null, null);
 
             output.Seek(0, SeekOrigin.Begin);
             using (var reader = new StreamReader(output))
@@ -89,7 +89,7 @@ namespace RestInPractice.Exercises.Exercise01
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(EntryXml)))
             {
                 var formatter = AtomFormatter.Instance;
-                var entry = (SyndicationItem)formatter.ReadFromStream(typeof(SyndicationItem), input, null);
+                var entry = (SyndicationItem)formatter.ReadFromStream(typeof(SyndicationItemFormatter), input, null);
 
                 Assert.AreEqual("entry-id", entry.Id);
                 Assert.AreEqual("entry-title", entry.Title.Text);

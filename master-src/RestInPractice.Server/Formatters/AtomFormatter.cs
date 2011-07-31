@@ -21,14 +21,14 @@ namespace RestInPractice.Server.Formatters
         
         public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)
         {
-            if (type.Equals(typeof(SyndicationItem)))
+            if (type.Equals(typeof(SyndicationItemFormatter)))
             {
                 var entryFormatter = new Atom10ItemFormatter();
                 entryFormatter.ReadFrom(XmlReader.Create(stream));
                 return entryFormatter.Item;
             }
             
-            if (type.Equals(typeof(SyndicationFeed)))
+            if (type.Equals(typeof(SyndicationFeedFormatter)))
             {
                 var feedFormatter = new Atom10FeedFormatter();
                 feedFormatter.ReadFrom(XmlReader.Create(stream));
@@ -40,21 +40,19 @@ namespace RestInPractice.Server.Formatters
 
         public override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context)
         {
-            if (type.Equals(typeof(SyndicationItem)))
+            if (type.Equals(typeof(SyndicationItemFormatter)))
             {
-                var entryFormatter = new Atom10ItemFormatter((SyndicationItem)value);
                 using (var writer = XmlWriter.Create(stream, WriterSettings))
                 {
-                    entryFormatter.WriteTo(writer);
+                    ((Atom10ItemFormatter)value).WriteTo(writer);
                     writer.Flush();
                 }
             }
-            else if (type.Equals(typeof(SyndicationFeed)))
+            else if (type.Equals(typeof(SyndicationFeedFormatter)))
             {
-                var feedFormatter = new Atom10FeedFormatter((SyndicationFeed)value);
                 using (var writer = XmlWriter.Create(stream, WriterSettings))
                 {
-                    feedFormatter.WriteTo(writer);
+                    ((Atom10FeedFormatter)value).WriteTo(writer);
                     writer.Flush();
                 }
             }
