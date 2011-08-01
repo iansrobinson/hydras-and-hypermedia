@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.ServiceModel.Syndication;
 using Microsoft.ApplicationServer.Http;
 using RestInPractice.Server.Domain;
@@ -13,7 +14,7 @@ namespace RestInPractice.Server.Resources
 
         public HttpResponseMessage<SyndicationItemFormatter> Get(string id, HttpRequestMessage request)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

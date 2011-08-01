@@ -7,8 +7,8 @@ using System.Xml;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
+using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
-using RestInPractice.Server.Formatters;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise01
@@ -24,7 +24,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var configuration = HttpHostConfiguration.Create()
                 .SetResourceFactory((type, instanceContext, request) => new RoomResource(Rooms.Instance), (instanceContext, obj) => { })
-                .AddFormatters(AtomMediaType.Instance);
+                .AddFormatters(AtomMediaType.Formatter);
 
             using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://localhost:8081/rooms/")))
             {

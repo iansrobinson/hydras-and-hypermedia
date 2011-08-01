@@ -13,3 +13,5 @@ C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\Microsoft.ServiceM
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\ResolveAssemblyReference.cache
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\RestInPractice.Server.dll
 C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\obj\Debug\RestInPractice.Server.pdb
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\RestInPractice.MediaTypes.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.Server\bin\RestInPractice.MediaTypes.pdb

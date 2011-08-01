@@ -6,20 +6,20 @@ using System.ServiceModel.Syndication;
 using System.Xml;
 using Microsoft.ApplicationServer.Http;
 
-namespace RestInPractice.Server.Formatters
+namespace RestInPractice.MediaTypes
 {
     public class AtomMediaType : MediaTypeFormatter
     {
         public const String Value = "application/atom+xml";
-        public static readonly MediaTypeFormatter Instance = new AtomMediaType();
-        
+        public static readonly MediaTypeFormatter Formatter = new AtomMediaType();
+
         private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates };
-        
+
         private AtomMediaType()
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue(Value));
         }
-        
+
         public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)
         {
             if (type.Equals(typeof(SyndicationItemFormatter)))
@@ -28,7 +28,7 @@ namespace RestInPractice.Server.Formatters
                 entryFormatter.ReadFrom(XmlReader.Create(stream));
                 return entryFormatter;
             }
-            
+
             if (type.Equals(typeof(SyndicationFeedFormatter)))
             {
                 var feedFormatter = new Atom10FeedFormatter();

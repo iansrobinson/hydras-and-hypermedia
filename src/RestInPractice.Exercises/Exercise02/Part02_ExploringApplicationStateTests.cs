@@ -7,12 +7,12 @@ using System.Xml;
 using NUnit.Framework;
 using RestInPractice.Client.ApplicationStates;
 using RestInPractice.Exercises.Helpers;
-using RestInPractice.Server.Formatters;
+using RestInPractice.MediaTypes;
 
 namespace RestInPractice.Exercises.Exercise02
 {
     [TestFixture]
-    public class Part01_ExploringApplicationStateTests
+    public class Part02_ExploringApplicationStateTests
     {
         private static readonly Uri NorthUri = new Uri("http://localhost/rooms/10");
         private static readonly Uri SouthUri = new Uri("http://localhost/rooms/11");
@@ -42,51 +42,6 @@ namespace RestInPractice.Exercises.Exercise02
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
-        }
-
-        public class EntryBuilder
-        {
-            private readonly SyndicationItem entry;
-
-            public EntryBuilder()
-            {
-                entry = new SyndicationItem();
-            }
-
-            public EntryBuilder WithNorthLink(Uri uri)
-            {
-                entry.Links.Add(new SyndicationLink {Uri = uri, RelationshipType = "north"});
-                return this;
-            }
-
-            public EntryBuilder WithSouthLink(Uri uri)
-            {
-                entry.Links.Add(new SyndicationLink {Uri = uri, RelationshipType = "south"});
-                return this;
-            }
-
-            public EntryBuilder WithEastLink(Uri uri)
-            {
-                entry.Links.Add(new SyndicationLink {Uri = uri, RelationshipType = "east"});
-                return this;
-            }
-
-            public EntryBuilder WithWestLink(Uri uri)
-            {
-                entry.Links.Add(new SyndicationLink {Uri = uri, RelationshipType = "west"});
-                return this;
-            }
-
-            public override string ToString()
-            {
-                var sb = new StringBuilder();
-                using (var writer = XmlWriter.Create(sb))
-                {
-                    new Atom10ItemFormatter(entry).WriteTo(writer);
-                    writer.Flush();
-                }
-                return sb.ToString();
-            }
         }
     }
 }

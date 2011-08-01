@@ -8,8 +8,8 @@ using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
+using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
-using RestInPractice.Server.Formatters;
 
 namespace RestInPractice.Server.Resources
 {

@@ -14,6 +14,11 @@ namespace RestInPractice.Client.Extensions
             var contentType = content.Headers.ContentType.MediaType;
             var formatter = formatters.FirstOrDefault(f => f.SupportedMediaTypes.Any(m => m.MediaType.Equals(contentType, StringComparison.OrdinalIgnoreCase)));
 
+            if (formatter == null)
+            {
+                throw new InvalidOperationException("Unable to find formatter when reading object from content.");
+            }
+
             return (T) formatter.ReadFromStream(typeof (T), content.ContentReadStream, content.Headers);
         }
     }

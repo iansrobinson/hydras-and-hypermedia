@@ -1,0 +1,15 @@
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\RestInPractice.MediaTypes.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\RestInPractice.MediaTypes.pdb
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ApplicationServer.Common.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ApplicationServer.Http.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ApplicationServer.HttpEnhancements.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ApplicationServer.HttpEnhancements.Tests.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ApplicationServer.Serialization.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ApplicationServer.ServiceModel.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.Net.Http.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.QueryComposition.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.Runtime.Serialization.Json.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\bin\Debug\Microsoft.ServiceModel.Web.jQuery.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\obj\Debug\ResolveAssemblyReference.cache
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\obj\Debug\RestInPractice.MediaTypes.dll
+C:\dev\ProgressiveDotNet\master-src\RestInPractice.MediaTypes\obj\Debug\RestInPractice.MediaTypes.pdb

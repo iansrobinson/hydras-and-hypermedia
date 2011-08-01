@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using RestInPractice.Client.Extensions;
@@ -8,23 +9,18 @@ namespace RestInPractice.Client.ApplicationStates
 {
     public class Exploring : IApplicationState
     {
-        private readonly HttpResponseMessage currentResponse;
-
         public Exploring(HttpResponseMessage currentResponse)
         {
-            this.currentResponse = currentResponse;
         }
 
         public IApplicationState NextState(HttpClient client)
         {
-            var entry = currentResponse.Content.ReadAsObject<SyndicationItemFormatter>(AtomMediaType.Instance).Item;
-            var northLink = entry.Links.First(l => l.RelationshipType.Equals("north"));
-            return new Exploring(client.Get(northLink.Uri));
+            throw new NotImplementedException();
         }
 
         public HttpResponseMessage CurrentResponse
         {
-            get { return currentResponse; }
+            get { throw new NotImplementedException(); }
         }
     }
 }

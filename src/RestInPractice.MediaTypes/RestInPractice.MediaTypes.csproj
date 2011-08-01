@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</ProjectGuid>
+    <ProjectGuid>{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RestInPractice.MediaTypes</RootNamespace>

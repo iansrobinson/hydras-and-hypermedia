@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
+using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
-using RestInPractice.Server.Formatters;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise01
