@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.Server.Maste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.Server", "src\RestInPractice.Server\RestInPractice.Server.csproj", "{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.MediaTypes", "src\RestInPractice.MediaTypes\RestInPractice.MediaTypes.csproj", "{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

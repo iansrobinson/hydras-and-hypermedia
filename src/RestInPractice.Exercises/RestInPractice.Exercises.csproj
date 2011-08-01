@@ -81,12 +81,18 @@
     <Compile Include="Exercise01\Part01_RoomResourceTests.cs" />
     <Compile Include="Exercise01\Part02_AtomMediaTypeFormatterTests.cs" />
     <Compile Include="Exercise01\Part03_FunctionalTests.cs" />
+    <Compile Include="Exercise02\Part01_ExploringApplicationStateTests.cs" />
+    <Compile Include="Helpers\StubEndpoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\master-src\RestInPractice.Server\RestInPractice.Server.Master.csproj">
       <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>
       <Name>RestInPractice.Server.Master</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RestInPractice.Client\RestInPractice.Client.csproj">
+      <Project>{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}</Project>
+      <Name>RestInPractice.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

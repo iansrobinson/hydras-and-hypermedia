@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}</ProjectGuid>
+    <ProjectGuid>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RestInPractice.Client</RootNamespace>
-    <AssemblyName>RestInPractice.Client</AssemblyName>
+    <RootNamespace>RestInPractice.MediaTypes</RootNamespace>
+    <AssemblyName>RestInPractice.MediaTypes</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -71,16 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationStates\Exploring.cs" />
-    <Compile Include="Extensions\HttpContentExtensions.cs" />
-    <Compile Include="IApplicationState.cs" />
+    <Compile Include="AtomMediaType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.MediaTypes\RestInPractice.MediaTypes.csproj">
-      <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
-      <Name>RestInPractice.MediaTypes</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

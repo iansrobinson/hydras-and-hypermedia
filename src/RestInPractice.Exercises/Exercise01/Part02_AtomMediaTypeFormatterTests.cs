@@ -58,7 +58,7 @@ namespace RestInPractice.Exercises.Exercise01
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(FeedXml)))
             {
                 var formatter = AtomMediaType.Instance;
-                var feed = ((SyndicationFeed)formatter.ReadFromStream(typeof(SyndicationFeedFormatter), input, null));
+                var feed = ((SyndicationFeedFormatter)formatter.ReadFromStream(typeof(SyndicationFeedFormatter), input, null)).Feed;
 
                 Assert.AreEqual("feed-id", feed.Id);
                 Assert.AreEqual("feed-title", feed.Title.Text);
@@ -89,7 +89,7 @@ namespace RestInPractice.Exercises.Exercise01
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(EntryXml)))
             {
                 var formatter = AtomMediaType.Instance;
-                var entry = (SyndicationItem)formatter.ReadFromStream(typeof(SyndicationItemFormatter), input, null);
+                var entry = ((SyndicationItemFormatter)formatter.ReadFromStream(typeof(SyndicationItemFormatter), input, null)).Item;
 
                 Assert.AreEqual("entry-id", entry.Id);
                 Assert.AreEqual("entry-title", entry.Title.Text);
@@ -100,7 +100,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof(InvalidOperationException))]
+        [ExpectedException(ExpectedException = typeof(InvalidOperationException), ExpectedMessage = "Expected to be called with type SyndicationItemFormatter or SyndicationFeedFormatter.")]
         public void ShouldThrowExceptionWhenAttemptingToWriteTypesOtherThanSyndicationItemAndSyndicationFeed()
         {
             var formatter = AtomMediaType.Instance;
@@ -108,7 +108,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof(InvalidOperationException))]
+        [ExpectedException(ExpectedException = typeof(InvalidOperationException), ExpectedMessage = "Expected to be called with type SyndicationItemFormatter or SyndicationFeedFormatter.")]
         public void ShouldThrowExceptionWhenAttemptingToReadTypesOtherThanSyndicationItemAndSyndicationFeed()
         {
             var formatter = AtomMediaType.Instance;

@@ -6,7 +6,7 @@ using System.ServiceModel.Syndication;
 using System.Xml;
 using Microsoft.ApplicationServer.Http;
 
-namespace RestInPractice.Server.Formatters
+namespace RestInPractice.MediaTypes
 {
     public class AtomMediaType : MediaTypeFormatter
     {
