@@ -16,6 +16,9 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part03_FunctionalTests
     {
+        //Before running this test for the first time, you must reserve the http://+:8081 namespace
+        //Open a command propmpt as Administrator, and type:
+        //netsh http add urlacl url=http://+:8081/ user="<Machine Name>\<User Name>"
         [Test]
         public void FunctionalTest()
         {

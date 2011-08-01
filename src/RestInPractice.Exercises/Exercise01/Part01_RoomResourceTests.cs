@@ -15,13 +15,14 @@ namespace RestInPractice.Exercises.Exercise01
     public class Part01_RoomResourceTests
     {
         private static readonly Room Room = Rooms.Instance.Get(1);
+        private const string RequestUri = "http://localhost:8081/rooms/1";
         private const string InvalidRoomId = "999";
 
         [Test]
         public void ShouldReturn200Ok()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -30,7 +31,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ResponseShouldBePublicallyCacheable()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
 
             Assert.IsTrue(response.Headers.CacheControl.Public);
         }
@@ -39,7 +40,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ResponseShouldBeCacheableFor10Seconds()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
 
             Assert.AreEqual(new TimeSpan(0, 0, 0, 10), response.Headers.CacheControl.MaxAge);
         }
@@ -48,7 +49,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ResponseContentTypeShouldBeApplicationAtomPlusXml()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
 
             Assert.AreEqual(AtomMediaType.Value, response.Content.Headers.ContentType.MediaType);
         }
@@ -57,7 +58,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void BodyShouldBeSyndicationItemFormatter()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault();
 
             Assert.IsInstanceOf(typeof (SyndicationItemFormatter), body);
@@ -67,7 +68,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemTitleShouldReturnRoomTitle()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(Room.Title, body.Title.Text);
@@ -77,7 +78,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemSummaryShouldReturnRoomDescription()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(Room.Description, body.Summary.Text);
@@ -87,7 +88,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemAuthorShouldReturnSystemAdminDetails()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
             var author = body.Authors.First();
 
@@ -99,7 +100,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemShouldIncludeBaseUri()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
@@ -109,7 +110,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemShouldIncludeLinkToNorth()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("north"));
@@ -121,7 +122,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemShouldIncludeLinkToEast()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("east"));
@@ -133,7 +134,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemShouldIncludeLinkToWest()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("west"));
@@ -145,7 +146,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemShouldNotIncludeLinkToSouth()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.IsNull(body.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
@@ -155,7 +156,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ItemIdShouldBeTagUri()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", new HttpRequestMessage());
+            var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault().Item;
 
             Assert.AreEqual(body.Id, "tag:restinpractice.com,2011-09-05:/rooms/1");
@@ -179,6 +180,11 @@ namespace RestInPractice.Exercises.Exercise01
         private static RoomResource CreateResourceUnderTest()
         {
             return new RoomResource(Rooms.Instance);
+        }
+
+        private static HttpRequestMessage CreateRequest()
+        {
+            return new HttpRequestMessage(HttpMethod.Get, RequestUri);
         }
     }
 }
