@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using RestInPractice.Client.Extensions;
@@ -9,28 +11,49 @@ namespace RestInPractice.Client.ApplicationStates
     public class Exploring : IApplicationState
     {
         private readonly HttpResponseMessage currentResponse;
+        private readonly IEnumerable<Uri> history;
 
-        public Exploring(HttpResponseMessage currentResponse)
+        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, new Uri[] {})
+        {
+        }
+
+        public Exploring(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
         {
             this.currentResponse = currentResponse;
+            this.history = history;
         }
 
         public IApplicationState NextState(HttpClient client)
         {
             var entry = currentResponse.Content.ReadAsObject<SyndicationItemFormatter>(AtomMediaType.Formatter).Item;
-            var exitLink = GetExitLink(entry, "north", "east", "west", "south");
-               
-            return new Exploring(client.Get(exitLink.Uri));
+            var exitLink = GetExitLink(entry, history, "north", "east", "west", "south");
+
+            var newResponse = client.Get(exitLink.Uri);
+            var newHistory = history.Contains(exitLink.Uri) ? history : history.Concat(new[] {exitLink.Uri});
+
+            return new Exploring(newResponse, newHistory);
         }
 
-        private SyndicationLink GetExitLink(SyndicationItem entry, params string[] rels)
+        private static SyndicationLink GetExitLink(SyndicationItem entry, IEnumerable<Uri> history, params string[] rels)
         {
-            return rels.Select(rel => entry.Links.FirstOrDefault(l => l.RelationshipType.Equals(rel))).FirstOrDefault(exitLink => exitLink != null);
+            return rels
+                .Select(rel => entry.Links.FirstOrDefault(IsUnvisitedExit(rel, history)))
+                .FirstOrDefault(link => link != null);
+        }
+
+        private static Func<SyndicationLink, bool> IsUnvisitedExit(string rel, IEnumerable<Uri> history)
+        {
+            return l => l.RelationshipType.Equals(rel) && !history.Contains(l.Uri);
         }
 
         public HttpResponseMessage CurrentResponse
         {
             get { return currentResponse; }
+        }
+
+        public IEnumerable<Uri> History
+        {
+            get { return history; }
         }
     }
 }

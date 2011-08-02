@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -90,6 +91,48 @@ namespace RestInPractice.Exercises.Exercise02
             var client = CreateHttpClient(CreateStubEndpoint(SouthUri, newResponse));
 
             var state = new Exploring(currentResponse);
+            var nextState = state.NextState(client);
+
+            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
+        public void ShouldRememberVisitedExits()
+        {
+            var entry = new EntryBuilder()
+                .WithNorthLink(NorthUri)
+                .ToString();
+
+            var currentResponse = CreateCurrentResponse(entry);
+            var client = CreateHttpClient(CreateStubEndpoint(NorthUri, new HttpResponseMessage()));
+
+            var state = new Exploring(currentResponse);
+
+            Assert.IsFalse(state.History.Contains(NorthUri));
+
+            var nextState = state.NextState(client);
+
+            Assert.IsTrue(nextState.History.Contains(NorthUri));
+        }
+
+        [Test]
+        public void ShouldNotChoosePreviouslyChosenExitWhileThereAreOtherExits()
+        {
+            var entry = new EntryBuilder()
+                .WithNorthLink(NorthUri)
+                .WithSouthLink(SouthUri)
+                .WithEastLink(EastUri)
+                .WithWestLink(WestUri)
+                .ToString();
+
+            var currentResponse = CreateCurrentResponse(entry);
+            var newResponse = new HttpResponseMessage();
+
+            var history = new[] {NorthUri, EastUri};
+
+            var client = CreateHttpClient(CreateStubEndpoint(WestUri, newResponse));
+
+            var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);

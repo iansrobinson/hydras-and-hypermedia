@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
@@ -19,6 +20,11 @@ namespace RestInPractice.Client.ApplicationStates
         }
 
         public HttpResponseMessage CurrentResponse
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public ICollection<Uri> History
         {
             get { throw new NotImplementedException(); }
         }

@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace RestInPractice.Client
 {
@@ -6,5 +8,6 @@ namespace RestInPractice.Client
     {
         IApplicationState NextState(HttpClient client);
         HttpResponseMessage CurrentResponse { get; }
+        IEnumerable<Uri> History { get; }
     }
 }
