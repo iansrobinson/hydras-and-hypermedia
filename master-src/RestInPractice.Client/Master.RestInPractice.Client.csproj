@@ -71,6 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\GoalAchieved.cs">
+      <Link>ApplicationStates\GoalAchieved.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Started.cs">
+      <Link>ApplicationStates\Started.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Client\Extensions\HttpContentExtensions.cs">
       <Link>Extensions\HttpContentExtensions.cs</Link>
     </Compile>

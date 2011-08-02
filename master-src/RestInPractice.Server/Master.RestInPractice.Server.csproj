@@ -97,22 +97,18 @@
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Rooms.cs">
       <Link>Domain\Rooms.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Global.asax.cs">
+      <Link>Global.asax.cs</Link>
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Resources\RoomResource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global.asax" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <Content Include="..\..\src\RestInPractice.Server\Global.asax">
+      <Link>Global.asax</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +116,19 @@
       <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
       <Name>Master.RestInPractice.MediaTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

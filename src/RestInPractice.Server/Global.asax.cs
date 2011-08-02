@@ -14,7 +14,7 @@ namespace RestInPractice.Server
         protected void Application_Start(object sender, EventArgs e)
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Rooms.Instance), (instanceContext, obj) => { })
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(new Rooms()), (instanceContext, obj) => { })
                 .AddFormatters(AtomMediaType.Formatter);
             RouteTable.Routes.MapServiceRoute<RoomResource>("rooms", configuration);
         }

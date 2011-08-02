@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.ServiceModel.Syndication;
-using RestInPractice.Client.Extensions;
-using RestInPractice.MediaTypes;
 
 namespace RestInPractice.Client.ApplicationStates
 {
-    public class Exploring : IApplicationState
+    public class GoalAchieved : IApplicationState
     {
-        public Exploring(HttpResponseMessage currentResponse)
+        private readonly HttpResponseMessage currentResponse;
+
+        public GoalAchieved(HttpResponseMessage currentResponse)
         {
+            this.currentResponse = currentResponse;
         }
 
         public IApplicationState NextState(HttpClient client)
@@ -21,7 +20,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public HttpResponseMessage CurrentResponse
         {
-            get { throw new NotImplementedException(); }
+            get { return currentResponse; }
         }
 
         public IEnumerable<Uri> History
@@ -31,7 +30,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public bool IsTerminalState
         {
-            get { throw new NotImplementedException(); }
+            get { return true; }
         }
     }
 }

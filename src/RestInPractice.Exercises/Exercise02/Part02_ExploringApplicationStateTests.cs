@@ -19,6 +19,13 @@ namespace RestInPractice.Exercises.Exercise02
         private static readonly Uri WestUri = new Uri("http://localhost/rooms/13");
 
         [Test]
+        public void ShouldBeNonTerminalState()
+        {
+            var state = new Exploring(new HttpResponseMessage());
+            Assert.IsFalse(state.IsTerminalState);
+        }
+        
+        [Test]
         public void ShouldFollowExitToNorthInPreferenceToAllOtherExits()
         {
             var entry = new EntryBuilder()
@@ -28,7 +35,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .WithWestLink(WestUri)
                 .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var client = CreateHttpClient(CreateStubEndpoint(NorthUri, newResponse));
@@ -48,7 +55,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .WithWestLink(WestUri)
                 .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var client = CreateHttpClient(CreateStubEndpoint(EastUri, newResponse));
@@ -67,7 +74,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .WithWestLink(WestUri)
                 .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var client = CreateHttpClient(CreateStubEndpoint(WestUri, newResponse));
@@ -85,7 +92,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .WithSouthLink(SouthUri)
                 .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var client = CreateHttpClient(CreateStubEndpoint(SouthUri, newResponse));
@@ -103,7 +110,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .WithNorthLink(NorthUri)
                 .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var client = CreateHttpClient(CreateStubEndpoint(NorthUri, new HttpResponseMessage()));
 
             var state = new Exploring(currentResponse);
@@ -125,7 +132,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .WithWestLink(WestUri)
                 .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var history = new[] {NorthUri, EastUri};
@@ -148,7 +155,7 @@ namespace RestInPractice.Exercises.Exercise02
                .WithWestLink(WestUri)
                .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
@@ -170,7 +177,7 @@ namespace RestInPractice.Exercises.Exercise02
                .WithWestLink(WestUri)
                .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
@@ -191,7 +198,7 @@ namespace RestInPractice.Exercises.Exercise02
                .WithEastLink(EastUri)
                .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
@@ -211,7 +218,7 @@ namespace RestInPractice.Exercises.Exercise02
                .WithNorthLink(NorthUri)
                .ToString();
 
-            var currentResponse = CreateCurrentResponse(entry);
+            var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
             var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
@@ -222,6 +229,21 @@ namespace RestInPractice.Exercises.Exercise02
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
+        public void IfGoalAchievedShouldTransitionIntoGoalAchievedState()
+        {
+            var entry = new EntryBuilder()
+                .WithTitle("Success")
+                .ToString();
+
+            var currentResponse = CreateResponse(entry);
+
+            var state = new Exploring(currentResponse);
+            var nextState = state.NextState(new HttpClient());
+
+            Assert.IsInstanceOf(typeof(GoalAchieved), nextState);
         }
 
         private static HttpClient CreateHttpClient(StubEndpoint stubEndpoint)
@@ -236,7 +258,7 @@ namespace RestInPractice.Exercises.Exercise02
             return new StubEndpoint(request => request.RequestUri.Equals(requestUri) ? newResponse : null);
         }
 
-        private static HttpResponseMessage CreateCurrentResponse(string entry)
+        private static HttpResponseMessage CreateResponse(string entry)
         {
             var currentResponse = new HttpResponseMessage {Content = new StringContent(entry, Encoding.Unicode)};
             currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue(AtomMediaType.Value);

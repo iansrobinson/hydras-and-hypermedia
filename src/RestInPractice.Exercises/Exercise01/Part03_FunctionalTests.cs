@@ -7,6 +7,7 @@ using System.Xml;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
+using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
@@ -23,7 +24,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void FunctionalTest()
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Rooms.Instance), (instanceContext, obj) => { })
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.ExistingInstance), (instanceContext, obj) => { })
                 .AddFormatters(AtomMediaType.Formatter);
 
             using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://localhost:8081/rooms/")))
@@ -50,7 +51,7 @@ namespace RestInPractice.Exercises.Exercise01
 
                 var room2 = entryFormatter.Item;
 
-                Assert.AreEqual(Rooms.Instance.Get(2).Description, room2.Summary.Text);
+                Assert.AreEqual(Maze.ExistingInstance.Get(2).Description, room2.Summary.Text);
 
                 host.Close();
             }

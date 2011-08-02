@@ -24,11 +24,17 @@ namespace RestInPractice.Client.ApplicationStates
         }
 
         public IApplicationState NextState(HttpClient client)
-        {
+        {            
             var entry = currentResponse.Content.ReadAsObject<SyndicationItemFormatter>(AtomMediaType.Formatter).Item;
+
+            if (entry.Title.Text.Equals("Success"))
+            {
+                return new GoalAchieved(currentResponse);
+            }
+
             var exitLink = GetExitLink(entry, history, "north", "east", "west", "south");
 
-            var newResponse = client.Get(exitLink.Uri);
+            var newResponse = client.Get(new Uri(entry.BaseUri, exitLink.Uri));
             var newHistory = history.Contains(exitLink.Uri) ? history : history.Concat(new[] {exitLink.Uri});
 
             return new Exploring(newResponse, newHistory);
@@ -64,6 +70,11 @@ namespace RestInPractice.Client.ApplicationStates
         public IEnumerable<Uri> History
         {
             get { return history; }
+        }
+
+        public bool IsTerminalState
+        {
+            get { return false; }
         }
     }
 }

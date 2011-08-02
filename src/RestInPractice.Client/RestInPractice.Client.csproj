@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationStates\Exploring.cs" />
+    <Compile Include="ApplicationStates\GoalAchieved.cs" />
+    <Compile Include="ApplicationStates\Started.cs" />
     <Compile Include="Extensions\HttpContentExtensions.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

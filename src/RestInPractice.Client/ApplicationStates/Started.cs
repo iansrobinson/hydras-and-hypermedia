@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.ServiceModel.Syndication;
-using RestInPractice.Client.Extensions;
-using RestInPractice.MediaTypes;
 
 namespace RestInPractice.Client.ApplicationStates
 {
-    public class Exploring : IApplicationState
+    public class Started : IApplicationState
     {
-        public Exploring(HttpResponseMessage currentResponse)
+        private readonly Uri entryPointUri;
+
+        public Started(Uri entryPointUri)
         {
+            this.entryPointUri = entryPointUri;
         }
 
         public IApplicationState NextState(HttpClient client)
         {
-            throw new NotImplementedException();
+            return new Exploring(client.Get(entryPointUri));
         }
 
         public HttpResponseMessage CurrentResponse
@@ -31,7 +30,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public bool IsTerminalState
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
     }
 }

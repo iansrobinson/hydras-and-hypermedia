@@ -9,5 +9,6 @@ namespace RestInPractice.Client
         IApplicationState NextState(HttpClient client);
         HttpResponseMessage CurrentResponse { get; }
         IEnumerable<Uri> History { get; }
+        bool IsTerminalState { get; }
     }
 }

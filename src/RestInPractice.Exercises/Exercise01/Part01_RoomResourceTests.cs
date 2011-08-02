@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
+using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
@@ -14,7 +15,7 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part01_RoomResourceTests
     {
-        private static readonly Room Room = Rooms.Instance.Get(1);
+        private static readonly Room Room = Maze.ExistingInstance.Get(1);
         private const string RequestUri = "http://localhost:8081/rooms/1";
         private const string InvalidRoomId = "999";
 
@@ -179,7 +180,7 @@ namespace RestInPractice.Exercises.Exercise01
 
         private static RoomResource CreateResourceUnderTest()
         {
-            return new RoomResource(Rooms.Instance);
+            return new RoomResource(Maze.ExistingInstance);
         }
 
         private static HttpRequestMessage CreateRequest()
