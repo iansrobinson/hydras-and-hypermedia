@@ -13,10 +13,11 @@ namespace RestInPractice.Exercises.Exercise02
     [TestFixture]
     public class Part02_ExploringApplicationStateTests
     {
-        private static readonly Uri NorthUri = new Uri("http://localhost/rooms/10");
-        private static readonly Uri SouthUri = new Uri("http://localhost/rooms/11");
-        private static readonly Uri EastUri = new Uri("http://localhost/rooms/12");
-        private static readonly Uri WestUri = new Uri("http://localhost/rooms/13");
+        private static readonly Uri NorthUri = new Uri("/rooms/10", UriKind.Relative);
+        private static readonly Uri SouthUri = new Uri("/rooms/11", UriKind.Relative);
+        private static readonly Uri EastUri = new Uri("/rooms/12", UriKind.Relative);
+        private static readonly Uri WestUri = new Uri("/rooms/13", UriKind.Relative);
+        private static readonly Uri BaseUri = new Uri("http://localhost:1234");
 
         [Test]
         public void ShouldBeNonTerminalState()
@@ -24,11 +25,12 @@ namespace RestInPractice.Exercises.Exercise02
             var state = new Exploring(new HttpResponseMessage());
             Assert.IsFalse(state.IsTerminalState);
         }
-        
+
         [Test]
         public void ShouldFollowExitToNorthInPreferenceToAllOtherExits()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithNorthLink(NorthUri)
                 .WithSouthLink(SouthUri)
                 .WithEastLink(EastUri)
@@ -38,7 +40,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(NorthUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -50,6 +52,7 @@ namespace RestInPractice.Exercises.Exercise02
         public void ShouldFollowExitToEastIfCannotExitNorth()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithSouthLink(SouthUri)
                 .WithEastLink(EastUri)
                 .WithWestLink(WestUri)
@@ -58,7 +61,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(EastUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, EastUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -70,6 +73,7 @@ namespace RestInPractice.Exercises.Exercise02
         public void ShouldFollowExitToWestIfCannotExitNorthOrEast()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithSouthLink(SouthUri)
                 .WithWestLink(WestUri)
                 .ToString();
@@ -77,7 +81,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(WestUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -89,13 +93,14 @@ namespace RestInPractice.Exercises.Exercise02
         public void ShouldFollowExitToSouthIfNoOtherExits()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithSouthLink(SouthUri)
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(SouthUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -107,11 +112,12 @@ namespace RestInPractice.Exercises.Exercise02
         public void ShouldRememberVisitedExits()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithNorthLink(NorthUri)
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var client = CreateHttpClient(CreateStubEndpoint(NorthUri, new HttpResponseMessage()));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, NorthUri, new HttpResponseMessage()));
 
             var state = new Exploring(currentResponse);
 
@@ -126,6 +132,7 @@ namespace RestInPractice.Exercises.Exercise02
         public void ShouldNotChoosePreviouslyChosenExitWhileThereAreOtherExits()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithNorthLink(NorthUri)
                 .WithSouthLink(SouthUri)
                 .WithEastLink(EastUri)
@@ -137,7 +144,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var history = new[] {NorthUri, EastUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(WestUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -149,18 +156,19 @@ namespace RestInPractice.Exercises.Exercise02
         public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsSouthInPreferenceToAllOtherExits()
         {
             var entry = new EntryBuilder()
-               .WithNorthLink(NorthUri)
-               .WithSouthLink(SouthUri)
-               .WithEastLink(EastUri)
-               .WithWestLink(WestUri)
-               .ToString();
+                .WithBaseUri(BaseUri)
+                .WithNorthLink(NorthUri)
+                .WithSouthLink(SouthUri)
+                .WithEastLink(EastUri)
+                .WithWestLink(WestUri)
+                .ToString();
 
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+            var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(SouthUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -172,17 +180,18 @@ namespace RestInPractice.Exercises.Exercise02
         public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsWestIfCannotExitSouth()
         {
             var entry = new EntryBuilder()
-               .WithNorthLink(NorthUri)
-               .WithEastLink(EastUri)
-               .WithWestLink(WestUri)
-               .ToString();
+                .WithBaseUri(BaseUri)
+                .WithNorthLink(NorthUri)
+                .WithEastLink(EastUri)
+                .WithWestLink(WestUri)
+                .ToString();
 
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+            var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(WestUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -194,16 +203,17 @@ namespace RestInPractice.Exercises.Exercise02
         public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsEastIfCannotExitSouthOrWest()
         {
             var entry = new EntryBuilder()
-               .WithNorthLink(NorthUri)
-               .WithEastLink(EastUri)
-               .ToString();
+                .WithBaseUri(BaseUri)
+                .WithNorthLink(NorthUri)
+                .WithEastLink(EastUri)
+                .ToString();
 
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+            var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(EastUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, EastUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -215,15 +225,16 @@ namespace RestInPractice.Exercises.Exercise02
         public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsNorthIfNoOtherExits()
         {
             var entry = new EntryBuilder()
-               .WithNorthLink(NorthUri)
-               .ToString();
+                .WithBaseUri(BaseUri)
+                .WithNorthLink(NorthUri)
+                .ToString();
 
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+            var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(NorthUri, newResponse));
+            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -235,6 +246,7 @@ namespace RestInPractice.Exercises.Exercise02
         public void IfGoalAchievedShouldTransitionIntoGoalAchievedState()
         {
             var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
                 .WithTitle("Success")
                 .ToString();
 
@@ -243,7 +255,7 @@ namespace RestInPractice.Exercises.Exercise02
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(new HttpClient());
 
-            Assert.IsInstanceOf(typeof(GoalAchieved), nextState);
+            Assert.IsInstanceOf(typeof (GoalAchieved), nextState);
         }
 
         private static HttpClient CreateHttpClient(StubEndpoint stubEndpoint)
@@ -253,8 +265,9 @@ namespace RestInPractice.Exercises.Exercise02
             return client;
         }
 
-        private static StubEndpoint CreateStubEndpoint(Uri requestUri, HttpResponseMessage newResponse)
+        private static StubEndpoint CreateStubEndpoint(Uri baseUri, Uri relativePath, HttpResponseMessage newResponse)
         {
+            var requestUri = new Uri(baseUri, relativePath);
             return new StubEndpoint(request => request.RequestUri.Equals(requestUri) ? newResponse : null);
         }
 

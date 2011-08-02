@@ -14,6 +14,12 @@ namespace RestInPractice.Exercises.Helpers
             entry = new SyndicationItem();
         }
 
+        public EntryBuilder WithBaseUri(Uri baseUri)
+        {
+            entry.BaseUri = baseUri;
+            return this;
+        }
+        
         public EntryBuilder WithTitle(string title)
         {
             entry.Title = SyndicationContent.CreatePlaintextContent(title);
