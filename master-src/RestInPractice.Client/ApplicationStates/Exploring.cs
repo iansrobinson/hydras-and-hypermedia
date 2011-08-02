@@ -27,7 +27,7 @@ namespace RestInPractice.Client.ApplicationStates
         {            
             var entry = currentResponse.Content.ReadAsObject<SyndicationItemFormatter>(AtomMediaType.Formatter).Item;
 
-            if (entry.Title.Text.Equals("Success"))
+            if (entry.Title.Text.Equals("Exit"))
             {
                 return new GoalAchieved(currentResponse);
             }

@@ -10,7 +10,11 @@ namespace RestInPractice.Client.ApplicationStates
 {
     public class Exploring : IApplicationState
     {
-        public Exploring(HttpResponseMessage currentResponse)
+        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, new Uri[] { })
+        {
+        }
+
+        public Exploring(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
         {
         }
 

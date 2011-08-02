@@ -247,7 +247,7 @@ namespace RestInPractice.Exercises.Exercise02
         {
             var entry = new EntryBuilder()
                 .WithBaseUri(BaseUri)
-                .WithTitle("Success")
+                .WithTitle("Exit")
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
