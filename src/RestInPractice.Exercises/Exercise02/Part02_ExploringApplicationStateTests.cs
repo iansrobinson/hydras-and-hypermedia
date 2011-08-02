@@ -138,6 +138,92 @@ namespace RestInPractice.Exercises.Exercise02
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
         }
 
+        [Test]
+        public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsSouthInPreferenceToAllOtherExits()
+        {
+            var entry = new EntryBuilder()
+               .WithNorthLink(NorthUri)
+               .WithSouthLink(SouthUri)
+               .WithEastLink(EastUri)
+               .WithWestLink(WestUri)
+               .ToString();
+
+            var currentResponse = CreateCurrentResponse(entry);
+            var newResponse = new HttpResponseMessage();
+
+            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+
+            var client = CreateHttpClient(CreateStubEndpoint(SouthUri, newResponse));
+
+            var state = new Exploring(currentResponse, history);
+            var nextState = state.NextState(client);
+
+            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
+        public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsWestIfCannotExitSouth()
+        {
+            var entry = new EntryBuilder()
+               .WithNorthLink(NorthUri)
+               .WithEastLink(EastUri)
+               .WithWestLink(WestUri)
+               .ToString();
+
+            var currentResponse = CreateCurrentResponse(entry);
+            var newResponse = new HttpResponseMessage();
+
+            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+
+            var client = CreateHttpClient(CreateStubEndpoint(WestUri, newResponse));
+
+            var state = new Exploring(currentResponse, history);
+            var nextState = state.NextState(client);
+
+            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
+        public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsEastIfCannotExitSouthOrWest()
+        {
+            var entry = new EntryBuilder()
+               .WithNorthLink(NorthUri)
+               .WithEastLink(EastUri)
+               .ToString();
+
+            var currentResponse = CreateCurrentResponse(entry);
+            var newResponse = new HttpResponseMessage();
+
+            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+
+            var client = CreateHttpClient(CreateStubEndpoint(EastUri, newResponse));
+
+            var state = new Exploring(currentResponse, history);
+            var nextState = state.NextState(client);
+
+            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
+        public void IfAllExitsHaveBeenVisitedPreviouslyShouldRetraceStepsNorthIfNoOtherExits()
+        {
+            var entry = new EntryBuilder()
+               .WithNorthLink(NorthUri)
+               .ToString();
+
+            var currentResponse = CreateCurrentResponse(entry);
+            var newResponse = new HttpResponseMessage();
+
+            var history = new[] { NorthUri, EastUri, WestUri, SouthUri };
+
+            var client = CreateHttpClient(CreateStubEndpoint(NorthUri, newResponse));
+
+            var state = new Exploring(currentResponse, history);
+            var nextState = state.NextState(client);
+
+            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
         private static HttpClient CreateHttpClient(StubEndpoint stubEndpoint)
         {
             var client = new HttpClient {Channel = stubEndpoint};

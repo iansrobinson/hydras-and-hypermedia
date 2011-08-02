@@ -20,7 +20,7 @@ namespace RestInPractice.Client.ApplicationStates
         public Exploring(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
         {
             this.currentResponse = currentResponse;
-            this.history = history;
+            this.history = new List<Uri>(history).AsReadOnly();
         }
 
         public IApplicationState NextState(HttpClient client)
@@ -36,9 +36,19 @@ namespace RestInPractice.Client.ApplicationStates
 
         private static SyndicationLink GetExitLink(SyndicationItem entry, IEnumerable<Uri> history, params string[] rels)
         {
-            return rels
+            var exitLink = rels
                 .Select(rel => entry.Links.FirstOrDefault(IsUnvisitedExit(rel, history)))
                 .FirstOrDefault(link => link != null);
+
+            if (exitLink == null)
+            {
+                exitLink = rels
+                    .Reverse()
+                    .Select(rel => entry.Links.FirstOrDefault(IsUnvisitedExit(rel, new Uri[] {})))
+                    .FirstOrDefault(link => link != null);
+            }
+
+            return exitLink;
         }
 
         private static Func<SyndicationLink, bool> IsUnvisitedExit(string rel, IEnumerable<Uri> history)
