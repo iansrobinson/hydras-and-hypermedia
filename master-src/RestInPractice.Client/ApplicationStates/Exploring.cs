@@ -18,22 +18,14 @@ namespace RestInPractice.Client.ApplicationStates
         public IApplicationState NextState(HttpClient client)
         {
             var entry = currentResponse.Content.ReadAsObject<SyndicationItemFormatter>(AtomMediaType.Formatter).Item;
-            var exitLink = entry.Links.FirstOrDefault(l => l.RelationshipType.Equals("north"));
-            
-            if (exitLink == null)
-            {
-                exitLink = entry.Links.FirstOrDefault(l => l.RelationshipType.Equals("east"));
-            }
-            if (exitLink == null)
-            {
-                exitLink = entry.Links.FirstOrDefault(l => l.RelationshipType.Equals("west"));
-            }
-            if (exitLink == null)
-            {
-                exitLink = entry.Links.FirstOrDefault(l => l.RelationshipType.Equals("south"));
-            }
+            var exitLink = GetExitLink(entry, "north", "east", "west", "south");
                
             return new Exploring(client.Get(exitLink.Uri));
+        }
+
+        private SyndicationLink GetExitLink(SyndicationItem entry, params string[] rels)
+        {
+            return rels.Select(rel => entry.Links.FirstOrDefault(l => l.RelationshipType.Equals(rel))).FirstOrDefault(exitLink => exitLink != null);
         }
 
         public HttpResponseMessage CurrentResponse
