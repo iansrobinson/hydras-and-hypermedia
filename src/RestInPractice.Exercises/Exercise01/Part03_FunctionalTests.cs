@@ -9,7 +9,6 @@ using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
 using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
-using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise01
@@ -24,7 +23,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void FunctionalTest()
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.ExistingInstance), (instanceContext, obj) => { })
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance), (instanceContext, obj) => { })
                 .AddFormatters(AtomMediaType.Formatter);
 
             using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://localhost:8081/rooms/")))
@@ -40,18 +39,19 @@ namespace RestInPractice.Exercises.Exercise01
                     entryFormatter.ReadFrom(XmlReader.Create(firstResponse.Content.ContentReadStream));
                 }
 
-                var room1 = entryFormatter.Item;
-                var northLink = room1.Links.First(l => l.RelationshipType.Equals("north"));
-                var northUri = new Uri(room1.BaseUri, northLink.Uri);
+                var firstRoom = entryFormatter.Item;
+                var northLink = firstRoom.Links.First(l => l.RelationshipType.Equals("north"));
+                var northUri = new Uri(firstRoom.BaseUri, northLink.Uri);
 
                 using (var secondResponse = client.Get(northUri))
                 {
                     entryFormatter.ReadFrom(XmlReader.Create(secondResponse.Content.ContentReadStream));
                 }
 
-                var room2 = entryFormatter.Item;
+                var nextRoom = entryFormatter.Item;
 
-                Assert.AreEqual(Maze.ExistingInstance.Get(2).Description, room2.Summary.Text);
+                //See Maze class for layout of the maze. Room 4 is north of room 1.
+                Assert.AreEqual(Maze.Instance.Get(4).Description, nextRoom.Summary.Text);
 
                 host.Close();
             }

@@ -15,7 +15,7 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part01_RoomResourceTests
     {
-        private static readonly Room Room = Maze.ExistingInstance.Get(1);
+        private static readonly Room Room = Maze.Instance.Get(1);
         private const string RequestUri = "http://localhost:8081/rooms/1";
         private const string InvalidRoomId = "999";
 
@@ -115,8 +115,9 @@ namespace RestInPractice.Exercises.Exercise01
             var body = response.Content.ReadAsOrDefault().Item;
 
             var link = body.Links.First(l => l.RelationshipType.Equals("north"));
-            
-            Assert.AreEqual(new Uri("/rooms/2", UriKind.Relative),link.Uri);
+
+            //See Maze class for layout of the maze. Room 4 is north of room 1.
+            Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative),link.Uri);
         }
 
         [Test]
@@ -128,7 +129,8 @@ namespace RestInPractice.Exercises.Exercise01
 
             var link = body.Links.First(l => l.RelationshipType.Equals("east"));
 
-            Assert.AreEqual(new Uri("/rooms/3", UriKind.Relative), link.Uri);
+            //See Maze class for layout of the maze. Room 2 is east of room 1.
+            Assert.AreEqual(new Uri("/rooms/2", UriKind.Relative), link.Uri);
         }
 
         [Test]
@@ -140,7 +142,8 @@ namespace RestInPractice.Exercises.Exercise01
 
             var link = body.Links.First(l => l.RelationshipType.Equals("west"));
 
-            Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative), link.Uri);
+            //See Maze class for layout of the maze. Room 3 is west of room 1.
+            Assert.AreEqual(new Uri("/rooms/3", UriKind.Relative), link.Uri);
         }
 
         [Test]
@@ -180,7 +183,7 @@ namespace RestInPractice.Exercises.Exercise01
 
         private static RoomResource CreateResourceUnderTest()
         {
-            return new RoomResource(Maze.ExistingInstance);
+            return new RoomResource(Maze.Instance);
         }
 
         private static HttpRequestMessage CreateRequest()
