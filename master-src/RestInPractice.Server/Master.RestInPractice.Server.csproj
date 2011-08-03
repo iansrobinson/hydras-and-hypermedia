@@ -85,6 +85,9 @@
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Direction.cs">
       <Link>Domain\Direction.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Domain\Encounter.cs">
+      <Link>Domain\Encounter.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Exit.cs">
       <Link>Domain\Exit.cs</Link>
     </Compile>

@@ -94,8 +94,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Direction.cs" />
+    <Compile Include="Domain\Encounter.cs" />
+    <Compile Include="Domain\EncounterResult.cs" />
     <Compile Include="Domain\Exit.cs" />
     <Compile Include="Domain\IRooms.cs" />
+    <Compile Include="Domain\Outcome.cs" />
     <Compile Include="Domain\Room.cs" />
     <Compile Include="Domain\Rooms.cs" />
     <Compile Include="Global.asax.cs">
