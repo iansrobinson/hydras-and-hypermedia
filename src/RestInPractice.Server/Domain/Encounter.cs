@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RestInPractice.Server.Domain
 {
     public class Encounter
     {
-        private readonly int initialEndurance;
         private readonly Dictionary<int, Outcome> outcomes;
 
         public Encounter(int initialEndurance)
         {
-            this.initialEndurance = initialEndurance;
-            outcomes = new Dictionary<int, Outcome>();
+            outcomes = new Dictionary<int, Outcome> {{1, new Outcome(1, initialEndurance)}};
         }
 
         public EncounterResult Action(int clientEndurance)
         {
-            var outcome = new Outcome(outcomes.Count + 1, initialEndurance - 2);
+            var outcome = new Outcome(outcomes.Count + 1, GetAllOutcomes().Last().Endurance - 2);
             outcomes.Add(outcome.Id, outcome);
             return new EncounterResult(clientEndurance - 1, outcome);
         }
@@ -25,9 +24,14 @@ namespace RestInPractice.Server.Domain
             return outcomes[id];
         }
 
-        public IEnumerable<Outcome> Outcomes
+        public IEnumerable<Outcome> GetAllOutcomes()
         {
-            get { return outcomes.Values; }
+            return outcomes.Values;
+        }
+
+        public bool IsResolved
+        {
+            get { return GetAllOutcomes().Last().Endurance <= 0; }
         }
     }
 }
