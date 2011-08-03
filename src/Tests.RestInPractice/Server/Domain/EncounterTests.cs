@@ -42,5 +42,30 @@ namespace Tests.RestInPractice.Server.Domain
 
             Assert.AreEqual(result.Outcome, encounter.Outcomes.First());
         }
+
+        [Test]
+        public void OutcomesShouldHaveIncrementingIds()
+        {
+            var encounter = new Encounter(EncounterEndurance);
+
+            encounter.Action(5);
+            encounter.Action(4);
+            encounter.Action(3);
+
+            Assert.AreEqual(1, encounter.Outcomes.ElementAt(0).Id);
+            Assert.AreEqual(2, encounter.Outcomes.ElementAt(1).Id);
+            Assert.AreEqual(3, encounter.Outcomes.ElementAt(2).Id);
+        }
+
+        [Test]
+        public void ShouldBeAbleToRetrieveOutcomeById()
+        {
+            var encounter = new Encounter(EncounterEndurance);
+
+            encounter.Action(5);
+            var result = encounter.Action(4);
+
+            Assert.AreEqual(result.Outcome, encounter.GetOutcome(result.Outcome.Id));
+        }
     }
 }

@@ -5,24 +5,29 @@ namespace RestInPractice.Server.Domain
     public class Encounter
     {
         private readonly int initialEndurance;
-        private readonly List<Outcome> outcomes;
+        private readonly Dictionary<int, Outcome> outcomes;
 
         public Encounter(int initialEndurance)
         {
             this.initialEndurance = initialEndurance;
-            outcomes = new List<Outcome>();
+            outcomes = new Dictionary<int, Outcome>();
         }
 
         public EncounterResult Action(int clientEndurance)
         {
-            var outcome = new Outcome(initialEndurance - 2);
-            outcomes.Add(outcome);
+            var outcome = new Outcome(outcomes.Count + 1, initialEndurance - 2);
+            outcomes.Add(outcome.Id, outcome);
             return new EncounterResult(clientEndurance - 1, outcome);
+        }
+
+        public Outcome GetOutcome(int id)
+        {
+            return outcomes[id];
         }
 
         public IEnumerable<Outcome> Outcomes
         {
-            get { return outcomes.AsReadOnly(); }
+            get { return outcomes.Values; }
         }
     }
 }
