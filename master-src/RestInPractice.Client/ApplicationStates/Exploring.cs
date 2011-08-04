@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
+using RestInPractice.Client.Comparers;
 using RestInPractice.Client.Extensions;
 using RestInPractice.MediaTypes;
 
@@ -25,6 +26,15 @@ namespace RestInPractice.Client.ApplicationStates
 
         public IApplicationState NextState(HttpClient client)
         {            
+            if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.FeedValue))
+            {
+                var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
+                if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
+                {
+                    return new ResolvingEncounter(currentResponse);
+                }
+            }
+            
             var entry = currentResponse.Content.ReadAsObject<SyndicationItem>(AtomMediaType.Formatter);
 
             if (entry.Title.Text.Equals("Exit"))

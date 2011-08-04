@@ -77,6 +77,9 @@
     <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Started.cs">
       <Link>ApplicationStates\Started.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Client\Comparers\CategoryComparer.cs">
+      <Link>Comparers\CategoryComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Client\Extensions\HttpContentExtensions.cs">
       <Link>Extensions\HttpContentExtensions.cs</Link>
     </Compile>
@@ -87,6 +90,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ApplicationStates\Exploring.cs" />
+    <Compile Include="ApplicationStates\ResolvingEncounter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RestInPractice.MediaTypes\Master.RestInPractice.MediaTypes.csproj">
