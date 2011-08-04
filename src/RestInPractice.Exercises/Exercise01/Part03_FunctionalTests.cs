@@ -23,8 +23,13 @@ namespace RestInPractice.Exercises.Exercise01
         public void FunctionalTest()
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance), (instanceContext, obj) => { })
-                .AddFormatters(AtomMediaType.Formatter);
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance), (instanceContext, obj) => { });
+
+            // Workaround for serialization issue in Preview 4. 
+            // Must clear default XML formatter from Formatters before adding Atom formatter.
+            var hostConfiguration = (HttpHostConfiguration)configuration;
+            hostConfiguration.OperationHandlerFactory.Formatters.Clear();
+            hostConfiguration.OperationHandlerFactory.Formatters.Insert(0, AtomMediaType.Formatter);
 
             using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://localhost:8081/rooms/")))
             {
