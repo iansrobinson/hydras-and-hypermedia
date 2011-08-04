@@ -183,7 +183,7 @@ namespace RestInPractice.Exercises.Exercise01
 
         private static RoomResource CreateResourceUnderTest()
         {
-            return new RoomResource(Maze.Instance);
+            return new RoomResource(Maze.Instance, new Repository<Encounter>());
         }
 
         private static HttpRequestMessage CreateRequest()

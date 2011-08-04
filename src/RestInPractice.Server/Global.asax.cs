@@ -14,7 +14,7 @@ namespace RestInPractice.Server
         protected void Application_Start(object sender, EventArgs e)
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(new Repository<Room>()), (instanceContext, obj) => { });
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(new Repository<Room>(), new Repository<Encounter>()), (instanceContext, obj) => { });
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.

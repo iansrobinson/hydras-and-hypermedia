@@ -10,6 +10,7 @@ using RestInPractice.Client;
 using RestInPractice.Client.ApplicationStates;
 using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
+using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise02
@@ -37,7 +38,7 @@ namespace RestInPractice.Exercises.Exercise02
             var path = new List<string>();
 
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance), (instanceContext, obj) => { });
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance, new Repository<Encounter>()), (instanceContext, obj) => { });
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.

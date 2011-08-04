@@ -18,7 +18,7 @@ namespace RestInPractice.Server.Resources
     {
         private readonly Repository<Room> rooms;
 
-        public RoomResource(Repository<Room> rooms)
+        public RoomResource(Repository<Room> rooms, Repository<Encounter> encounters)
         {
             this.rooms = rooms;
         }

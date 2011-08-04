@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RestInPractice.Server.Domain
 {
-    public class Encounter
+    public class Encounter : IIdentifiable
     {
         private readonly int id;
         private readonly string title;
