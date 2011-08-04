@@ -2,7 +2,7 @@
 
 namespace RestInPractice.Server.Domain
 {
-    public class Room
+    public class Room : IIdentifiable
     {
         private readonly int id;
         private readonly string title;

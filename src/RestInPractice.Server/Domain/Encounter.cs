@@ -6,15 +6,36 @@ namespace RestInPractice.Server.Domain
 {
     public class Encounter
     {
+        private readonly int id;
+        private readonly string title;
+        private readonly string description;
         private readonly int guardedRoomId;
         private readonly int fleeRoomId;
         private readonly Dictionary<int, Outcome> outcomes;
 
-        public Encounter(int guardedRoomId, int fleeRoomId, int initialEndurance)
+        public Encounter(int id, string title, string description, int guardedRoomId, int fleeRoomId, int initialEndurance)
         {
+            this.id = id;
+            this.title = title;
+            this.description = description;
             this.guardedRoomId = guardedRoomId;
             this.fleeRoomId = fleeRoomId;
             outcomes = new Dictionary<int, Outcome> {{1, new Outcome(1, initialEndurance)}};
+        }
+
+        public int Id
+        {
+            get { return id; }
+        }
+
+        public string Title
+        {
+            get { return title; }
+        }
+
+        public string Description
+        {
+            get { return description; }
         }
 
         public int GuardedRoomId
@@ -44,9 +65,9 @@ namespace RestInPractice.Server.Domain
             return new EncounterResult(clientEndurance - 1, outcome);
         }
 
-        public Outcome GetOutcome(int id)
+        public Outcome GetOutcome(int encounterId)
         {
-            return outcomes[id];
+            return outcomes[encounterId];
         }
 
         public IEnumerable<Outcome> GetAllOutcomes()

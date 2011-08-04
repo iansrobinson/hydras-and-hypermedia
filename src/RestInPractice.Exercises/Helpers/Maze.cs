@@ -9,11 +9,11 @@ namespace RestInPractice.Exercises.Helpers
     //      3---1---2
     public static class Maze
     {
-        public static Rooms Instance
+        public static Repository<Room> Instance
         {
             get
             {
-                return new Rooms(
+                return new Repository<Room>(
                     new Room(1, "Entrance", "Maze entrance.", Exit.North(4), Exit.East(2), Exit.West(3)),
                     new Room(2, "Room 2", "Room 2 description", Exit.West(1)),
                     new Room(3, "Room 3", "Room 3 description", Exit.East(1)),

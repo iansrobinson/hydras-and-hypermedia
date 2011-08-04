@@ -8,7 +8,7 @@ namespace RestInPractice.Server.Resources
 {
     public class RoomResource
     {
-        public RoomResource(Rooms rooms)
+        public RoomResource(Repository<Room> rooms)
         {
         }
 

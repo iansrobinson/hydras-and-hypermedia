@@ -94,17 +94,17 @@
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Exit.cs">
       <Link>Domain\Exit.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Server\Domain\IRooms.cs">
-      <Link>Domain\IRooms.cs</Link>
+    <Compile Include="..\..\src\RestInPractice.Server\Domain\IIdentifiable.cs">
+      <Link>Domain\IIdentifiable.cs</Link>
     </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Outcome.cs">
       <Link>Domain\Outcome.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Domain\Repository.cs">
+      <Link>Domain\Repository.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Room.cs">
       <Link>Domain\Room.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\RestInPractice.Server\Domain\Rooms.cs">
-      <Link>Domain\Rooms.cs</Link>
     </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Global.asax.cs">
       <Link>Global.asax.cs</Link>

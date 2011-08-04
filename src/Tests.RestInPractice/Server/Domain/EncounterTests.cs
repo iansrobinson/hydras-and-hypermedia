@@ -103,7 +103,7 @@ namespace Tests.RestInPractice.Server.Domain
 
         public static Encounter CreateEncounterUnderTest(int endurance)
         {
-            return new Encounter(2, 1, endurance);
+            return new Encounter(1, "An encounter", "Encounter description", 2, 1, endurance);
         }
     }
 }

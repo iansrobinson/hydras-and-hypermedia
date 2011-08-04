@@ -97,10 +97,10 @@
     <Compile Include="Domain\Encounter.cs" />
     <Compile Include="Domain\EncounterResult.cs" />
     <Compile Include="Domain\Exit.cs" />
-    <Compile Include="Domain\IRooms.cs" />
+    <Compile Include="Domain\IIdentifiable.cs" />
     <Compile Include="Domain\Outcome.cs" />
     <Compile Include="Domain\Room.cs" />
-    <Compile Include="Domain\Rooms.cs" />
+    <Compile Include="Domain\Repository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
