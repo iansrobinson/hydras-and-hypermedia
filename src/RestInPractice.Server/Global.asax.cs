@@ -15,10 +15,10 @@ namespace RestInPractice.Server
         {
             var configuration = HttpHostConfiguration.Create()
                 .SetResourceFactory((type, instanceContext, request) => new RoomResource(new Rooms()), (instanceContext, obj) => { });
-            
+
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.
-            var hostConfiguration = (HttpHostConfiguration)configuration;
+            var hostConfiguration = (HttpHostConfiguration) configuration;
             hostConfiguration.OperationHandlerFactory.Formatters.Clear();
             hostConfiguration.OperationHandlerFactory.Formatters.Insert(0, AtomMediaType.Formatter);
 

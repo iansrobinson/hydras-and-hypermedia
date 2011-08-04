@@ -22,44 +22,46 @@ namespace RestInPractice.MediaTypes
 
         public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)
         {
-            if (type.Equals(typeof(SyndicationItemFormatter)))
+            if (type.Equals(typeof(SyndicationItem)))
             {
                 var entryFormatter = new Atom10ItemFormatter();
                 entryFormatter.ReadFrom(XmlReader.Create(stream));
-                return entryFormatter;
+                return entryFormatter.Item;
             }
 
-            if (type.Equals(typeof(SyndicationFeedFormatter)))
+            if (type.Equals(typeof(SyndicationFeed)))
             {
                 var feedFormatter = new Atom10FeedFormatter();
                 feedFormatter.ReadFrom(XmlReader.Create(stream));
-                return feedFormatter;
+                return feedFormatter.Feed;
             }
 
-            throw new InvalidOperationException("Expected to be called with type SyndicationItemFormatter or SyndicationFeedFormatter.");
+            throw new InvalidOperationException("Expected to be called with type SyndicationItem or SyndicationFeed.");
         }
 
         public override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context)
         {
-            if (type.Equals(typeof(SyndicationItemFormatter)))
+            if (type.Equals(typeof(SyndicationItem)))
             {
                 using (var writer = XmlWriter.Create(stream, WriterSettings))
                 {
-                    ((Atom10ItemFormatter)value).WriteTo(writer);
+                    var itemFormatter = new Atom10ItemFormatter((SyndicationItem)value);
+                    itemFormatter.WriteTo(writer);
                     writer.Flush();
                 }
             }
-            else if (type.Equals(typeof(SyndicationFeedFormatter)))
+            else if (type.Equals(typeof(SyndicationFeed)))
             {
                 using (var writer = XmlWriter.Create(stream, WriterSettings))
                 {
-                    ((Atom10FeedFormatter)value).WriteTo(writer);
+                    var feedFormatter = new Atom10FeedFormatter((SyndicationFeed) value);
+                    feedFormatter.WriteTo(writer);
                     writer.Flush();
                 }
             }
             else
             {
-                throw new InvalidOperationException("Expected to be called with type SyndicationItemFormatter or SyndicationFeedFormatter.");
+                throw new InvalidOperationException("Expected to be called with type SyndicationItem or SyndicationFeed.");
             }
         }
     }

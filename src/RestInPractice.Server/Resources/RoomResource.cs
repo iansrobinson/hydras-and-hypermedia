@@ -12,7 +12,7 @@ namespace RestInPractice.Server.Resources
         {
         }
 
-        public HttpResponseMessage<SyndicationItemFormatter> Get(string id, HttpRequestMessage request)
+        public HttpResponseMessage<SyndicationItem> Get(string id, HttpRequestMessage request)
         {
             throw new NotImplementedException();
         }

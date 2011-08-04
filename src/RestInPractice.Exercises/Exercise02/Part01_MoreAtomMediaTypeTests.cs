@@ -35,7 +35,7 @@ namespace RestInPractice.Exercises.Exercise02
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(FeedXml)))
             {
                 var formatter = AtomMediaType.Formatter;
-                var feed = ((SyndicationFeedFormatter) formatter.ReadFromStream(typeof (SyndicationFeedFormatter), input, null)).Feed;
+                var feed = (SyndicationFeed) formatter.ReadFromStream(typeof (SyndicationFeed), input, null);
 
                 Assert.AreEqual("feed-id", feed.Id);
                 Assert.AreEqual("feed-title", feed.Title.Text);
@@ -50,7 +50,7 @@ namespace RestInPractice.Exercises.Exercise02
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(EntryXml)))
             {
                 var formatter = AtomMediaType.Formatter;
-                var entry = ((SyndicationItemFormatter) formatter.ReadFromStream(typeof (SyndicationItemFormatter), input, null)).Item;
+                var entry = (SyndicationItem) formatter.ReadFromStream(typeof (SyndicationItem), input, null);
 
                 Assert.AreEqual("entry-id", entry.Id);
                 Assert.AreEqual("entry-title", entry.Title.Text);
@@ -61,7 +61,7 @@ namespace RestInPractice.Exercises.Exercise02
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof (InvalidOperationException), ExpectedMessage = "Expected to be called with type SyndicationItemFormatter or SyndicationFeedFormatter.")]
+        [ExpectedException(ExpectedException = typeof (InvalidOperationException), ExpectedMessage = "Expected to be called with type SyndicationItem or SyndicationFeed.")]
         public void ShouldThrowExceptionWhenAttemptingToReadTypesOtherThanSyndicationItemAndSyndicationFeed()
         {
             var formatter = AtomMediaType.Formatter;

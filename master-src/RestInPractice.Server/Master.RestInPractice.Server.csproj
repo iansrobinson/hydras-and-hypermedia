@@ -88,11 +88,17 @@
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Encounter.cs">
       <Link>Domain\Encounter.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Domain\EncounterResult.cs">
+      <Link>Domain\EncounterResult.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Exit.cs">
       <Link>Domain\Exit.cs</Link>
     </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Domain\IRooms.cs">
       <Link>Domain\IRooms.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Domain\Outcome.cs">
+      <Link>Domain\Outcome.cs</Link>
     </Compile>
     <Compile Include="..\..\src\RestInPractice.Server\Domain\Room.cs">
       <Link>Domain\Room.cs</Link>

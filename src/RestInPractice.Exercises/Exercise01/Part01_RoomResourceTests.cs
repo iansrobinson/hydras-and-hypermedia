@@ -56,13 +56,13 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void BodyShouldBeSyndicationItemFormatter()
+        public void BodyShouldBeSyndicationItem()
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationItemFormatter), body);
+            Assert.IsInstanceOf(typeof (SyndicationItem), body);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(Room.Title, body.Title.Text);
         }
@@ -80,7 +80,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(Room.Description, body.Summary.Text);
         }
@@ -90,7 +90,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
             var author = body.Authors.First();
 
             Assert.AreEqual("Dungeon Master", author.Name);
@@ -102,7 +102,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
         }
@@ -112,7 +112,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             var link = body.Links.First(l => l.RelationshipType.Equals("north"));
 
@@ -125,7 +125,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             var link = body.Links.First(l => l.RelationshipType.Equals("east"));
 
@@ -138,7 +138,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             var link = body.Links.First(l => l.RelationshipType.Equals("west"));
 
@@ -151,7 +151,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             Assert.IsNull(body.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
         }
@@ -161,7 +161,7 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault().Item;
+            var body = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(body.Id, "tag:restinpractice.com,2011-09-05:/rooms/1");
         }

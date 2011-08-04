@@ -42,7 +42,7 @@ namespace RestInPractice.Exercises.Exercise01
             var output = new MemoryStream();
 
             var formatter = AtomMediaType.Formatter;
-            formatter.WriteToStream(typeof (SyndicationFeedFormatter), new Atom10FeedFormatter(feed), output, null, null);
+            formatter.WriteToStream(typeof (SyndicationFeed), feed, output, null, null);
 
             output.Seek(0, SeekOrigin.Begin);
             using (var reader = new StreamReader(output))
@@ -58,7 +58,7 @@ namespace RestInPractice.Exercises.Exercise01
             var output = new MemoryStream();
 
             var formatter = AtomMediaType.Formatter;
-            formatter.WriteToStream(typeof (SyndicationItemFormatter), new Atom10ItemFormatter(entry), output, null, null);
+            formatter.WriteToStream(typeof (SyndicationItem), entry, output, null, null);
 
             output.Seek(0, SeekOrigin.Begin);
             using (var reader = new StreamReader(output))
@@ -68,7 +68,7 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof (InvalidOperationException), ExpectedMessage = "Expected to be called with type SyndicationItemFormatter or SyndicationFeedFormatter.")]
+        [ExpectedException(ExpectedException = typeof (InvalidOperationException), ExpectedMessage = "Expected to be called with type SyndicationItem or SyndicationFeed.")]
         public void ShouldThrowExceptionWhenAttemptingToWriteTypesOtherThanSyndicationItemAndSyndicationFeed()
         {
             var formatter = AtomMediaType.Formatter;

@@ -25,7 +25,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public IApplicationState NextState(HttpClient client)
         {            
-            var entry = currentResponse.Content.ReadAsObject<SyndicationItemFormatter>(AtomMediaType.Formatter).Item;
+            var entry = currentResponse.Content.ReadAsObject<SyndicationItem>(AtomMediaType.Formatter);
 
             if (entry.Title.Text.Equals("Exit"))
             {

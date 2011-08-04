@@ -24,7 +24,7 @@ namespace RestInPractice.Server.Resources
         }
 
         [WebGet(UriTemplate = "{id}")]
-        public HttpResponseMessage<SyndicationItemFormatter> Get(string id, HttpRequestMessage request)
+        public HttpResponseMessage<SyndicationItem> Get(string id, HttpRequestMessage request)
         {
             Room room;
             try
@@ -56,7 +56,7 @@ namespace RestInPractice.Server.Resources
                 body.Links.Add(link);
             }
 
-            var response = new HttpResponseMessage<SyndicationItemFormatter>(new Atom10ItemFormatter(body)) { StatusCode = HttpStatusCode.OK };
+            var response = new HttpResponseMessage<SyndicationItem>(body) { StatusCode = HttpStatusCode.OK };
             response.Headers.CacheControl = new CacheControlHeaderValue {Public = true, MaxAge = new TimeSpan(0, 0, 0, 10)};
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(AtomMediaType.Value);
 
