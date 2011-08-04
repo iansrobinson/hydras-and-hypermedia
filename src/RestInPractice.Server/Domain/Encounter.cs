@@ -6,11 +6,25 @@ namespace RestInPractice.Server.Domain
 {
     public class Encounter
     {
+        private readonly int guardedRoomId;
+        private readonly int fleeRoomId;
         private readonly Dictionary<int, Outcome> outcomes;
 
-        public Encounter(int initialEndurance)
+        public Encounter(int guardedRoomId, int fleeRoomId, int initialEndurance)
         {
+            this.guardedRoomId = guardedRoomId;
+            this.fleeRoomId = fleeRoomId;
             outcomes = new Dictionary<int, Outcome> {{1, new Outcome(1, initialEndurance)}};
+        }
+
+        public int GuardedRoomId
+        {
+            get { return guardedRoomId; }
+        }
+
+        public int FleeRoomId
+        {
+            get { return fleeRoomId; }
         }
 
         public EncounterResult Action(int clientEndurance)

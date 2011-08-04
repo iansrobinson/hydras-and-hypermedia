@@ -14,7 +14,7 @@ namespace Tests.RestInPractice.Server.Domain
         [Test]
         public void ActionShouldReduceEncounterEnduranceByTwo()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
             var firstResult = encounter.Action(ClientEndurance);
 
             Assert.AreEqual(8, firstResult.Outcome.Endurance);
@@ -27,7 +27,7 @@ namespace Tests.RestInPractice.Server.Domain
         [Test]
         public void ActionShouldReduceClientEnduranceByOne()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
             var result = encounter.Action(ClientEndurance);
 
             Assert.AreEqual(5, result.ClientEndurance);
@@ -36,7 +36,7 @@ namespace Tests.RestInPractice.Server.Domain
         [Test]
         public void ShouldAddOutcomeToListOfOutcomes()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
             Assert.AreEqual(1, encounter.GetAllOutcomes().Count());
 
@@ -49,7 +49,7 @@ namespace Tests.RestInPractice.Server.Domain
         [Test]
         public void OutcomesShouldHaveIncrementingIds()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
             encounter.Action(5);
             encounter.Action(4);
@@ -62,7 +62,7 @@ namespace Tests.RestInPractice.Server.Domain
         [Test]
         public void ShouldBeAbleToRetrieveOutcomeById()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
             encounter.Action(5);
             var result = encounter.Action(4);
@@ -73,7 +73,7 @@ namespace Tests.RestInPractice.Server.Domain
         [Test]
         public void ShouldIndicateThatEncounterIsResolvedWhenEnduranceIsExhausted()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
             for (var counter = 0; counter < 4; counter++)
             {
@@ -89,7 +89,7 @@ namespace Tests.RestInPractice.Server.Domain
         [ExpectedException(ExpectedException = typeof(InvalidOperationException), ExpectedMessage = "Encounter is already resolved.")]
         public void ThrowsExceptionIfTryingToPeformActionAgainstResolvedEncounter()
         {
-            var encounter = new Encounter(0);
+            var encounter = CreateEncounterUnderTest(0);
             encounter.Action(2);
         }
 
@@ -97,8 +97,13 @@ namespace Tests.RestInPractice.Server.Domain
         [ExpectedException(ExpectedException= typeof (ArgumentException), ExpectedMessage = "Endurance must be greater than zero.\r\nParameter name: clientEndurance")]
         public void ThrowsExceptionIfClientEnduranceIsZero()
         {
-            var encounter = new Encounter(EncounterEndurance);
+            var encounter = CreateEncounterUnderTest(EncounterEndurance);
             encounter.Action(0);
+        }
+
+        public static Encounter CreateEncounterUnderTest(int endurance)
+        {
+            return new Encounter(2, 1, endurance);
         }
     }
 }
