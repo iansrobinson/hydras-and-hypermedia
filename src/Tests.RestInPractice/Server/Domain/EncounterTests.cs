@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using RestInPractice.Server.Domain;
 
@@ -82,6 +83,22 @@ namespace Tests.RestInPractice.Server.Domain
 
             encounter.Action(2);
             Assert.IsTrue(encounter.IsResolved);
+        }
+        
+        [Test]
+        [ExpectedException(ExpectedException = typeof(InvalidOperationException), ExpectedMessage = "Encounter is already resolved.")]
+        public void ThrowsExceptionIfTryingToPeformActionAgainstResolvedEncounter()
+        {
+            var encounter = new Encounter(0);
+            encounter.Action(2);
+        }
+
+        [Test]
+        [ExpectedException(ExpectedException= typeof (ArgumentException), ExpectedMessage = "Endurance must be greater than zero.\r\nParameter name: clientEndurance")]
+        public void ThrowsExceptionIfClientEnduranceIsZero()
+        {
+            var encounter = new Encounter(EncounterEndurance);
+            encounter.Action(0);
         }
     }
 }

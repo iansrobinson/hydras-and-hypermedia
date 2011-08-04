@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RestInPractice.Server.Domain
@@ -14,6 +15,16 @@ namespace RestInPractice.Server.Domain
 
         public EncounterResult Action(int clientEndurance)
         {
+            if (IsResolved)
+            {
+                throw new InvalidOperationException("Encounter is already resolved.");
+            }
+
+            if (clientEndurance == 0)
+            {
+                throw new ArgumentException("Endurance must be greater than zero.", "clientEndurance");
+            }
+            
             var outcome = new Outcome(outcomes.Count + 1, GetAllOutcomes().Last().Endurance - 2);
             outcomes.Add(outcome.Id, outcome);
             return new EncounterResult(clientEndurance - 1, outcome);
