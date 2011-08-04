@@ -26,7 +26,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public IApplicationState NextState(HttpClient client)
         {            
-            if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.FeedValue))
+            if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.Feed))
             {
                 var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))

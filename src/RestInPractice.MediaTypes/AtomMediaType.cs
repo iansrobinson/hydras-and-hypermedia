@@ -9,30 +9,42 @@ namespace RestInPractice.MediaTypes
 {
     public class AtomMediaType : MediaTypeFormatter
     {
-        public static readonly MediaTypeFormatter Formatter = new AtomMediaType();
-        public const String Value = "application/atom+xml";
+        private const string MediaType = "application/atom+xml";
+        private static readonly MediaTypeFormatter Instance;
+        private static readonly MediaTypeHeaderValue DefaultValue;
+        private static readonly MediaTypeHeaderValue FeedValue;
+        private static readonly MediaTypeHeaderValue EntryValue;
+        private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates };
 
-        public static MediaTypeHeaderValue FeedValue
+        static AtomMediaType()
         {
-            get
-            {
-                var header = new MediaTypeHeaderValue(Value);
-                header.Parameters.Add(new NameValueHeaderValue("type", "feed"));
-                return header;
-            }
+            DefaultValue = new MediaTypeHeaderValue(MediaType);
+            FeedValue = new MediaTypeHeaderValue(MediaType);
+            EntryValue = new MediaTypeHeaderValue(MediaType);
+            FeedValue.Parameters.Add(new NameValueHeaderValue("type", "feed"));
+            EntryValue.Parameters.Add(new NameValueHeaderValue("type", "entry"));
+            Instance = new AtomMediaType();
         }
 
-        public static MediaTypeHeaderValue EntryValue
+        public static MediaTypeFormatter Formatter
         {
-            get
-            {
-                var header = new MediaTypeHeaderValue(Value);
-                header.Parameters.Add(new NameValueHeaderValue("type", "entry"));
-                return header;
-            }
+            get { return Instance; }
         }
 
-        private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings {Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates};
+        public static MediaTypeHeaderValue Value
+        {
+            get { return DefaultValue; }
+        }
+
+        public static MediaTypeHeaderValue Feed
+        {
+            get { return FeedValue; }
+        }
+
+        public static MediaTypeHeaderValue Entry
+        {
+            get { return EntryValue; }
+        }
 
         private AtomMediaType()
         {

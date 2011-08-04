@@ -32,7 +32,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void ShouldSupportAtomMediaType()
         {
             var formatter = AtomMediaType.Formatter;
-            Assert.IsNotNull(formatter.SupportedMediaTypes.FirstOrDefault(m => m.MediaType.Equals(AtomMediaType.Value)));
+            Assert.IsNotNull(formatter.SupportedMediaTypes.FirstOrDefault(m => m.Equals(AtomMediaType.Value)));
         }
 
         [Test]

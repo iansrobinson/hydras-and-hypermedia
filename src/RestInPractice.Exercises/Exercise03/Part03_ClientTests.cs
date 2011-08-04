@@ -16,7 +16,7 @@ namespace RestInPractice.Exercises.Exercise03
             var feed = new FeedBuilder().WithCategory("encounter").ToString();
 
             var currentResponse = new HttpResponseMessage {Content = new StringContent(feed, Encoding.Unicode)};
-            currentResponse.Content.Headers.ContentType = AtomMediaType.FeedValue;
+            currentResponse.Content.Headers.ContentType = AtomMediaType.Feed;
 
             var initialState = new Exploring(currentResponse);
             var nextState = initialState.NextState(new HttpClient());

@@ -52,7 +52,7 @@ namespace RestInPractice.Exercises.Exercise01
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
 
-            Assert.AreEqual(AtomMediaType.Value, response.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual(AtomMediaType.Value, response.Content.Headers.ContentType);
         }
 
         [Test]

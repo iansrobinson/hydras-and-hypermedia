@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using NUnit.Framework;
 using RestInPractice.Client.ApplicationStates;
@@ -267,7 +266,7 @@ namespace RestInPractice.Exercises.Exercise02
         private static HttpResponseMessage CreateResponse(string entry)
         {
             var currentResponse = new HttpResponseMessage {Content = new StringContent(entry, Encoding.Unicode)};
-            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue(AtomMediaType.Value);
+            currentResponse.Content.Headers.ContentType = AtomMediaType.Value;
             return currentResponse;
         }
     }
