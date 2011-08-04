@@ -84,7 +84,9 @@
     <Compile Include="Exercise02\Part01_MoreAtomMediaTypeTests.cs" />
     <Compile Include="Exercise02\Part02_ExploringApplicationStateTests.cs" />
     <Compile Include="Exercise02\Part03_FunctionalTests.cs" />
+    <Compile Include="Exercise03\Part03_ClientTests.cs" />
     <Compile Include="Helpers\EntryBuilder.cs" />
+    <Compile Include="Helpers\AtomClient.cs" />
     <Compile Include="Helpers\Maze.cs" />
     <Compile Include="Helpers\StubEndpoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

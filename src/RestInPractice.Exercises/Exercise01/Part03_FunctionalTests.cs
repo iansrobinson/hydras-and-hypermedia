@@ -37,9 +37,8 @@ namespace RestInPractice.Exercises.Exercise01
                 host.Open();
 
                 var entryFormatter = new Atom10ItemFormatter();
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(AtomMediaType.Value));
-
+                var client = AtomClient.CreateDefault();
+                
                 using (var firstResponse = client.Get("http://localhost:8081/rooms/1"))
                 {
                     entryFormatter.ReadFrom(XmlReader.Create(firstResponse.Content.ContentReadStream));

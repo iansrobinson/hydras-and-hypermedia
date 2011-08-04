@@ -40,7 +40,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -61,7 +61,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, EastUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, EastUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -81,7 +81,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, WestUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -100,7 +100,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var newResponse = new HttpResponseMessage();
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
 
             var state = new Exploring(currentResponse);
             var nextState = state.NextState(client);
@@ -117,7 +117,7 @@ namespace RestInPractice.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, NorthUri, new HttpResponseMessage()));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, NorthUri, new HttpResponseMessage()));
 
             var state = new Exploring(currentResponse);
 
@@ -144,7 +144,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var history = new[] {NorthUri, EastUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, WestUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -168,7 +168,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -191,7 +191,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, WestUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -213,7 +213,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, EastUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, EastUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -234,7 +234,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = CreateHttpClient(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
+            var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
 
             var state = new Exploring(currentResponse, history);
             var nextState = state.NextState(client);
@@ -256,13 +256,6 @@ namespace RestInPractice.Exercises.Exercise02
             var nextState = state.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof (GoalAchieved), nextState);
-        }
-
-        private static HttpClient CreateHttpClient(StubEndpoint stubEndpoint)
-        {
-            var client = new HttpClient {Channel = stubEndpoint};
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(AtomMediaType.Value));
-            return client;
         }
 
         private static StubEndpoint CreateStubEndpoint(Uri baseUri, Uri relativePath, HttpResponseMessage newResponse)

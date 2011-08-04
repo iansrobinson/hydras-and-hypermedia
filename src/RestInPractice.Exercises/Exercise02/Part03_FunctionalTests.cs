@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
@@ -42,7 +40,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.
-            var hostConfiguration = (HttpHostConfiguration)configuration;
+            var hostConfiguration = (HttpHostConfiguration) configuration;
             hostConfiguration.OperationHandlerFactory.Formatters.Clear();
             hostConfiguration.OperationHandlerFactory.Formatters.Insert(0, AtomMediaType.Formatter);
 
@@ -51,14 +49,12 @@ namespace RestInPractice.Exercises.Exercise02
                 host.Open();
 
                 var moveCount = 0;
-
-                var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(AtomMediaType.Value));
+                var client = AtomClient.CreateDefault();
 
                 IApplicationState state = new Started(new Uri("http://localhost:8081/rooms/1"));
                 while (!state.IsTerminalState && moveCount++ < 20)
                 {
-                    state = state.NextState(httpClient);
+                    state = state.NextState(client);
                     if (state.GetType().Equals(typeof (Exploring)))
                     {
                         path.Add(state.CurrentResponse.RequestMessage.RequestUri.AbsoluteUri);
