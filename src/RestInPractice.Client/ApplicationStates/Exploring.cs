@@ -5,10 +5,6 @@ namespace RestInPractice.Client.ApplicationStates
 {
     public class Exploring : IApplicationState
     {
-        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, ApplicationStateInfo.WithEndurance(0))
-        {
-        }
-
         public Exploring(HttpResponseMessage currentResponse, ApplicationStateInfo applicationStateInfo)
         {
         }

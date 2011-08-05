@@ -22,7 +22,7 @@ namespace RestInPractice.Exercises.Exercise02
         [Test]
         public void ShouldBeNonTerminalState()
         {
-            var state = new Exploring(new HttpResponseMessage());
+            var state = new Exploring(new HttpResponseMessage(), ApplicationStateInfo.WithEndurance(5));
             Assert.IsFalse(state.IsTerminalState);
         }
 
@@ -42,7 +42,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
 
-            var state = new Exploring(currentResponse);
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -63,7 +63,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, EastUri, newResponse));
 
-            var state = new Exploring(currentResponse);
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -83,7 +83,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
-            var state = new Exploring(currentResponse);
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -102,7 +102,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
 
-            var state = new Exploring(currentResponse);
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -119,7 +119,7 @@ namespace RestInPractice.Exercises.Exercise02
             var currentResponse = CreateResponse(entry);
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, NorthUri, new HttpResponseMessage()));
 
-            var state = new Exploring(currentResponse);
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
 
             Assert.IsFalse(state.ApplicationStateInfo.History.Contains(NorthUri));
 
@@ -252,7 +252,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var currentResponse = CreateResponse(entry);
 
-            var state = new Exploring(currentResponse);
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = state.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof (GoalAchieved), nextState);

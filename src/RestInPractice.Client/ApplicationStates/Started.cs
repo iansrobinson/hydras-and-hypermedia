@@ -6,15 +6,17 @@ namespace RestInPractice.Client.ApplicationStates
     public class Started : IApplicationState
     {
         private readonly Uri entryPointUri;
+        private readonly ApplicationStateInfo applicationStateInfo;
 
-        public Started(Uri entryPointUri)
+        public Started(Uri entryPointUri, ApplicationStateInfo applicationStateInfo)
         {
             this.entryPointUri = entryPointUri;
+            this.applicationStateInfo = applicationStateInfo;
         }
 
         public IApplicationState NextState(HttpClient client)
         {
-            return new Exploring(client.Get(entryPointUri));
+            return new Exploring(client.Get(entryPointUri), applicationStateInfo.GetBuilder().AddToHistory(entryPointUri).Build());
         }
 
         public HttpResponseMessage CurrentResponse

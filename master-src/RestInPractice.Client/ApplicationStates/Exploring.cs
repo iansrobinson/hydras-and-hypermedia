@@ -14,10 +14,6 @@ namespace RestInPractice.Client.ApplicationStates
         private readonly HttpResponseMessage currentResponse;
         private readonly ApplicationStateInfo applicationStateInfo;
 
-        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, ApplicationStateInfo.WithEndurance(0))
-        {
-        }
-
         public Exploring(HttpResponseMessage currentResponse, ApplicationStateInfo applicationStateInfo)
         {
             this.currentResponse = currentResponse;

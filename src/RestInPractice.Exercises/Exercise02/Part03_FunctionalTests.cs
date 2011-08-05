@@ -51,7 +51,7 @@ namespace RestInPractice.Exercises.Exercise02
                 var moveCount = 0;
                 var client = AtomClient.CreateDefault();
 
-                IApplicationState state = new Started(new Uri("http://localhost:8081/rooms/1"));
+                IApplicationState state = new Started(new Uri("http://localhost:8081/rooms/1"), ApplicationStateInfo.WithEndurance(5));
                 while (!state.IsTerminalState && moveCount++ < 20)
                 {
                     state = state.NextState(client);
