@@ -3,12 +3,12 @@
     public class EncounterResult
     {
         private readonly int clientEndurance;
-        private readonly Outcome outcome;
+        private readonly Round round;
 
-        public EncounterResult(int clientEndurance, Outcome outcome)
+        public EncounterResult(int clientEndurance, Round round)
         {
             this.clientEndurance = clientEndurance;
-            this.outcome = outcome;
+            this.round = round;
         }
 
         public int ClientEndurance
@@ -16,9 +16,9 @@
             get { return clientEndurance; }
         }
 
-        public Outcome Outcome
+        public Round Round
         {
-            get { return outcome; }
+            get { return round; }
         }
     }
 }

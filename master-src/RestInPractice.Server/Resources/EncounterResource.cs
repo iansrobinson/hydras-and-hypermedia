@@ -35,7 +35,7 @@ namespace RestInPractice.Server.Resources
             body.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
 
 
-            body.Items = encounter.GetAllOutcomes()
+            body.Items = encounter.GetAllRounds()
                 .Reverse()
                 .Select(o =>
                             {
@@ -44,7 +44,7 @@ namespace RestInPractice.Server.Resources
                                                               Title = SyndicationContent.CreatePlaintextContent("Round " + o.Id),
                                                               Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, o.Endurance))
                                                           };
-                                entry.Categories.Add(new SyndicationCategory("outcome"));
+                                entry.Categories.Add(new SyndicationCategory("round"));
                                 return entry;
                             });
 

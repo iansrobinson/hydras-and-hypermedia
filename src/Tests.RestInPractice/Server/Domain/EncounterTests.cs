@@ -17,11 +17,11 @@ namespace Tests.RestInPractice.Server.Domain
             var encounter = CreateEncounterUnderTest(EncounterEndurance);
             var firstResult = encounter.Action(ClientEndurance);
 
-            Assert.AreEqual(8, firstResult.Outcome.Endurance);
+            Assert.AreEqual(8, firstResult.Round.Endurance);
 
             var secondResult = encounter.Action(ClientEndurance);
 
-            Assert.AreEqual(6, secondResult.Outcome.Endurance);
+            Assert.AreEqual(6, secondResult.Round.Endurance);
         }
 
         [Test]
@@ -34,40 +34,40 @@ namespace Tests.RestInPractice.Server.Domain
         }
 
         [Test]
-        public void ShouldAddOutcomeToListOfOutcomes()
+        public void ShouldAddRoundToListOfRoundss()
         {
             var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
-            Assert.AreEqual(1, encounter.GetAllOutcomes().Count());
+            Assert.AreEqual(1, encounter.GetAllRounds().Count());
 
             var result = encounter.Action(ClientEndurance);
 
-            Assert.AreEqual(2, encounter.GetAllOutcomes().Count());
-            Assert.AreEqual(result.Outcome, encounter.GetAllOutcomes().Last());
+            Assert.AreEqual(2, encounter.GetAllRounds().Count());
+            Assert.AreEqual(result.Round, encounter.GetAllRounds().Last());
         }
 
         [Test]
-        public void OutcomesShouldHaveIncrementingIds()
+        public void RoundsssShouldHaveIncrementingIds()
         {
             var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
             encounter.Action(5);
             encounter.Action(4);
             
-            Assert.AreEqual(1, encounter.GetAllOutcomes().ElementAt(0).Id);
-            Assert.AreEqual(2, encounter.GetAllOutcomes().ElementAt(1).Id);
-            Assert.AreEqual(3, encounter.GetAllOutcomes().ElementAt(2).Id);
+            Assert.AreEqual(1, encounter.GetAllRounds().ElementAt(0).Id);
+            Assert.AreEqual(2, encounter.GetAllRounds().ElementAt(1).Id);
+            Assert.AreEqual(3, encounter.GetAllRounds().ElementAt(2).Id);
         }
 
         [Test]
-        public void ShouldBeAbleToRetrieveOutcomeById()
+        public void ShouldBeAbleToRetrieveRoundsById()
         {
             var encounter = CreateEncounterUnderTest(EncounterEndurance);
 
             encounter.Action(5);
             var result = encounter.Action(4);
 
-            Assert.AreEqual(result.Outcome, encounter.GetOutcome(result.Outcome.Id));
+            Assert.AreEqual(result.Round, encounter.GetRound(result.Round.Id));
         }
 
         [Test]

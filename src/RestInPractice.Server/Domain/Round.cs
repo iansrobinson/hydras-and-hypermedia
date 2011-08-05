@@ -1,11 +1,11 @@
 ﻿namespace RestInPractice.Server.Domain
 {
-    public class Outcome
+    public class Round
     {
         private readonly int id;
         private readonly int endurance;
 
-        public Outcome(int id, int endurance)
+        public Round(int id, int endurance)
         {
             this.id = id;
             this.endurance = endurance;

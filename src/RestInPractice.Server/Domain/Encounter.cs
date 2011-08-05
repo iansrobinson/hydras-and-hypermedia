@@ -11,7 +11,7 @@ namespace RestInPractice.Server.Domain
         private readonly string description;
         private readonly int guardedRoomId;
         private readonly int fleeRoomId;
-        private readonly Dictionary<int, Outcome> outcomes;
+        private readonly Dictionary<int, Round> rounds;
 
         public Encounter(int id, string title, string description, int guardedRoomId, int fleeRoomId, int initialEndurance)
         {
@@ -20,7 +20,7 @@ namespace RestInPractice.Server.Domain
             this.description = description;
             this.guardedRoomId = guardedRoomId;
             this.fleeRoomId = fleeRoomId;
-            outcomes = new Dictionary<int, Outcome> {{1, new Outcome(1, initialEndurance)}};
+            rounds = new Dictionary<int, Round> {{1, new Round(1, initialEndurance)}};
         }
 
         public int Id
@@ -60,24 +60,24 @@ namespace RestInPractice.Server.Domain
                 throw new ArgumentException("Endurance must be greater than zero.", "clientEndurance");
             }
             
-            var outcome = new Outcome(outcomes.Count + 1, GetAllOutcomes().Last().Endurance - 2);
-            outcomes.Add(outcome.Id, outcome);
-            return new EncounterResult(clientEndurance - 1, outcome);
+            var round = new Round(rounds.Count + 1, GetAllRounds().Last().Endurance - 2);
+            rounds.Add(round.Id, round);
+            return new EncounterResult(clientEndurance - 1, round);
         }
 
-        public Outcome GetOutcome(int encounterId)
+        public Round GetRound(int encounterId)
         {
-            return outcomes[encounterId];
+            return rounds[encounterId];
         }
 
-        public IEnumerable<Outcome> GetAllOutcomes()
+        public IEnumerable<Round> GetAllRounds()
         {
-            return outcomes.Values;
+            return rounds.Values;
         }
 
         public bool IsResolved
         {
-            get { return GetAllOutcomes().Last().Endurance <= 0; }
+            get { return GetAllRounds().Last().Endurance <= 0; }
         }
     }
 }

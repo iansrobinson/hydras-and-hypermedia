@@ -171,14 +171,14 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void ItemShouldContainOutcomeCategory()
+        public void ItemShouldContainRoundCategory()
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
             var body = response.Content.ReadAsOrDefault();
             var item = body.Items.First();
 
-            Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("outcome"), CategoryComparer.Instance));
+            Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("round"), CategoryComparer.Instance));
         }
 
         private static EncounterResource CreateResourceUnderTest()
