@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
@@ -91,6 +92,38 @@ namespace RestInPractice.Exercises.Exercise03
             var body = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(Encounter.Title, body.Title.Text);
+        }
+
+        [Test]
+        public void FeedDescriptionShouldMatchEncounterDescription()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(Encounter.Description, body.Description.Text);
+        }
+
+        [Test]
+        public void FeedAuthorShouldReturnSystemAdminDetails()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+            var author = body.Authors.First();
+
+            Assert.AreEqual("Dungeon Master", author.Name);
+            Assert.AreEqual("dungeon.master@restinpractice.com", author.Email);
+        }
+
+        [Test]
+        public void FeedShouldIncludeBaseUri()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
         }
 
         private static EncounterResource CreateResourceUnderTest()
