@@ -113,6 +113,7 @@
     <Compile Include="..\..\src\RestInPractice.Server\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Resources\EncounterResource.cs" />
     <Compile Include="Resources\RoomResource.cs" />
   </ItemGroup>
   <ItemGroup>
