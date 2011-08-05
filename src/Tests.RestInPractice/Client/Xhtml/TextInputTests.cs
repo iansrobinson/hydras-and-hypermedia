@@ -27,26 +27,5 @@ namespace Tests.RestInPractice.Client.Xhtml
         {
             new TextInput(" ", "value");
         }
-
-        [Test]
-        [ExpectedException(ExpectedException = typeof (ArgumentNullException), ExpectedMessage = "Value cannot be null.\r\nParameter name: value")]
-        public void ThrowsExceptionIfValueIsNull()
-        {
-            new TextInput("key", null);
-        }
-
-        [Test]
-        [ExpectedException(ExpectedException = typeof (ArgumentException), ExpectedMessage = "Value cannot be whitespace.\r\nParameter name: value")]
-        public void ThrowsExceptionIfValueIsWhitespace()
-        {
-            new TextInput("key", " ");
-        }
-
-        [Test]
-        public void ValueCanBeEmpty()
-        {
-            var input = new TextInput("key", string.Empty);
-            Assert.AreEqual(string.Empty, input.Value);
-        }
     }
 }

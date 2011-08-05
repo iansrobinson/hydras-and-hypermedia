@@ -18,16 +18,6 @@ namespace RestInPractice.Client.Xhtml
                 throw new ArgumentException("Value cannot be empty or whitespace.", "name");
             }
 
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-
-            if (!string.IsNullOrEmpty(value) && String.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Value cannot be whitespace.", "value");
-            }
-            
             this.name = name;
             Value = value;
         }
