@@ -14,7 +14,7 @@ namespace RestInPractice.Client.ApplicationStates
         private readonly HttpResponseMessage currentResponse;
         private readonly ApplicationStateInfo applicationStateInfo;
 
-        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, new ApplicationStateInfo(new Uri[] {}))
+        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, ApplicationStateInfo.WithEndurance(0))
         {
         }
 
@@ -46,9 +46,9 @@ namespace RestInPractice.Client.ApplicationStates
             var exitLink = GetExitLink(entry, applicationStateInfo.History, "north", "east", "west", "south");
 
             var newResponse = client.Get(new Uri(entry.BaseUri, exitLink.Uri));
-            var newHistory = applicationStateInfo.History.Contains(exitLink.Uri) ? applicationStateInfo.History : applicationStateInfo.History.Concat(new[] {exitLink.Uri});
-
-            return new Exploring(newResponse, new ApplicationStateInfo(newHistory));
+            var exitUri = applicationStateInfo.History.Contains(exitLink.Uri) ? null : exitLink.Uri;
+            
+            return new Exploring(newResponse, applicationStateInfo.GetBuilder().AddToHistory(exitUri).Build());
         }
 
         private static SyndicationLink GetExitLink(SyndicationItem entry, IEnumerable<Uri> history, params string[] rels)

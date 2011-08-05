@@ -80,6 +80,7 @@
     <Compile Include="Comparers\CategoryComparer.cs" />
     <Compile Include="Extensions\HttpContentExtensions.cs" />
     <Compile Include="IApplicationState.cs" />
+    <Compile Include="IApplicationStateInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
