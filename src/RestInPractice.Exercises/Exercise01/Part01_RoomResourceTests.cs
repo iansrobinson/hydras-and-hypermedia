@@ -66,6 +66,16 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
+        public void ItemIdShouldBeTagUri()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/rooms/1", body.Id);
+        }
+
+        [Test]
         public void ItemTitleShouldReturnRoomTitle()
         {
             var resource = CreateResourceUnderTest();
@@ -154,16 +164,6 @@ namespace RestInPractice.Exercises.Exercise01
             var body = response.Content.ReadAsOrDefault();
 
             Assert.IsNull(body.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
-        }
-
-        [Test]
-        public void ItemIdShouldBeTagUri()
-        {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-
-            Assert.AreEqual(body.Id, "tag:restinpractice.com,2011-09-05:/rooms/1");
         }
 
         [Test]

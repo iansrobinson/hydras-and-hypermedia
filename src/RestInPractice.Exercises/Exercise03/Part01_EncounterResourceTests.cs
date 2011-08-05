@@ -1,8 +1,12 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using NUnit.Framework;
+using RestInPractice.Client.Comparers;
+using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
+using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise03
@@ -10,10 +14,11 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part01_EncounterResourceTests
     {
+        private static readonly Encounter Encounter = Monsters.Instance.Get(1);
         private const string RequestUri = "http://localhost:8081/encounters/1";
 
         [Test]
-        public void ShouldReturn200OK()
+        public void ShouldReturn200Ok()
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
@@ -58,9 +63,39 @@ namespace RestInPractice.Exercises.Exercise03
             Assert.IsInstanceOf(typeof (SyndicationFeed), body);
         }
 
+        [Test]
+        public void FeedShouldContainEncounterCategory()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.IsTrue(body.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance));
+        }
+
+        [Test]
+        public void FeedIdShouldBeTagUri()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/encounters/1", body.Id);
+        }
+
+        [Test]
+        public void FeedTitleShouldMatchEncounterTitle()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(Encounter.Title, body.Title.Text);
+        }
+
         private static EncounterResource CreateResourceUnderTest()
         {
-            return new EncounterResource();
+            return new EncounterResource(Monsters.Instance);
         }
 
         private static HttpRequestMessage CreateRequest()

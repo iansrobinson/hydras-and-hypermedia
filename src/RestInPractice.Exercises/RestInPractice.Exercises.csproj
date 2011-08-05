@@ -90,6 +90,7 @@
     <Compile Include="Helpers\AtomClient.cs" />
     <Compile Include="Helpers\FeedBuilder.cs" />
     <Compile Include="Helpers\Maze.cs" />
+    <Compile Include="Helpers\Monsters.cs" />
     <Compile Include="Helpers\StubEndpoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
