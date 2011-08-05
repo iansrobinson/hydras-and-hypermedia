@@ -7,10 +7,12 @@ namespace RestInPractice.Client.ApplicationStates
     public class ResolvingEncounter : IApplicationState
     {
         private readonly HttpResponseMessage currentResponse;
+        private readonly IEnumerable<Uri> history;
 
-        public ResolvingEncounter(HttpResponseMessage currentResponse)
+        public ResolvingEncounter(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
         {
             this.currentResponse = currentResponse;
+            this.history = new List<Uri>(history).AsReadOnly();
         }
         
         public IApplicationState NextState(HttpClient client)
@@ -25,7 +27,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public IEnumerable<Uri> History
         {
-            get { throw new NotImplementedException(); }
+            get { return history; }
         }
 
         public bool IsTerminalState

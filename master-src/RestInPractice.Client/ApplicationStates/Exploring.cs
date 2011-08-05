@@ -31,8 +31,9 @@ namespace RestInPractice.Client.ApplicationStates
                 var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
                 {
-                    return new ResolvingEncounter(currentResponse);
+                    return new ResolvingEncounter(currentResponse, history);
                 }
+                return new Error(currentResponse, history);
             }
             
             var entry = currentResponse.Content.ReadAsObject<SyndicationItem>(AtomMediaType.Formatter);
