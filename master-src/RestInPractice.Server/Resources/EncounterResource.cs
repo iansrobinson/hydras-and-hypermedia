@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -30,10 +31,26 @@ namespace RestInPractice.Server.Resources
                                Description = SyndicationContent.CreatePlaintextContent(encounter.Description)
                            };
             body.Categories.Add(new SyndicationCategory("encounter"));
-            body.Authors.Add(new SyndicationPerson { Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com" });
+            body.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
+            body.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
 
-            var response = new HttpResponseMessage<SyndicationFeed>(body){StatusCode = HttpStatusCode.OK };
-            response.Headers.CacheControl = new CacheControlHeaderValue {NoCache = true, NoStore = true};           
+
+            body.Items = encounter.GetAllOutcomes()
+                .Reverse()
+                .Select(o =>
+                            {
+                                var entry = new SyndicationItem
+                                                          {
+                                                              Title = SyndicationContent.CreatePlaintextContent("Round " + o.Id),
+                                                              Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, o.Endurance))
+                                                          };
+                                entry.Categories.Add(new SyndicationCategory("outcome"));
+                                return entry;
+                            });
+
+
+            var response = new HttpResponseMessage<SyndicationFeed>(body) {StatusCode = HttpStatusCode.OK};
+            response.Headers.CacheControl = new CacheControlHeaderValue {NoCache = true, NoStore = true};
             response.Content.Headers.ContentType = AtomMediaType.Feed;
 
             return response;

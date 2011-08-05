@@ -126,6 +126,61 @@ namespace RestInPractice.Exercises.Exercise03
             Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
         }
 
+        [Test]
+        public void FeedShouldIncludeAFleeLink()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            var link = body.Links.First(l => l.RelationshipType.Equals("flee"));
+
+            Assert.AreEqual(new Uri("/rooms/1", UriKind.Relative), link.Uri);
+        }
+
+        [Test]
+        public void FeedShouldIncludeAnItem()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(1, body.Items.Count());
+        }
+
+        [Test]
+        public void ItemTitleShouldBeRound1()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+            var item = body.Items.First();
+
+            Assert.AreEqual("Round 1", item.Title.Text);
+        }
+
+        [Test]
+        public void ItemSummaryShouldDescribeMonsterEndurance()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+            var item = body.Items.First();
+
+            Assert.AreEqual("The Minotaur has 8 Endurance Points", item.Summary.Text);
+        }
+
+        [Test]
+        public void ItemShouldContainOutcomeCategory()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+            var item = body.Items.First();
+
+            Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("outcome"), CategoryComparer.Instance));
+        }
+
         private static EncounterResource CreateResourceUnderTest()
         {
             return new EncounterResource(Monsters.Instance);
