@@ -45,6 +45,11 @@ namespace RestInPractice.Server.Resources
                                                               Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, o.Endurance))
                                                           };
                                 entry.Categories.Add(new SyndicationCategory("round"));
+                                entry.Content = SyndicationContent.CreateXhtmlContent(@"<div xmlns=""http://www.w3.org/1999/xhtml"">
+  <form action=""/encounters/1"" method=""post"" enctype=""application/x-www-form-urlencoded"">
+    <input type=""text"" name=""endurance""/>
+  </form>
+</div>");
                                 return entry;
                             });
 

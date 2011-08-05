@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
+using System.Text;
+using System.Xml;
 using NUnit.Framework;
 using RestInPractice.Client.Comparers;
 using RestInPractice.Exercises.Helpers;
@@ -179,6 +181,34 @@ namespace RestInPractice.Exercises.Exercise03
             var item = body.Items.First();
 
             Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("round"), CategoryComparer.Instance));
+        }
+
+        [Test]
+        public void ItemContentShouldBeXhtml()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+            var item = body.Items.First();
+
+            Assert.AreEqual("xhtml", item.Content.Type);
+        }
+
+        [Test]
+        public void ItemContentShouldIncludeAForm()
+        {
+            const string @expectedXhtml = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+  <form action=""/encounters/1"" method=""post"" enctype=""application/x-www-form-urlencoded"">
+    <input type=""text"" name=""endurance""/>
+  </form>
+</div>";
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var body = response.Content.ReadAsOrDefault();
+            var item = body.Items.First();
+
+            var content = (TextSyndicationContent) item.Content;
+            Assert.AreEqual(expectedXhtml, content.Text);
         }
 
         private static EncounterResource CreateResourceUnderTest()
