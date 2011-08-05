@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using NUnit.Framework;
+using RestInPractice.Client;
 using RestInPractice.Client.ApplicationStates;
 using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
@@ -120,11 +121,11 @@ namespace RestInPractice.Exercises.Exercise02
 
             var state = new Exploring(currentResponse);
 
-            Assert.IsFalse(state.History.Contains(NorthUri));
+            Assert.IsFalse(state.ApplicationStateInfo.History.Contains(NorthUri));
 
             var nextState = state.NextState(client);
 
-            Assert.IsTrue(nextState.History.Contains(NorthUri));
+            Assert.IsTrue(nextState.ApplicationStateInfo.History.Contains(NorthUri));
         }
 
         [Test]
@@ -145,7 +146,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
-            var state = new Exploring(currentResponse, history);
+            var state = new Exploring(currentResponse, new ApplicationStateInfo(history));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -169,7 +170,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
 
-            var state = new Exploring(currentResponse, history);
+            var state = new Exploring(currentResponse, new ApplicationStateInfo(history));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -192,7 +193,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, WestUri, newResponse));
 
-            var state = new Exploring(currentResponse, history);
+            var state = new Exploring(currentResponse, new ApplicationStateInfo(history));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -214,7 +215,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, EastUri, newResponse));
 
-            var state = new Exploring(currentResponse, history);
+            var state = new Exploring(currentResponse, new ApplicationStateInfo(history));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);
@@ -235,7 +236,7 @@ namespace RestInPractice.Exercises.Exercise02
 
             var client = AtomClient.CreateWithStubEndpoint(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
 
-            var state = new Exploring(currentResponse, history);
+            var state = new Exploring(currentResponse, new ApplicationStateInfo(history));
             var nextState = state.NextState(client);
 
             Assert.AreEqual(newResponse, nextState.CurrentResponse);

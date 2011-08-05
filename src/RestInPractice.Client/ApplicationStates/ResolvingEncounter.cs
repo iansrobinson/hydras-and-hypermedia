@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 
 namespace RestInPractice.Client.ApplicationStates
 {
     public class ResolvingEncounter : IApplicationState
     {
-        public ResolvingEncounter(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
+        public ResolvingEncounter(HttpResponseMessage currentResponse, ApplicationStateInfo applicationStateInfo)
         {
         }
 
@@ -20,7 +19,7 @@ namespace RestInPractice.Client.ApplicationStates
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<Uri> History
+        public ApplicationStateInfo ApplicationStateInfo
         {
             get { throw new NotImplementedException(); }
         }

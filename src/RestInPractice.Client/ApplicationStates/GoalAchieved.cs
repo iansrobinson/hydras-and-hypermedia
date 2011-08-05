@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 
 namespace RestInPractice.Client.ApplicationStates
@@ -23,7 +22,7 @@ namespace RestInPractice.Client.ApplicationStates
             get { return currentResponse; }
         }
 
-        public IEnumerable<Uri> History
+        public ApplicationStateInfo ApplicationStateInfo
         {
             get { throw new NotImplementedException(); }
         }

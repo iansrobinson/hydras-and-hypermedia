@@ -12,30 +12,30 @@ namespace RestInPractice.Client.ApplicationStates
     public class Exploring : IApplicationState
     {
         private readonly HttpResponseMessage currentResponse;
-        private readonly IEnumerable<Uri> history;
+        private readonly ApplicationStateInfo applicationStateInfo;
 
-        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, new Uri[] {})
+        public Exploring(HttpResponseMessage currentResponse) : this(currentResponse, new ApplicationStateInfo(new Uri[] {}))
         {
         }
 
-        public Exploring(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
+        public Exploring(HttpResponseMessage currentResponse, ApplicationStateInfo applicationStateInfo)
         {
             this.currentResponse = currentResponse;
-            this.history = new List<Uri>(history).AsReadOnly();
+            this.applicationStateInfo = applicationStateInfo;
         }
 
         public IApplicationState NextState(HttpClient client)
-        {            
+        {
             if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.Feed))
             {
                 var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
                 {
-                    return new ResolvingEncounter(currentResponse, history);
+                    return new ResolvingEncounter(currentResponse, applicationStateInfo);
                 }
-                return new Error(currentResponse, history);
+                return new Error(currentResponse, applicationStateInfo);
             }
-            
+
             var entry = currentResponse.Content.ReadAsObject<SyndicationItem>(AtomMediaType.Formatter);
 
             if (entry.Title.Text.Equals("Exit"))
@@ -43,12 +43,12 @@ namespace RestInPractice.Client.ApplicationStates
                 return new GoalAchieved(currentResponse);
             }
 
-            var exitLink = GetExitLink(entry, history, "north", "east", "west", "south");
+            var exitLink = GetExitLink(entry, applicationStateInfo.History, "north", "east", "west", "south");
 
             var newResponse = client.Get(new Uri(entry.BaseUri, exitLink.Uri));
-            var newHistory = history.Contains(exitLink.Uri) ? history : history.Concat(new[] {exitLink.Uri});
+            var newHistory = applicationStateInfo.History.Contains(exitLink.Uri) ? applicationStateInfo.History : applicationStateInfo.History.Concat(new[] {exitLink.Uri});
 
-            return new Exploring(newResponse, newHistory);
+            return new Exploring(newResponse, new ApplicationStateInfo(newHistory));
         }
 
         private static SyndicationLink GetExitLink(SyndicationItem entry, IEnumerable<Uri> history, params string[] rels)
@@ -78,9 +78,9 @@ namespace RestInPractice.Client.ApplicationStates
             get { return currentResponse; }
         }
 
-        public IEnumerable<Uri> History
+        public ApplicationStateInfo ApplicationStateInfo
         {
-            get { return history; }
+            get { return applicationStateInfo; }
         }
 
         public bool IsTerminalState

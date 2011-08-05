@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 
 namespace RestInPractice.Client.ApplicationStates
@@ -7,14 +6,14 @@ namespace RestInPractice.Client.ApplicationStates
     public class ResolvingEncounter : IApplicationState
     {
         private readonly HttpResponseMessage currentResponse;
-        private readonly IEnumerable<Uri> history;
+        private readonly ApplicationStateInfo applicationStateInfo;
 
-        public ResolvingEncounter(HttpResponseMessage currentResponse, IEnumerable<Uri> history)
+        public ResolvingEncounter(HttpResponseMessage currentResponse, ApplicationStateInfo applicationStateInfo)
         {
             this.currentResponse = currentResponse;
-            this.history = new List<Uri>(history).AsReadOnly();
+            this.applicationStateInfo = applicationStateInfo;
         }
-        
+
         public IApplicationState NextState(HttpClient client)
         {
             throw new NotImplementedException();
@@ -25,9 +24,9 @@ namespace RestInPractice.Client.ApplicationStates
             get { return currentResponse; }
         }
 
-        public IEnumerable<Uri> History
+        public ApplicationStateInfo ApplicationStateInfo
         {
-            get { return history; }
+            get { return applicationStateInfo; }
         }
 
         public bool IsTerminalState

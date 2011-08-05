@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using NUnit.Framework;
+using RestInPractice.Client;
 using RestInPractice.Client.ApplicationStates;
 using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
@@ -12,7 +13,7 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part03_ClientTests
     {
-        private static readonly Uri[] History = new[] {new Uri("http://localhost/rooms/1")};
+        private static readonly ApplicationStateInfo ApplicationStateInfo = new ApplicationStateInfo(new[] {new Uri("http://localhost/rooms/1")});
         
         [Test]
         public void ShouldReturnResolvingEncounterApplicationStateIfCurrentResponseContainsEncounterFeed()
@@ -21,7 +22,7 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateCurrentResponse(feed);
 
-            var initialState = new Exploring(currentResponse, History);
+            var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof(ResolvingEncounter), nextState);
@@ -34,7 +35,7 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateCurrentResponse(feed);
 
-            var initialState = new Exploring(currentResponse, History);
+            var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.AreEqual(currentResponse, nextState.CurrentResponse);
@@ -47,10 +48,10 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateCurrentResponse(feed);
 
-            var initialState = new Exploring(currentResponse, History);
+            var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsTrue(nextState.History.SequenceEqual(History));
+            Assert.IsTrue(nextState.ApplicationStateInfo.History.SequenceEqual(ApplicationStateInfo.History));
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateCurrentResponse(feed);
 
-            var initialState = new Exploring(currentResponse, History);
+            var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof(Error), nextState);
@@ -73,7 +74,7 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateCurrentResponse(feed);
 
-            var initialState = new Exploring(currentResponse, History);
+            var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.AreEqual(currentResponse, nextState.CurrentResponse);
@@ -86,10 +87,10 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateCurrentResponse(feed);
 
-            var initialState = new Exploring(currentResponse, History);
+            var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsTrue(nextState.History.SequenceEqual(History));
+            Assert.IsTrue(nextState.ApplicationStateInfo.History.SequenceEqual(ApplicationStateInfo.History));
         }
 
         private static HttpResponseMessage CreateCurrentResponse(string feed)

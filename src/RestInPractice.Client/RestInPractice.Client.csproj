@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationStateInfo.cs" />
     <Compile Include="ApplicationStates\Error.cs" />
     <Compile Include="ApplicationStates\Exploring.cs" />
     <Compile Include="ApplicationStates\GoalAchieved.cs" />
