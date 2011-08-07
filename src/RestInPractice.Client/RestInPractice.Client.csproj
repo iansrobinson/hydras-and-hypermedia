@@ -82,7 +82,7 @@
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xhtml\Form.cs" />
+    <Compile Include="Xhtml\FormReader.cs" />
     <Compile Include="Xhtml\TextInput.cs" />
   </ItemGroup>
   <ItemGroup>

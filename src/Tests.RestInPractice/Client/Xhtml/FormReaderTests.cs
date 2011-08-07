@@ -5,7 +5,7 @@ using RestInPractice.Client.Xhtml;
 namespace Tests.RestInPractice.Client.Xhtml
 {
     [TestFixture]
-    public class FormTests
+    public class FormReaderTests
     {
         private const string Xhtml = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
   <form action=""/encounters/1"" method=""post"" enctype=""application/x-www-form-urlencoded"">
@@ -18,35 +18,35 @@ namespace Tests.RestInPractice.Client.Xhtml
         [Test]
         public void ShouldParseActionFromForm()
         {
-            var form = Form.Parse(Xhtml);
-            Assert.AreEqual("/encounters/1", form.Action);
+            var reader = FormReader.Read(Xhtml);
+            Assert.AreEqual("/encounters/1", reader.Action);
         }
 
         [Test]
         public void ShouldParseMethodFromForm()
         {
-            var form = Form.Parse(Xhtml);
-            Assert.AreEqual("post", form.Method);
+            var reader = FormReader.Read(Xhtml);
+            Assert.AreEqual("post", reader.Method);
         }
 
         [Test]
         public void ShouldParseEnctypeFromForm()
         {
-            var form = Form.Parse(Xhtml);
-            Assert.AreEqual("application/x-www-form-urlencoded", form.Enctype);
+            var reader = FormReader.Read(Xhtml);
+            Assert.AreEqual("application/x-www-form-urlencoded", reader.Enctype);
         }
 
         [Test]
         public void ShouldParseAllTextInputFieldsFromForm()
         {
-            var form = Form.Parse(Xhtml);
-            Assert.AreEqual(3, form.TextInputFields.Count());
+            var reader = FormReader.Read(Xhtml);
+            Assert.AreEqual(3, reader.TextInputFields.Count());
         }
 
         [Test]
         public void ShouldParseTextInputFieldWithValue()
         {
-            var form = Form.Parse(Xhtml);
+            var form = FormReader.Read(Xhtml);
             var field1 = form.TextInputFields.Single("field1");
 
             Assert.AreEqual("field1value", field1.Value);
@@ -55,8 +55,8 @@ namespace Tests.RestInPractice.Client.Xhtml
         [Test]
         public void ShouldParseTextInputFieldWithoutValue()
         {
-            var form = Form.Parse(Xhtml);
-            var field2 = form.TextInputFields.Single("field2");
+            var reader = FormReader.Read(Xhtml);
+            var field2 = reader.TextInputFields.Single("field2");
 
             Assert.AreEqual(null, field2.Value);
         }
@@ -64,8 +64,8 @@ namespace Tests.RestInPractice.Client.Xhtml
         [Test]
         public void ShouldParseTextInputFieldWithEmptyValue()
         {
-            var form = Form.Parse(Xhtml);
-            var field3 = form.TextInputFields.Single("field3");
+            var reader = FormReader.Read(Xhtml);
+            var field3 = reader.TextInputFields.Single("field3");
 
             Assert.AreEqual(string.Empty, field3.Value);
         }
@@ -73,9 +73,9 @@ namespace Tests.RestInPractice.Client.Xhtml
         [Test]
         public void ShouldReturnXhtmlRepresentationOfForm()
         {
-            var form = Form.Parse(Xhtml);
+            var reader = FormReader.Read(Xhtml);
 
-            Assert.AreEqual(Xhtml, form.ToXhtml());
+            Assert.AreEqual(Xhtml, reader.ToXhtml());
         }
 
         [Test]
@@ -89,10 +89,10 @@ namespace Tests.RestInPractice.Client.Xhtml
   </form>
 </div>";
             
-            var form = Form.Parse(Xhtml);
-            form.TextInputFields.Single("field2").Value = "field2value";
+            var reader = FormReader.Read(Xhtml);
+            reader.TextInputFields.Single("field2").Value = "field2value";
 
-            Assert.AreEqual(expectedXhtml, form.ToXhtml());
+            Assert.AreEqual(expectedXhtml, reader.ToXhtml());
         }
     }
 }

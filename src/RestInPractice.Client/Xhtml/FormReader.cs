@@ -6,16 +6,16 @@ using System.Xml.Linq;
 
 namespace RestInPractice.Client.Xhtml
 {
-    public class Form
+    public class FormReader
     {
-        public static Form Parse(string xhtml)
+        public static FormReader Read(string xhtml)
         {
             var doc = XDocument.Parse(xhtml);
 
             var controlData = GetControlData(doc);
             var textInputFields = GetTextInputData(doc);
 
-            return new Form(controlData.Action, controlData.Method, controlData.Enctype, textInputFields.ToArray());
+            return new FormReader(controlData.Action, controlData.Method, controlData.Enctype, textInputFields.ToArray());
         }
 
         public static XNamespace XhtmlNamespace = "http://www.w3.org/1999/xhtml";
@@ -27,7 +27,7 @@ namespace RestInPractice.Client.Xhtml
         private readonly string enctype;
         private readonly IEnumerable<TextInput> textInputFields;
 
-        public Form(string action, string method, string enctype, params TextInput[] textInputFields)
+        public FormReader(string action, string method, string enctype, params TextInput[] textInputFields)
         {
             this.action = action;
             this.method = method;
