@@ -69,30 +69,5 @@ namespace Tests.RestInPractice.Client.Xhtml
 
             Assert.AreEqual(string.Empty, field3.Value);
         }
-
-        [Test]
-        public void ShouldReturnXhtmlRepresentationOfForm()
-        {
-            var reader = FormReader.Read(Xhtml);
-
-            Assert.AreEqual(Xhtml, reader.ToXhtml());
-        }
-
-        [Test]
-        public void ShouldReturnXhtmlRepresentationOfModifiedForm()
-        {
-            const string expectedXhtml = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-  <form action=""/encounters/1"" method=""post"" enctype=""application/x-www-form-urlencoded"">
-    <input type=""text"" name=""field1"" value=""field1value"" />
-    <input type=""text"" name=""field2"" value=""field2value"" />
-    <input type=""text"" name=""field3"" value="""" />
-  </form>
-</div>";
-            
-            var reader = FormReader.Read(Xhtml);
-            reader.TextInputFields.Single("field2").Value = "field2value";
-
-            Assert.AreEqual(expectedXhtml, reader.ToXhtml());
-        }
     }
 }

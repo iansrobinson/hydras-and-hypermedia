@@ -113,6 +113,12 @@
     <Compile Include="..\..\src\RestInPractice.Server\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Xhtml\FormWriter.cs">
+      <Link>Xhtml\FormWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Server\Xhtml\TextInput.cs">
+      <Link>Xhtml\TextInput.cs</Link>
+    </Compile>
     <Compile Include="Resources\EncounterResource.cs" />
     <Compile Include="Resources\RoomResource.cs" />
   </ItemGroup>

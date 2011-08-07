@@ -107,6 +107,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\EncounterResource.cs" />
     <Compile Include="Resources\RoomResource.cs" />
+    <Compile Include="Xhtml\FormWriter.cs" />
+    <Compile Include="Xhtml\TextInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RestInPractice.MediaTypes\RestInPractice.MediaTypes.csproj">
