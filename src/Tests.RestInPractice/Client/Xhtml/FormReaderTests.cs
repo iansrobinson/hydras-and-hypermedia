@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net.Http;
 using NUnit.Framework;
 using RestInPractice.Client.Xhtml;
 
@@ -19,14 +21,14 @@ namespace Tests.RestInPractice.Client.Xhtml
         public void ShouldParseActionFromForm()
         {
             var reader = FormReader.Read(Xhtml);
-            Assert.AreEqual("/encounters/1", reader.Action);
+            Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
         }
 
         [Test]
         public void ShouldParseMethodFromForm()
         {
             var reader = FormReader.Read(Xhtml);
-            Assert.AreEqual("post", reader.Method);
+            Assert.AreEqual(HttpMethod.Post, reader.Method);
         }
 
         [Test]

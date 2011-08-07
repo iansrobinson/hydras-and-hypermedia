@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -20,27 +22,25 @@ namespace RestInPractice.Client.Xhtml
 
         public static XNamespace XhtmlNamespace = "http://www.w3.org/1999/xhtml";
 
-        private static readonly XmlWriterSettings XmlWriterSettings = new XmlWriterSettings {Encoding = Encoding.UTF8, Indent = true, IndentChars = "  ", OmitXmlDeclaration = true};
-
-        private readonly string action;
-        private readonly string method;
+        private readonly Uri action;
+        private readonly HttpMethod method;
         private readonly string enctype;
         private readonly IEnumerable<TextInput> textInputFields;
 
         public FormReader(string action, string method, string enctype, params TextInput[] textInputFields)
         {
-            this.action = action;
-            this.method = method;
+            this.action = new Uri(action, UriKind.RelativeOrAbsolute);
+            this.method = new HttpMethod(method.ToUpper());
             this.enctype = enctype;
             this.textInputFields = new List<TextInput>(textInputFields).AsReadOnly();
         }
 
-        public string Action
+        public Uri Action
         {
             get { return action; }
         }
 
-        public string Method
+        public HttpMethod Method
         {
             get { return method; }
         }
@@ -53,34 +53,6 @@ namespace RestInPractice.Client.Xhtml
         public IEnumerable<TextInput> TextInputFields
         {
             get { return textInputFields; }
-        }
-
-        public string ToXhtml()
-        {
-            var sb = new StringBuilder();
-            var writer = XmlWriter.Create(sb, XmlWriterSettings);
-            writer.WriteStartElement("div", XhtmlNamespace.NamespaceName);
-            writer.WriteStartElement("form");
-            writer.WriteAttributeString("action", action);
-            writer.WriteAttributeString("method", method);
-            writer.WriteAttributeString("enctype", enctype);
-
-            foreach (var field in textInputFields)
-            {
-                writer.WriteStartElement("input");
-                writer.WriteAttributeString("type", "text");
-                writer.WriteAttributeString("name", field.Name);
-                if (field.Value != null)
-                {
-                    writer.WriteAttributeString("value", field.Value);
-                }
-                writer.WriteEndElement();
-            }
-
-            writer.WriteEndElement();
-            writer.WriteEndElement();
-            writer.Flush();
-            return sb.ToString();
         }
 
         private static dynamic GetControlData(XContainer doc)
