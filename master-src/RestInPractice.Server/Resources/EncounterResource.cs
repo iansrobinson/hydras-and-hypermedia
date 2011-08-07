@@ -1,12 +1,15 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
+using System.Xml;
 using Microsoft.ApplicationServer.Http;
 using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
+using RestInPractice.Server.Xhtml;
 
 namespace RestInPractice.Server.Resources
 {
@@ -23,19 +26,18 @@ namespace RestInPractice.Server.Resources
         {
             var encounter = encounters.Get(int.Parse(id));
 
-            var body = new SyndicationFeed
+            var feed = new SyndicationFeed
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/encounters/" + encounter.Id,
                                BaseUri = new Uri("http://localhost:8081"),
                                Title = SyndicationContent.CreatePlaintextContent(encounter.Title),
                                Description = SyndicationContent.CreatePlaintextContent(encounter.Description)
                            };
-            body.Categories.Add(new SyndicationCategory("encounter"));
-            body.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
-            body.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
-
-
-            body.Items = encounter.GetAllRounds()
+            feed.Categories.Add(new SyndicationCategory("encounter"));
+            feed.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
+            feed.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
+           
+            feed.Items = encounter.GetAllRounds()
                 .Reverse()
                 .Select(o =>
                             {
@@ -54,7 +56,7 @@ namespace RestInPractice.Server.Resources
                             });
 
 
-            var response = new HttpResponseMessage<SyndicationFeed>(body) {StatusCode = HttpStatusCode.OK};
+            var response = new HttpResponseMessage<SyndicationFeed>(feed) {StatusCode = HttpStatusCode.OK};
             response.Headers.CacheControl = new CacheControlHeaderValue {NoCache = true, NoStore = true};
             response.Content.Headers.ContentType = AtomMediaType.Feed;
 

@@ -36,7 +36,7 @@ namespace RestInPractice.Server.Resources
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var body = new SyndicationItem
+            var entry = new SyndicationItem
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
                                BaseUri = new Uri("http://localhost:8081"),
@@ -44,7 +44,7 @@ namespace RestInPractice.Server.Resources
                                Summary = SyndicationContent.CreatePlaintextContent(room.Description)
                            };
 
-            body.Authors.Add(new SyndicationPerson{Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
+            entry.Authors.Add(new SyndicationPerson{Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
 
             foreach (var exit in room.Exits)
             {
@@ -53,10 +53,10 @@ namespace RestInPractice.Server.Resources
                                    Uri = new Uri("/rooms/" + exit.RoomId, UriKind.Relative),
                                    RelationshipType = exit.Direction.ToString().ToLower()
                                };
-                body.Links.Add(link);
+                entry.Links.Add(link);
             }
 
-            var response = new HttpResponseMessage<SyndicationItem>(body) { StatusCode = HttpStatusCode.OK };
+            var response = new HttpResponseMessage<SyndicationItem>(entry) { StatusCode = HttpStatusCode.OK };
             response.Headers.CacheControl = new CacheControlHeaderValue {Public = true, MaxAge = new TimeSpan(0, 0, 0, 10)};
             response.Content.Headers.ContentType = AtomMediaType.Value;
 
