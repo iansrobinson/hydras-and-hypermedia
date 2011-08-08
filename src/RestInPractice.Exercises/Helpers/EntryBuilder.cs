@@ -53,7 +53,7 @@ namespace RestInPractice.Exercises.Helpers
         public override string ToString()
         {
             var sb = new StringBuilder();
-            using (var writer = XmlWriter.Create(sb))
+            using (var writer = XmlWriter.Create(new Utf8Writer(sb)))
             {
                 new Atom10ItemFormatter(entry).WriteTo(writer);
                 writer.Flush();

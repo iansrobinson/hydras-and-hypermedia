@@ -95,7 +95,7 @@ namespace RestInPractice.Exercises.Exercise03
 
         private static HttpResponseMessage CreateCurrentResponse(string feed)
         {
-            var currentResponse = new HttpResponseMessage { Content = new StringContent(feed, Encoding.Unicode) };
+            var currentResponse = new HttpResponseMessage { Content = new StringContent(feed) };
             currentResponse.Content.Headers.ContentType = AtomMediaType.Feed;
             return currentResponse;
         }
