@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Xml;
@@ -27,7 +28,7 @@ namespace RestInPractice.Server.Xhtml
         public string ToXhtml()
         {
             var sb = new StringBuilder();
-            var writer = XmlWriter.Create(sb, XmlWriterSettings);
+            var writer = XmlWriter.Create(new Utf8Writer(sb), XmlWriterSettings);
             writer.WriteStartElement("div", XhtmlNamespace.NamespaceName);
             writer.WriteStartElement("form");
             writer.WriteAttributeString("action", action.ToString());
@@ -55,6 +56,18 @@ namespace RestInPractice.Server.Xhtml
             writer.WriteEndElement();
             writer.Flush();
             return sb.ToString();
+        }
+
+        private class Utf8Writer : StringWriter
+        {
+            public Utf8Writer(StringBuilder sb) : base(sb)
+            {
+            }
+
+            public override Encoding Encoding
+            {
+                get { return Encoding.UTF8; }
+            }
         }
     }
 }

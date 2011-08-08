@@ -60,9 +60,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationItem), body);
+            Assert.IsInstanceOf(typeof (SyndicationItem), item);
         }
 
         [Test]
@@ -70,9 +70,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/rooms/1", body.Id);
+            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/rooms/1", item.Id);
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Room.Title, body.Title.Text);
+            Assert.AreEqual(Room.Title, item.Title.Text);
         }
 
         [Test]
@@ -90,9 +90,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Room.Description, body.Summary.Text);
+            Assert.AreEqual(Room.Description, item.Summary.Text);
         }
 
         [Test]
@@ -100,8 +100,8 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var author = body.Authors.First();
+            var item = response.Content.ReadAsOrDefault();
+            var author = item.Authors.First();
 
             Assert.AreEqual("Dungeon Master", author.Name);
             Assert.AreEqual("dungeon.master@restinpractice.com", author.Email);
@@ -112,9 +112,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
+            Assert.AreEqual(new Uri("http://localhost:8081/"), item.BaseUri);
         }
 
         [Test]
@@ -122,9 +122,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            var link = body.Links.First(l => l.RelationshipType.Equals("north"));
+            var link = item.Links.First(l => l.RelationshipType.Equals("north"));
 
             //See Maze class for layout of the maze. Room 4 is north of room 1.
             Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative),link.Uri);
@@ -135,9 +135,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            var link = body.Links.First(l => l.RelationshipType.Equals("east"));
+            var link = item.Links.First(l => l.RelationshipType.Equals("east"));
 
             //See Maze class for layout of the maze. Room 2 is east of room 1.
             Assert.AreEqual(new Uri("/rooms/2", UriKind.Relative), link.Uri);
@@ -148,9 +148,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            var link = body.Links.First(l => l.RelationshipType.Equals("west"));
+            var link = item.Links.First(l => l.RelationshipType.Equals("west"));
 
             //See Maze class for layout of the maze. Room 3 is west of room 1.
             Assert.AreEqual(new Uri("/rooms/3", UriKind.Relative), link.Uri);
@@ -161,9 +161,9 @@ namespace RestInPractice.Exercises.Exercise01
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var item = response.Content.ReadAsOrDefault();
 
-            Assert.IsNull(body.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
+            Assert.IsNull(item.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
         }
 
         [Test]

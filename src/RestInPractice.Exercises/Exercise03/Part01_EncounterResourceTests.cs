@@ -3,8 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
-using System.Text;
-using System.Xml;
 using NUnit.Framework;
 using RestInPractice.Client.Comparers;
 using RestInPractice.Exercises.Helpers;
@@ -61,9 +59,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationFeed), body);
+            Assert.IsInstanceOf(typeof (SyndicationFeed), feed);
         }
 
         [Test]
@@ -71,9 +69,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.IsTrue(body.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance));
+            Assert.IsTrue(feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance));
         }
 
         [Test]
@@ -81,9 +79,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/encounters/1", body.Id);
+            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/encounters/1", feed.Id);
         }
 
         [Test]
@@ -91,9 +89,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Encounter.Title, body.Title.Text);
+            Assert.AreEqual(Encounter.Title, feed.Title.Text);
         }
 
         [Test]
@@ -101,9 +99,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Encounter.Description, body.Description.Text);
+            Assert.AreEqual(Encounter.Description, feed.Description.Text);
         }
 
         [Test]
@@ -111,8 +109,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var author = body.Authors.First();
+            var feed = response.Content.ReadAsOrDefault();
+            var author = feed.Authors.First();
 
             Assert.AreEqual("Dungeon Master", author.Name);
             Assert.AreEqual("dungeon.master@restinpractice.com", author.Email);
@@ -123,9 +121,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(new Uri("http://localhost:8081/"), body.BaseUri);
+            Assert.AreEqual(new Uri("http://localhost:8081/"), feed.BaseUri);
         }
 
         [Test]
@@ -133,9 +131,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            var link = body.Links.First(l => l.RelationshipType.Equals("flee"));
+            var link = feed.Links.First(l => l.RelationshipType.Equals("flee"));
 
             Assert.AreEqual(new Uri("/rooms/1", UriKind.Relative), link.Uri);
         }
@@ -145,9 +143,9 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
+            var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(1, body.Items.Count());
+            Assert.AreEqual(1, feed.Items.Count());
         }
 
         [Test]
@@ -155,8 +153,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var item = body.Items.First();
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
 
             Assert.AreEqual("Round 1", item.Title.Text);
         }
@@ -166,8 +164,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var item = body.Items.First();
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
 
             Assert.AreEqual("The Minotaur has 8 Endurance Points", item.Summary.Text);
         }
@@ -177,8 +175,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var item = body.Items.First();
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
 
             Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("round"), CategoryComparer.Instance));
         }
@@ -188,8 +186,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var item = body.Items.First();
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
 
             Assert.AreEqual("xhtml", item.Content.Type);
         }
@@ -204,8 +202,8 @@ namespace RestInPractice.Exercises.Exercise03
 </div>";
             var resource = CreateResourceUnderTest();
             var response = resource.Get("1", CreateRequest());
-            var body = response.Content.ReadAsOrDefault();
-            var item = body.Items.First();
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
 
             var content = (TextSyndicationContent) item.Content;
             Assert.AreEqual(expectedXhtml, content.Text);

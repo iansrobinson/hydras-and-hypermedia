@@ -36,7 +36,9 @@ namespace RestInPractice.Server.Resources
             feed.Categories.Add(new SyndicationCategory("encounter"));
             feed.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
             feed.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
-           
+
+            var xhtml = new FormWriter(new Uri("/encounters/1", UriKind.RelativeOrAbsolute),HttpMethod.Post, new TextInput("name")).ToXhtml();
+            feed.ElementExtensions.Add(XmlReader.Create(new StringReader(xhtml)));
             feed.Items = encounter.GetAllRounds()
                 .Reverse()
                 .Select(o =>
