@@ -19,7 +19,7 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part01_UnresolvedEncounterResourceTests
     {
-        private static readonly Encounter Encounter = Monsters.Instance.Get(1);
+        private static readonly Encounter Encounter = Monsters.NewInstance().Get(1);
         private const string RequestUri = "http://localhost:8081/encounters/1";
         private const string InvalidEncounterId = "999";
 
@@ -220,7 +220,7 @@ namespace RestInPractice.Exercises.Exercise03
 
         private static EncounterResource CreateResourceUnderTest()
         {
-            return new EncounterResource(Monsters.Instance);
+            return new EncounterResource(Monsters.NewInstance());
         }
 
         private static HttpRequestMessage CreateRequest()

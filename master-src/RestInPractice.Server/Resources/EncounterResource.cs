@@ -71,5 +71,10 @@ namespace RestInPractice.Server.Resources
 
             return response;
         }
+
+        public HttpResponseMessage<SyndicationItem> Post(string id, HttpRequestMessage<ObjectContent<FormUrlEncodedContent>> request)
+        {
+            return new HttpResponseMessage<SyndicationItem>(HttpStatusCode.Created);
+        }
     }
 }
