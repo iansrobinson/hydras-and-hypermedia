@@ -234,6 +234,7 @@ namespace RestInPractice.Exercises.Exercise03
             {
                 var resource = CreateResourceUnderTest();
                 resource.Get(InvalidEncounterId, CreateRequest());
+                Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
             {

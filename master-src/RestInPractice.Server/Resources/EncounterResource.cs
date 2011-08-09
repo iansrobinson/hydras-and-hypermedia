@@ -36,7 +36,6 @@ namespace RestInPractice.Server.Resources
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             
-
             var feed = new SyndicationFeed
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/encounters/" + encounter.Id,
@@ -76,6 +75,16 @@ namespace RestInPractice.Server.Resources
 
         public HttpResponseMessage<SyndicationItem> Post(string id, HttpRequestMessage request)
         {
+            Encounter encounter;
+            try
+            {
+                encounter = encounters.Get(int.Parse(id));
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            
             var response = new HttpResponseMessage<SyndicationItem>(HttpStatusCode.Created);
             response.Headers.Location = new Uri("http://localhost:8081/encounters/1/round/2");
             return response;

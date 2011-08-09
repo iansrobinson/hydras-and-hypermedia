@@ -173,7 +173,7 @@ namespace RestInPractice.Exercises.Exercise01
             {
                 var resource = CreateResourceUnderTest();
                 resource.Get(InvalidRoomId, new HttpRequestMessage());
-                Assert.Fail("Expected HttpResponseException");
+                Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
             {
