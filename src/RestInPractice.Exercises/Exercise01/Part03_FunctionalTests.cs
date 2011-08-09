@@ -24,7 +24,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void FunctionalTest()
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance, new Repository<Encounter>()), (instanceContext, obj) => { });
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.NewInstance(), new Repository<Encounter>()), (instanceContext, obj) => { });
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.
@@ -56,7 +56,7 @@ namespace RestInPractice.Exercises.Exercise01
                 var nextRoom = entryFormatter.Item;
 
                 //See Maze class for layout of the maze. Room 4 is north of room 1.
-                Assert.AreEqual(Maze.Instance.Get(4).Description, nextRoom.Summary.Text);
+                Assert.AreEqual(Maze.NewInstance().Get(4).Description, nextRoom.Summary.Text);
 
                 host.Close();
             }

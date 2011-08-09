@@ -36,7 +36,7 @@ namespace RestInPractice.Exercises.Exercise02
             var path = new List<string>();
 
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.Instance, new Repository<Encounter>()), (instanceContext, obj) => { });
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.NewInstance(), new Repository<Encounter>()), (instanceContext, obj) => { });
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.

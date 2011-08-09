@@ -15,7 +15,7 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part01_RoomResourceTests
     {
-        private static readonly Room Room = Maze.Instance.Get(1);
+        private static readonly Room Room = Maze.NewInstance().Get(1);
         private const string RequestUri = "http://localhost:8081/rooms/1";
         private const string InvalidRoomId = "999";
 
@@ -183,7 +183,7 @@ namespace RestInPractice.Exercises.Exercise01
 
         private static RoomResource CreateResourceUnderTest()
         {
-            return new RoomResource(Maze.Instance, new Repository<Encounter>());
+            return new RoomResource(Maze.NewInstance(), new Repository<Encounter>());
         }
 
         private static HttpRequestMessage CreateRequest()
