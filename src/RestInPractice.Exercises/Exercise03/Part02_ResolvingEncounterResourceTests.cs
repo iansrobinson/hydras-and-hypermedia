@@ -6,7 +6,6 @@ using NUnit.Framework;
 using RestInPractice.Exercises.Helpers;
 using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
-using Microsoft.ApplicationServer.Http;
 
 namespace RestInPractice.Exercises.Exercise03
 {
@@ -15,14 +14,23 @@ namespace RestInPractice.Exercises.Exercise03
     {
         private static readonly Encounter Encounter = Monsters.NewInstance().Get(1);
         private const string RequestUri = "http://localhost:8081/encounters/1";
-        
+
         [Test]
         public void ShouldReturn201Created()
         {
             var resource = CreateResourceUnderTest();
-            var response = resource.Post("1", CreateRequest(new FormUrlEncodedContent(new []{new KeyValuePair<string, string>("endurance", "10"), })));
+            var response = resource.Post("1", CreateRequest(new FormUrlEncodedContent(new[] {new KeyValuePair<string, string>("endurance", "10"),})));
 
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        [Test]
+        public void ShouldReturnLocationHeaderWithUriOfNewlyCreatedResource()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Post("1", CreateRequest(new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("endurance", "10"), })));
+
+            Assert.AreEqual(new Uri("http://localhost:8081/encounters/1/round/2"), response.Headers.Location);
         }
 
         private static EncounterResource CreateResourceUnderTest()
@@ -30,9 +38,9 @@ namespace RestInPractice.Exercises.Exercise03
             return new EncounterResource(Monsters.NewInstance());
         }
 
-        private static HttpRequestMessage<ObjectContent<FormUrlEncodedContent>> CreateRequest(FormUrlEncodedContent content)
+        private static HttpRequestMessage CreateRequest(FormUrlEncodedContent content)
         {
-            return new HttpRequestMessage<ObjectContent<FormUrlEncodedContent>>(new ObjectContent<FormUrlEncodedContent>(content)) { Method = HttpMethod.Post, RequestUri = new Uri(RequestUri) };
+            return new HttpRequestMessage {Method = HttpMethod.Post, RequestUri = new Uri(RequestUri), Content = content};
         }
     }
 }

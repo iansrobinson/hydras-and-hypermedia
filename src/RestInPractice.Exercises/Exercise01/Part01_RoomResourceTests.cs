@@ -127,7 +127,7 @@ namespace RestInPractice.Exercises.Exercise01
             var link = item.Links.First(l => l.RelationshipType.Equals("north"));
 
             //See Maze class for layout of the maze. Room 4 is north of room 1.
-            Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative),link.Uri);
+            Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative), link.Uri);
         }
 
         [Test]

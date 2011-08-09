@@ -53,13 +53,15 @@ namespace RestInPractice.Server.Resources
 
             feed.Items = encounter.GetAllRounds()
                 .Reverse()
-                .Select(o =>
+                .Select(round =>
                             {
                                 var entry = new SyndicationItem
                                                           {
-                                                              Title = SyndicationContent.CreatePlaintextContent("Round " + o.Id),
-                                                              Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, o.Endurance))
+                                                              Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                                                              Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
+                                                              Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
                                                           };
+                                entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
                                 entry.Categories.Add(new SyndicationCategory("round"));
                                 return entry;
                             });
@@ -72,9 +74,11 @@ namespace RestInPractice.Server.Resources
             return response;
         }
 
-        public HttpResponseMessage<SyndicationItem> Post(string id, HttpRequestMessage<ObjectContent<FormUrlEncodedContent>> request)
+        public HttpResponseMessage<SyndicationItem> Post(string id, HttpRequestMessage request)
         {
-            return new HttpResponseMessage<SyndicationItem>(HttpStatusCode.Created);
+            var response = new HttpResponseMessage<SyndicationItem>(HttpStatusCode.Created);
+            response.Headers.Location = new Uri("http://localhost:8081/encounters/1/round/2");
+            return response;
         }
     }
 }

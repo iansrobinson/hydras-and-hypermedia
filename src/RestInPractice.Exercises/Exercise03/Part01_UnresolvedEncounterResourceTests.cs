@@ -172,6 +172,29 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
+        public void ItemIdShouldBeTagUri()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
+
+            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/encounters/1/round/1", item.Id);
+        }
+
+        [Test]
+        public void ItemIdShouldHaveASelfLink()
+        {
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var feed = response.Content.ReadAsOrDefault();
+            var item = feed.Items.First();
+            var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
+
+            Assert.AreEqual(new Uri("http://localhost:8081/encounters/1/round/1"), selfLink.Uri);
+        }
+
+        [Test]
         public void ItemTitleShouldBeRound1()
         {
             var resource = CreateResourceUnderTest();
