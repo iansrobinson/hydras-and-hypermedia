@@ -17,7 +17,7 @@ using RestInPractice.Server.Resources;
 namespace RestInPractice.Exercises.Exercise03
 {
     [TestFixture]
-    public class Part01_EncounterResourceTests
+    public class Part01_UnresolvedEncounterResourceTests
     {
         private static readonly Encounter Encounter = Monsters.Instance.Get(1);
         private const string RequestUri = "http://localhost:8081/encounters/1";
