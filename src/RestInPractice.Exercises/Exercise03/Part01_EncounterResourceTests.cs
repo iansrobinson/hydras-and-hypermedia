@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
+using System.Xml;
+using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
 using RestInPractice.Client.Comparers;
 using RestInPractice.Exercises.Helpers;
@@ -17,6 +21,7 @@ namespace RestInPractice.Exercises.Exercise03
     {
         private static readonly Encounter Encounter = Monsters.Instance.Get(1);
         private const string RequestUri = "http://localhost:8081/encounters/1";
+        private const string InvalidEncounterId = "999";
 
         [Test]
         public void ShouldReturn200Ok()
@@ -139,6 +144,24 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
+        public void FeedShouldIncludeAnXhtmlForm()
+        {
+            const string @expectedXhtml = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
+  <form action=""/encounters/1"" method=""POST"" enctype=""application/x-www-form-urlencoded"">
+    <input type=""text"" name=""endurance""></input>
+    <input type=""submit"" value=""Submit""></input>
+  </form>
+</div>";
+            var resource = CreateResourceUnderTest();
+            var response = resource.Get("1", CreateRequest());
+            var feed = response.Content.ReadAsOrDefault();
+
+            Assert.IsTrue(feed.ElementExtensions.Contains(
+                new SyndicationElementExtension(XmlReader.Create(new StringReader(expectedXhtml))),
+                SyndicationElementExtensionComparer.Instance));
+        }
+
+        [Test]
         public void FeedShouldIncludeAnItem()
         {
             var resource = CreateResourceUnderTest();
@@ -182,31 +205,17 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void ItemContentShouldBeXhtml()
+        public void ShouldReturn404NotFoundWhenEncounterDoesNotExist()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
-            var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
-
-            Assert.AreEqual("xhtml", item.Content.Type);
-        }
-
-        [Test]
-        public void ItemContentShouldIncludeAForm()
-        {
-            const string @expectedXhtml = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
-  <form action=""/encounters/1"" method=""post"" enctype=""application/x-www-form-urlencoded"">
-    <input type=""text"" name=""endurance""/>
-  </form>
-</div>";
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
-            var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
-
-            var content = (TextSyndicationContent) item.Content;
-            Assert.AreEqual(expectedXhtml, content.Text);
+            try
+            {
+                var resource = CreateResourceUnderTest();
+                resource.Get(InvalidEncounterId, CreateRequest());
+            }
+            catch (HttpResponseException ex)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, ex.Response.StatusCode);
+            }
         }
 
         private static EncounterResource CreateResourceUnderTest()
@@ -217,6 +226,25 @@ namespace RestInPractice.Exercises.Exercise03
         private static HttpRequestMessage CreateRequest()
         {
             return new HttpRequestMessage(HttpMethod.Get, RequestUri);
+        }
+
+        private class SyndicationElementExtensionComparer : IEqualityComparer<SyndicationElementExtension>
+        {
+            public static readonly IEqualityComparer<SyndicationElementExtension> Instance = new SyndicationElementExtensionComparer();
+
+            private SyndicationElementExtensionComparer()
+            {
+            }
+
+            public bool Equals(SyndicationElementExtension x, SyndicationElementExtension y)
+            {
+                return x.GetReader().ReadContentAsString().Equals(y.GetReader().ReadContentAsString());
+            }
+
+            public int GetHashCode(SyndicationElementExtension obj)
+            {
+                return obj.GetHashCode();
+            }
         }
     }
 }
