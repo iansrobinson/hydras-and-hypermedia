@@ -69,7 +69,7 @@ namespace RestInPractice.Server.Resources
             var response = new HttpResponseMessage<SyndicationFeed>(feed) {StatusCode = HttpStatusCode.OK};
             response.Headers.CacheControl = new CacheControlHeaderValue {NoCache = true, NoStore = true};
             response.Content.Headers.ContentType = AtomMediaType.Feed;
-
+            
             return response;
         }
 
@@ -84,9 +84,23 @@ namespace RestInPractice.Server.Resources
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            
-            var response = new HttpResponseMessage<SyndicationItem>(HttpStatusCode.Created);
+
+            var result = encounter.Action(1);
+            var round = result.Round;
+
+            var entry = new SyndicationItem
+            {
+                Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
+                Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
+            };
+            entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
+            entry.Categories.Add(new SyndicationCategory("round"));
+
+            var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
             response.Headers.Location = new Uri("http://localhost:8081/encounters/1/round/2");
+            response.Content.Headers.ContentType = AtomMediaType.Entry;
+
             return response;
         }
     }
