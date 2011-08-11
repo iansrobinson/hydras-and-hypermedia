@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -35,7 +36,7 @@ namespace RestInPractice.Server.Resources
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            
+
             var feed = new SyndicationFeed
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/encounters/" + encounter.Id,
@@ -47,7 +48,7 @@ namespace RestInPractice.Server.Resources
             feed.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
             feed.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
 
-            var xhtml = new FormWriter(new Uri("/encounters/" + encounter.Id, UriKind.RelativeOrAbsolute),HttpMethod.Post, new TextInput("endurance")).ToXhtml();
+            var xhtml = new FormWriter(new Uri("/encounters/" + encounter.Id, UriKind.RelativeOrAbsolute), HttpMethod.Post, new TextInput("endurance")).ToXhtml();
             feed.ElementExtensions.Add(XmlReader.Create(new StringReader(xhtml)));
 
             feed.Items = encounter.GetAllRounds()
@@ -55,11 +56,11 @@ namespace RestInPractice.Server.Resources
                 .Select(round =>
                             {
                                 var entry = new SyndicationItem
-                                                          {
-                                                              Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
-                                                              Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
-                                                              Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
-                                                          };
+                                                {
+                                                    Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                                                    Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
+                                                    Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
+                                                };
                                 entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
                                 entry.Categories.Add(new SyndicationCategory("round"));
                                 return entry;
@@ -69,7 +70,7 @@ namespace RestInPractice.Server.Resources
             var response = new HttpResponseMessage<SyndicationFeed>(feed) {StatusCode = HttpStatusCode.OK};
             response.Headers.CacheControl = new CacheControlHeaderValue {NoCache = true, NoStore = true};
             response.Content.Headers.ContentType = AtomMediaType.Feed;
-            
+
             return response;
         }
 
@@ -85,15 +86,21 @@ namespace RestInPractice.Server.Resources
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            var result = encounter.Action(1);
+            var form = request.Content.ReadAs<JsonValue>(new[] { new FormUrlEncodedMediaTypeFormatter() });
+            var clientEndurance = form["endurance"].ReadAs<int>();
+
+            var result = encounter.Action(clientEndurance);
             var round = result.Round;
 
+            var xhtml = new FormWriter(new Uri("/encounters/" + encounter.Id, UriKind.RelativeOrAbsolute), HttpMethod.Post, new TextInput("endurance", result.ClientEndurance.ToString())).ToXhtml();
+
             var entry = new SyndicationItem
-            {
-                Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
-                Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
-                Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
-            };
+                            {
+                                Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                                Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
+                                Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance)),
+                                Content = SyndicationContent.CreateXhtmlContent(xhtml)
+                            };
             entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
             entry.Categories.Add(new SyndicationCategory("round"));
 
