@@ -48,10 +48,17 @@ namespace RestInPractice.Server.Resources
                            };
             feed.Categories.Add(new SyndicationCategory("encounter"));
             feed.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
-            feed.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
 
-            var xhtml = new FormWriter(new Uri("/encounters/" + encounter.Id, UriKind.RelativeOrAbsolute), HttpMethod.Post, new TextInput("endurance")).ToXhtml();
-            feed.ElementExtensions.Add(XmlReader.Create(new StringReader(xhtml)));
+            if (encounter.IsResolved)
+            {
+                feed.Links.Add(new SyndicationLink { RelationshipType = "continue", Uri = new Uri("/rooms/" + encounter.GuardedRoomId, UriKind.Relative) });
+            }
+            else
+            {
+                feed.Links.Add(new SyndicationLink { RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative) });
+                var xhtml = new FormWriter(new Uri("/encounters/" + encounter.Id, UriKind.RelativeOrAbsolute), HttpMethod.Post, new TextInput("endurance")).ToXhtml();
+                feed.ElementExtensions.Add(XmlReader.Create(new StringReader(xhtml)));
+            }
 
             feed.Items = encounter.GetAllRounds()
                 .Reverse()
@@ -86,6 +93,13 @@ namespace RestInPractice.Server.Resources
             catch (KeyNotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            if (encounter.IsResolved)
+            {
+                var methodNotAllowedResponse = new HttpResponseMessage {StatusCode = HttpStatusCode.MethodNotAllowed, Content = new ByteArrayContent(new byte[]{})};
+                methodNotAllowedResponse.Content.Headers.Allow.Add("GET");
+                throw new HttpResponseException(methodNotAllowedResponse);
             }
 
             var form = request.Content.ReadAs<JsonValue>(new[] { new FormUrlEncodedMediaTypeFormatter() });

@@ -45,11 +45,12 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ShouldReturn404NotFoundIfPostingToEncounterThatDoesNotExist()
         {
+            const int invalidEncounterId = 999;
+            
             try
             {
-                var encounter = CreateEncounter();
-                var resource = CreateEncounterResource(encounter);
-                resource.Post("999", CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                var resource = CreateEncounterResource(CreateEncounter());
+                resource.Post(invalidEncounterId.ToString(), CreateRequest(invalidEncounterId, CreateFormUrlEncodedContent(ClientEndurance)));
                 Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
@@ -210,6 +211,38 @@ namespace RestInPractice.Exercises.Exercise03
             Assert.AreEqual(expectedXhtml, xhtml.Text);
         }
 
+        [Test]
+        public void PostingToAResolvedEncounterShouldReturn405MethodNotAllowed()
+        {
+            try
+            {
+                var encounter = CreateResolvedEncounter();
+                var resource = CreateEncounterResource(encounter);
+                resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                Assert.Fail("Expected 405 Method Not Allowed");
+            }
+            catch (HttpResponseException ex)
+            {
+                Assert.AreEqual(HttpStatusCode.MethodNotAllowed, ex.Response.StatusCode);
+            }
+        }
+
+        [Test]
+        public void PostingToAResolvedEncounterShouldReturnAllowHeader()
+        {
+            try
+            {
+                var encounter = CreateResolvedEncounter();
+                var resource = CreateEncounterResource(encounter);
+                resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                Assert.Fail("Expected 405 Method Not Allowed");
+            }
+            catch (HttpResponseException ex)
+            {
+                Assert.IsTrue(new []{"GET"}.SequenceEqual(ex.Response.Content.Headers.Allow));
+            }
+        }
+
         private static EncounterResource CreateEncounterResource(Encounter encounter)
         {
             return new EncounterResource(new Repository<Encounter>(encounter));
@@ -232,6 +265,11 @@ namespace RestInPractice.Exercises.Exercise03
         private static Encounter CreateEncounter()
         {
             return new Encounter(1, "Monster", "Encounter description", 2, 1, 8);
+        }
+
+        private static Encounter CreateResolvedEncounter()
+        {
+            return new Encounter(1, "Monster", "Encounter description", 2, 1, -1);
         }
     }
 }
