@@ -116,10 +116,20 @@ namespace RestInPractice.Server.Resources
                                 BaseUri = BaseUri,
                                 Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
                                 Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Point{2}", encounter.Title, round.Endurance, Math.Abs(round.Endurance).Equals(1) ? "" : "s")),
-                                Content = SyndicationContent.CreateXhtmlContent(xhtml)
+                                Content = SyndicationContent.CreateXhtmlContent(xhtml),
                             };
             entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
             entry.Categories.Add(new SyndicationCategory("round"));
+
+            if (encounter.IsResolved)
+            {
+                entry.Links.Add(new SyndicationLink {RelationshipType = "continue", Uri = new Uri("/rooms/" + encounter.GuardedRoomId, UriKind.Relative)});
+            }
+            else
+            {
+                entry.Content = SyndicationContent.CreateXhtmlContent(xhtml);
+                entry.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
+            }
 
             var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
             response.Headers.Location = new Uri("http://localhost:8081/encounters/1/round/2");

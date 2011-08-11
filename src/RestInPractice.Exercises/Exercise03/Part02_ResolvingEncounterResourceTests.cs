@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
+using System.Text;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
 using RestInPractice.Client.Comparers;
@@ -130,6 +131,20 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
+        public void ItemShouldHaveFleeLink()
+        {
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+            var item = response.Content.ReadAsOrDefault();
+            var link = item.Links.First(l => l.RelationshipType.Equals("flee"));
+
+            var expectedUri = new Uri(string.Format("/rooms/{0}", encounter.FleeRoomId), UriKind.Relative);
+
+            Assert.AreEqual(expectedUri, link.Uri);
+        }
+
+        [Test]
         public void ItemTitleShouldRepresentCurrentRound()
         {
             var encounter = CreateEncounter();
@@ -212,6 +227,34 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
+        public void WhenRequestResolvesEncounterResponseShouldIncludeAContinueLink()
+        {
+            var encounter = CreateNearlyResolvedEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+            var item = response.Content.ReadAsOrDefault();
+
+            var link = item.Links.FirstOrDefault(l => l.RelationshipType.Equals("continue"));
+
+            var expectedUri = new Uri(string.Format("/rooms/{0}", encounter.GuardedRoomId), UriKind.Relative);
+
+            Assert.AreEqual(expectedUri, link.Uri);
+        }
+
+        [Test]
+        public void WhenRequestResolvesEncounterResponseShouldNotIncludeAFleeLink()
+        {
+            var encounter = CreateNearlyResolvedEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+            var item = response.Content.ReadAsOrDefault();
+
+            var link = item.Links.FirstOrDefault(l => l.RelationshipType.Equals("flee"));
+
+            Assert.IsNull(link);
+        }
+
+        [Test]
         public void PostingToAResolvedEncounterShouldReturn405MethodNotAllowed()
         {
             try
@@ -265,6 +308,11 @@ namespace RestInPractice.Exercises.Exercise03
         private static Encounter CreateEncounter()
         {
             return new Encounter(1, "Monster", "Encounter description", 2, 1, 8);
+        }
+
+        private static Encounter CreateNearlyResolvedEncounter()
+        {
+            return new Encounter(1, "Monster", "Encounter description", 2, 1, 1);
         }
 
         private static Encounter CreateResolvedEncounter()
