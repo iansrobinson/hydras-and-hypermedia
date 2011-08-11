@@ -18,6 +18,8 @@ namespace RestInPractice.Server.Resources
 {
     public class EncounterResource
     {
+        private static readonly Uri BaseUri = new Uri("http://localhost:8081");
+        
         private readonly Repository<Encounter> encounters;
 
         public EncounterResource(Repository<Encounter> encounters)
@@ -40,7 +42,7 @@ namespace RestInPractice.Server.Resources
             var feed = new SyndicationFeed
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/encounters/" + encounter.Id,
-                               BaseUri = new Uri("http://localhost:8081"),
+                               BaseUri = BaseUri,
                                Title = SyndicationContent.CreatePlaintextContent(encounter.Title),
                                Description = SyndicationContent.CreatePlaintextContent(encounter.Description)
                            };
@@ -97,6 +99,7 @@ namespace RestInPractice.Server.Resources
             var entry = new SyndicationItem
                             {
                                 Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                                BaseUri = BaseUri,
                                 Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
                                 Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance)),
                                 Content = SyndicationContent.CreateXhtmlContent(xhtml)

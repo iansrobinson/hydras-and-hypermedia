@@ -17,6 +17,7 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part02_ResolvingEncounterResourceTests
     {
+        private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
         private static readonly KeyValuePair<string, string> ClientEndurance = new KeyValuePair<string, string>("endurance", "10");
 
         [Test]
@@ -100,6 +101,17 @@ namespace RestInPractice.Exercises.Exercise03
             var expectedItemId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
 
             Assert.AreEqual(expectedItemId, item.Id);
+        }
+
+        [Test]
+        public void ItemShouldIncludeBaseUri()
+        {
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+            var item = response.Content.ReadAsOrDefault();
+
+            Assert.AreEqual(BaseUri, item.BaseUri);
         }
 
         [Test]

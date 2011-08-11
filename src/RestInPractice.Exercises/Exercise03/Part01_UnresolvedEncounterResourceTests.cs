@@ -18,7 +18,6 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part01_UnresolvedEncounterResourceTests
     {
-        private const string RequestUri = "http://localhost:8081/encounters/1";
         private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
         
         [Test]
@@ -26,7 +25,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -36,7 +35,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
 
             Assert.IsTrue(response.Headers.CacheControl.NoCache);
         }
@@ -46,7 +45,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
 
             Assert.IsTrue(response.Headers.CacheControl.NoStore);
         }
@@ -56,7 +55,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
 
             Assert.AreEqual(AtomMediaType.Feed, response.Content.Headers.ContentType);
         }
@@ -66,7 +65,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.IsInstanceOf(typeof (SyndicationFeed), feed);
@@ -77,7 +76,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.IsTrue(feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance));
@@ -88,7 +87,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}", encounter.Id);
@@ -101,7 +100,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(encounter.Title, feed.Title.Text);
@@ -112,7 +111,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(encounter.Description, feed.Description.Text);
@@ -123,7 +122,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var author = feed.Authors.First();
 
@@ -136,7 +135,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             
@@ -148,7 +147,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var link = feed.Links.First(l => l.RelationshipType.Equals("flee"));
 
@@ -168,7 +167,7 @@ namespace RestInPractice.Exercises.Exercise03
 </div>";
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.IsTrue(feed.ElementExtensions.Contains(
@@ -181,7 +180,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(1, feed.Items.Count());
@@ -192,7 +191,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
@@ -206,7 +205,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
             var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
@@ -221,7 +220,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
@@ -235,7 +234,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
@@ -249,7 +248,7 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var encounter = CreateEncounter();
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
@@ -259,10 +258,12 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ShouldReturn404NotFoundWhenEncounterDoesNotExist()
         {
+            const int invalidEncounterId = 999;
+            
             try
             {
                 var resource = CreateEncounterResource(CreateEncounter());
-                resource.Get("999", CreateRequest());
+                resource.Get(invalidEncounterId.ToString(), CreateRequest(invalidEncounterId));
                 Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
@@ -276,9 +277,10 @@ namespace RestInPractice.Exercises.Exercise03
             return new EncounterResource(new Repository<Encounter>(encounter));
         }
 
-        private static HttpRequestMessage CreateRequest()
+        private static HttpRequestMessage CreateRequest(int encounterId)
         {
-            return new HttpRequestMessage(HttpMethod.Get, RequestUri);
+            var requestUri = new Uri(BaseUri, "/encounters/" + encounterId);
+            return new HttpRequestMessage(HttpMethod.Get, requestUri);
         }
 
         private static Encounter CreateEncounter()
