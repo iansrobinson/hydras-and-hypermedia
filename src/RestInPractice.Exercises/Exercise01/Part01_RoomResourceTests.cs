@@ -187,7 +187,7 @@ namespace RestInPractice.Exercises.Exercise01
 
         private static HttpRequestMessage CreateRequest(int roomId)
         {
-            var requestUri = new Uri(BaseUri, "encounters/" + roomId);
+            var requestUri = new Uri(BaseUri, "/encounters/" + roomId);
             return new HttpRequestMessage(HttpMethod.Get, requestUri);
         }
 

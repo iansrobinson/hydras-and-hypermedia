@@ -9,7 +9,6 @@ using System.Xml;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
 using RestInPractice.Client.Comparers;
-using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
@@ -19,15 +18,15 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part01_UnresolvedEncounterResourceTests
     {
-        private static readonly Encounter Encounter = Monsters.NewInstance().Get(1);
         private const string RequestUri = "http://localhost:8081/encounters/1";
-        private const string InvalidEncounterId = "999";
-
+        private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
+        
         [Test]
         public void ShouldReturn200Ok()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -35,8 +34,9 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ResponseShouldIndicateItMustBeRevalidatedWithOriginServer()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
 
             Assert.IsTrue(response.Headers.CacheControl.NoCache);
         }
@@ -44,8 +44,9 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ResponseShouldIndicateItMustNotBeStoredByCaches()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
 
             Assert.IsTrue(response.Headers.CacheControl.NoStore);
         }
@@ -53,8 +54,9 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ResponseShouldIncludeAtomFeedContentTypeHeader()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
 
             Assert.AreEqual(AtomMediaType.Feed, response.Content.Headers.ContentType);
         }
@@ -62,8 +64,9 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ResponseContentShouldBeSyndicationFeed()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.IsInstanceOf(typeof (SyndicationFeed), feed);
@@ -72,8 +75,9 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void FeedShouldContainEncounterCategory()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.IsTrue(feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance));
@@ -82,38 +86,44 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void FeedIdShouldBeTagUri()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/encounters/1", feed.Id);
+            var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}", encounter.Id);
+
+            Assert.AreEqual(expectedId, feed.Id);
         }
 
         [Test]
         public void FeedTitleShouldMatchEncounterTitle()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Encounter.Title, feed.Title.Text);
+            Assert.AreEqual(encounter.Title, feed.Title.Text);
         }
 
         [Test]
         public void FeedDescriptionShouldMatchEncounterDescription()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Encounter.Description, feed.Description.Text);
+            Assert.AreEqual(encounter.Description, feed.Description.Text);
         }
 
         [Test]
         public void FeedAuthorShouldReturnSystemAdminDetails()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
             var author = feed.Authors.First();
 
@@ -124,23 +134,27 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void FeedShouldIncludeBaseUri()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(new Uri("http://localhost:8081/"), feed.BaseUri);
+            
+            Assert.AreEqual(BaseUri, feed.BaseUri);
         }
 
         [Test]
         public void FeedShouldIncludeAFleeLink()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
-
             var link = feed.Links.First(l => l.RelationshipType.Equals("flee"));
 
-            Assert.AreEqual(new Uri("/rooms/1", UriKind.Relative), link.Uri);
+            var expectedUri = new Uri(string.Format("/rooms/{0}", encounter.FleeRoomId), UriKind.Relative);
+
+            Assert.AreEqual(expectedUri, link.Uri);
         }
 
         [Test]
@@ -152,8 +166,9 @@ namespace RestInPractice.Exercises.Exercise03
     <input type=""submit"" value=""Submit""></input>
   </form>
 </div>";
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.IsTrue(feed.ElementExtensions.Contains(
@@ -164,8 +179,9 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void FeedShouldIncludeAnItem()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(1, feed.Items.Count());
@@ -174,53 +190,66 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ItemIdShouldBeTagUri()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
-            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/encounters/1/round/1", item.Id);
+            var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
+
+            Assert.AreEqual(expectedId, item.Id);
         }
 
         [Test]
         public void ItemIdShouldHaveASelfLink()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
             var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-            Assert.AreEqual(new Uri("http://localhost:8081/encounters/1/round/1"), selfLink.Uri);
+            var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id));
+
+            Assert.AreEqual(expectedUri, selfLink.Uri);
         }
 
         [Test]
-        public void ItemTitleShouldBeRound1()
+        public void ItemTitleShouldRepresentCurrentRound()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
-            Assert.AreEqual("Round 1", item.Title.Text);
+            var expectedTitle = "Round " + encounter.GetAllRounds().Last().Id;
+
+            Assert.AreEqual(expectedTitle, item.Title.Text);
         }
 
         [Test]
         public void ItemSummaryShouldDescribeMonsterEndurance()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
-            Assert.AreEqual("The Minotaur has 8 Endurance Points", item.Summary.Text);
+            var expectedSummary = string.Format("The {0} has {1} Endurance Points", encounter.Title, encounter.GetAllRounds().Last().Endurance);
+
+            Assert.AreEqual(expectedSummary, item.Summary.Text);
         }
 
         [Test]
         public void ItemShouldContainRoundCategory()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest());
             var feed = response.Content.ReadAsOrDefault();
             var item = feed.Items.First();
 
@@ -232,8 +261,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             try
             {
-                var resource = CreateResourceUnderTest();
-                resource.Get(InvalidEncounterId, CreateRequest());
+                var resource = CreateEncounterResource(CreateEncounter());
+                resource.Get("999", CreateRequest());
                 Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
@@ -242,14 +271,19 @@ namespace RestInPractice.Exercises.Exercise03
             }
         }
 
-        private static EncounterResource CreateResourceUnderTest()
+        private static EncounterResource CreateEncounterResource(Encounter encounter)
         {
-            return new EncounterResource(Monsters.NewInstance());
+            return new EncounterResource(new Repository<Encounter>(encounter));
         }
 
         private static HttpRequestMessage CreateRequest()
         {
             return new HttpRequestMessage(HttpMethod.Get, RequestUri);
+        }
+
+        private static Encounter CreateEncounter()
+        {
+            return new Encounter(1, "Monster", "Encounter description", 2, 1, 8);
         }
 
         private class SyndicationElementExtensionComparer : IEqualityComparer<SyndicationElementExtension>
