@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
-using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
@@ -15,15 +14,14 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part01_RoomResourceTests
     {
-        private static readonly Room Room = Maze.NewInstance().Get(1);
-        private const string RequestUri = "http://localhost:8081/rooms/1";
-        private const string InvalidRoomId = "999";
+        private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
 
         [Test]
         public void ShouldReturn200Ok()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -31,8 +29,9 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ResponseShouldBePublicallyCacheable()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
             Assert.IsTrue(response.Headers.CacheControl.Public);
         }
@@ -40,8 +39,9 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ResponseShouldBeCacheableFor10Seconds()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
             Assert.AreEqual(new TimeSpan(0, 0, 0, 10), response.Headers.CacheControl.MaxAge);
         }
@@ -49,8 +49,9 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ResponseContentTypeShouldBeApplicationAtomPlusXml()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
             Assert.AreEqual(AtomMediaType.Value, response.Content.Headers.ContentType);
         }
@@ -58,8 +59,9 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void BodyShouldBeSyndicationItem()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
             Assert.IsInstanceOf(typeof (SyndicationItem), item);
@@ -68,38 +70,44 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemIdShouldBeTagUri()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual("tag:restinpractice.com,2011-09-05:/rooms/1", item.Id);
+            var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/rooms/{0}", room.Id);
+
+            Assert.AreEqual(expectedId, item.Id);
         }
 
         [Test]
         public void ItemTitleShouldReturnRoomTitle()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Room.Title, item.Title.Text);
+            Assert.AreEqual(room.Title, item.Title.Text);
         }
 
         [Test]
         public void ItemSummaryShouldReturnRoomDescription()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(Room.Description, item.Summary.Text);
+            Assert.AreEqual(room.Description, item.Summary.Text);
         }
 
         [Test]
         public void ItemAuthorShouldReturnSystemAdminDetails()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
             var author = item.Authors.First();
 
@@ -110,60 +118,51 @@ namespace RestInPractice.Exercises.Exercise01
         [Test]
         public void ItemShouldIncludeBaseUri()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(new Uri("http://localhost:8081/"), item.BaseUri);
+            Assert.AreEqual(BaseUri, item.BaseUri);
         }
 
         [Test]
-        public void ItemShouldIncludeLinkToNorth()
+        public void ItemShouldIncludeLinksToExits()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var exits = new[] {Exit.North(2), Exit.South(3), Exit.East(4), Exit.West(5)};
+
+            var room = CreateRoom(exits);
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            var link = item.Links.First(l => l.RelationshipType.Equals("north"));
+            foreach (var exit in exits)
+            {
+                var linkRelationship = exit.Direction.ToString().ToLower();
+                var expectedUri = new Uri("/rooms/" + exit.RoomId, UriKind.Relative);
 
-            //See Maze class for layout of the maze. Room 4 is north of room 1.
-            Assert.AreEqual(new Uri("/rooms/4", UriKind.Relative), link.Uri);
+                var link = item.Links.First(l => l.RelationshipType.Equals(linkRelationship));
+
+                Assert.AreEqual(expectedUri, link.Uri);
+            }
         }
 
         [Test]
-        public void ItemShouldIncludeLinkToEast()
+        public void ItemShouldNotIncludeLinksToExitsThatDoNotExist()
         {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
+            var exits = new Exit[]{ };
+
+            var room = CreateRoom(exits);
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            var link = item.Links.First(l => l.RelationshipType.Equals("east"));
+            var linkRelationships = new[] {"north", "south", "east", "west"};
 
-            //See Maze class for layout of the maze. Room 2 is east of room 1.
-            Assert.AreEqual(new Uri("/rooms/2", UriKind.Relative), link.Uri);
-        }
-
-        [Test]
-        public void ItemShouldIncludeLinkToWest()
-        {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
-            var item = response.Content.ReadAsOrDefault();
-
-            var link = item.Links.First(l => l.RelationshipType.Equals("west"));
-
-            //See Maze class for layout of the maze. Room 3 is west of room 1.
-            Assert.AreEqual(new Uri("/rooms/3", UriKind.Relative), link.Uri);
-        }
-
-        [Test]
-        public void ItemShouldNotIncludeLinkToSouth()
-        {
-            var resource = CreateResourceUnderTest();
-            var response = resource.Get("1", CreateRequest());
-            var item = response.Content.ReadAsOrDefault();
-
-            Assert.IsNull(item.Links.FirstOrDefault(l => l.RelationshipType.Equals("south")));
+            foreach (var link in linkRelationships.Select(rel => item.Links.FirstOrDefault(l => l.RelationshipType.Equals(rel))))
+            {
+                Assert.IsNull(link);
+            }
         }
 
         [Test]
@@ -171,8 +170,8 @@ namespace RestInPractice.Exercises.Exercise01
         {
             try
             {
-                var resource = CreateResourceUnderTest();
-                resource.Get(InvalidRoomId, new HttpRequestMessage());
+                var resource = CreateRoomResource(CreateRoom());
+                resource.Get("999", new HttpRequestMessage());
                 Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
@@ -181,14 +180,20 @@ namespace RestInPractice.Exercises.Exercise01
             }
         }
 
-        private static RoomResource CreateResourceUnderTest()
+        private static RoomResource CreateRoomResource(Room room)
         {
-            return new RoomResource(Maze.NewInstance(), new Repository<Encounter>());
+            return new RoomResource(new Repository<Room>(room), new Repository<Encounter>());
         }
 
-        private static HttpRequestMessage CreateRequest()
+        private static HttpRequestMessage CreateRequest(int roomId)
         {
-            return new HttpRequestMessage(HttpMethod.Get, RequestUri);
+            var requestUri = new Uri(BaseUri, "encounters/" + roomId);
+            return new HttpRequestMessage(HttpMethod.Get, requestUri);
+        }
+
+        private static Room CreateRoom(params Exit[] exits)
+        {
+            return new Room(1, "Entrance", "Maze entrance.", exits);
         }
     }
 }

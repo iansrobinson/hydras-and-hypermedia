@@ -18,7 +18,6 @@ namespace RestInPractice.Exercises.Exercise03
     public class Part02_ResolvingEncounterResourceTests
     {
         private static readonly KeyValuePair<string, string> ClientEndurance = new KeyValuePair<string, string>("endurance", "10");
-        private const string InvalidEncounterId = "999";
 
         [Test]
         public void ShouldReturn201Created()
@@ -49,7 +48,7 @@ namespace RestInPractice.Exercises.Exercise03
             {
                 var encounter = CreateEncounter();
                 var resource = CreateEncounterResource(encounter);
-                resource.Post(InvalidEncounterId, CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                resource.Post("999", CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
                 Assert.Fail("Expected 404 Not Found");
             }
             catch (HttpResponseException ex)
