@@ -155,6 +155,32 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
+        public void ItemSummaryShouldUseSingularFormWhenRemainingMonsterEnduranceIsOne()
+        {
+            var encounter = new Encounter(1, "Monster", "Encounter description", 2, 3, 3);
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+            var item = response.Content.ReadAsOrDefault();
+
+            var expectedSummary = string.Format("The {0} has 1 Endurance Point", encounter.Title);
+
+            Assert.AreEqual(expectedSummary, item.Summary.Text);
+        }
+
+        [Test]
+        public void ItemSummaryShouldUseSingularFormWhenRemainingMonsterEnduranceIsMinusOne()
+        {
+            var encounter = new Encounter(1, "Monster", "Encounter description", 2, 3, 1);
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+            var item = response.Content.ReadAsOrDefault();
+
+            var expectedSummary = string.Format("The {0} has -1 Endurance Point", encounter.Title);
+
+            Assert.AreEqual(expectedSummary, item.Summary.Text);
+        }
+
+        [Test]
         public void ItemContentShouldContainXhtml()
         {
             var encounter = CreateEncounter();

@@ -19,7 +19,7 @@ namespace RestInPractice.Exercises.Exercise03
     public class Part01_UnresolvedEncounterResourceTests
     {
         private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
-        
+
         [Test]
         public void ShouldReturn200Ok()
         {
@@ -138,7 +138,7 @@ namespace RestInPractice.Exercises.Exercise03
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
-            
+
             Assert.AreEqual(BaseUri, feed.BaseUri);
         }
 
@@ -176,90 +176,113 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void FeedShouldIncludeAnItem()
+        public void FeedShouldIncludeAnItemForEachRound()
         {
-            var encounter = CreateEncounter();
+            const int numberOfRounds = 3;
+            var encounter = CreateEncounter(numberOfRounds);
+
             var resource = CreateEncounterResource(encounter);
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(1, feed.Items.Count());
+            Assert.AreEqual(numberOfRounds, feed.Items.Count());
         }
 
         [Test]
-        public void ItemIdShouldBeTagUri()
+        public void ItemTitlesRepresentRoundsWithMostRecentRoundFirst()
         {
-            var encounter = CreateEncounter();
+            const int numberOfRounds = 3;
+            var encounter = CreateEncounter(numberOfRounds);
+
             var resource = CreateEncounterResource(encounter);
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
 
-            var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
+            for (var i = 0; i < numberOfRounds; i++ )
+            {
+                var expectedTitle = "Round " + (numberOfRounds - i);
+                Assert.AreEqual(expectedTitle, feed.Items.ElementAt(i).Title.Text);
+            }
+        }
 
-            Assert.AreEqual(expectedId, item.Id);
+        [Test]
+        public void EachItemIdShouldBeTagUri()
+        {
+            const int numberOfRounds = 3;
+            var encounter = CreateEncounter(numberOfRounds);
+
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
+            var feed = response.Content.ReadAsOrDefault();
+
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, numberOfRounds - i);
+                Assert.AreEqual(expectedId, feed.Items.ElementAt(i).Id);
+            } 
         }
 
         [Test]
         public void ItemIdShouldHaveASelfLink()
         {
-            var encounter = CreateEncounter();
+            const int numberOfRounds = 3;
+            var encounter = CreateEncounter(numberOfRounds);
+
             var resource = CreateEncounterResource(encounter);
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
-            var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
+            
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var item = feed.Items.ElementAt(i);
+                var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-            var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id));
-
-            Assert.AreEqual(expectedUri, selfLink.Uri);
+                var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, numberOfRounds - i));
+                Assert.AreEqual(expectedUri, selfLink.Uri);
+            }    
         }
 
         [Test]
-        public void ItemTitleShouldRepresentCurrentRound()
+        public void EachItemSummaryShouldDescribeMonsterEnduranceForThatRound()
         {
-            var encounter = CreateEncounter();
+            const int numberOfRounds = 3;
+            var encounter = CreateEncounter(numberOfRounds);
+
             var resource = CreateEncounterResource(encounter);
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
 
-            var expectedTitle = "Round " + encounter.GetAllRounds().Last().Id;
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var item = feed.Items.ElementAt(i);
+                var expectedSummary = string.Format("The {0} has {1} Endurance Points", encounter.Title, encounter.GetRound(numberOfRounds - i).Endurance);
 
-            Assert.AreEqual(expectedTitle, item.Title.Text);
+                Assert.AreEqual(expectedSummary, item.Summary.Text);
+            }   
         }
 
         [Test]
-        public void ItemSummaryShouldDescribeMonsterEndurance()
+        public void EachItemShouldContainRoundCategory()
         {
-            var encounter = CreateEncounter();
+            const int numberOfRounds = 3;
+            var encounter = CreateEncounter(numberOfRounds);
+
             var resource = CreateEncounterResource(encounter);
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
 
-            var expectedSummary = string.Format("The {0} has {1} Endurance Points", encounter.Title, encounter.GetAllRounds().Last().Endurance);
-
-            Assert.AreEqual(expectedSummary, item.Summary.Text);
-        }
-
-        [Test]
-        public void ItemShouldContainRoundCategory()
-        {
-            var encounter = CreateEncounter();
-            var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
-            var feed = response.Content.ReadAsOrDefault();
-            var item = feed.Items.First();
-
-            Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("round"), CategoryComparer.Instance));
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var item = feed.Items.ElementAt(i);
+                Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("round"), CategoryComparer.Instance));
+            }
         }
 
         [Test]
         public void ShouldReturn404NotFoundWhenEncounterDoesNotExist()
         {
             const int invalidEncounterId = 999;
-            
+
             try
             {
                 var resource = CreateEncounterResource(CreateEncounter());
@@ -283,9 +306,14 @@ namespace RestInPractice.Exercises.Exercise03
             return new HttpRequestMessage(HttpMethod.Get, requestUri);
         }
 
-        private static Encounter CreateEncounter()
+        private static Encounter CreateEncounter(int numberOfRounds = 1)
         {
-            return new Encounter(1, "Monster", "Encounter description", 2, 1, 8);
+            var encounter = new Encounter(1, "Monster", "Encounter description", 2, 1, 8);
+            for (var i = 0; i < numberOfRounds - 1; i++)
+            {
+                encounter.Action(10);
+            }
+            return encounter;
         }
 
         private class SyndicationElementExtensionComparer : IEqualityComparer<SyndicationElementExtension>

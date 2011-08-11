@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using NUnit.Framework;
 using RestInPractice.Client;
 using RestInPractice.Client.ApplicationStates;
@@ -14,7 +13,7 @@ namespace RestInPractice.Exercises.Exercise03
     public class Part03_ClientTests
     {
         private static readonly ApplicationStateInfo ApplicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(new Uri("http://localhost/rooms/1")).Build();
-        
+
         [Test]
         public void ShouldReturnResolvingEncounterApplicationStateIfCurrentResponseContainsEncounterFeed()
         {
@@ -25,7 +24,7 @@ namespace RestInPractice.Exercises.Exercise03
             var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsInstanceOf(typeof(ResolvingEncounter), nextState);
+            Assert.IsInstanceOf(typeof (ResolvingEncounter), nextState);
         }
 
         [Test]
@@ -64,7 +63,7 @@ namespace RestInPractice.Exercises.Exercise03
             var initialState = new Exploring(currentResponse, ApplicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsInstanceOf(typeof(Error), nextState);
+            Assert.IsInstanceOf(typeof (Error), nextState);
         }
 
         [Test]
@@ -95,7 +94,7 @@ namespace RestInPractice.Exercises.Exercise03
 
         private static HttpResponseMessage CreateCurrentResponse(string feed)
         {
-            var currentResponse = new HttpResponseMessage { Content = new StringContent(feed) };
+            var currentResponse = new HttpResponseMessage {Content = new StringContent(feed)};
             currentResponse.Content.Headers.ContentType = AtomMediaType.Feed;
             return currentResponse;
         }
