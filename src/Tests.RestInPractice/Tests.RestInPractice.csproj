@@ -87,6 +87,7 @@
     <Compile Include="Client\Xhtml\TextInputTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Domain\EncounterTests.cs" />
+    <Compile Include="Server\Domain\RoomTests.cs" />
     <Compile Include="Server\Xhtml\FormWriterTests.cs" />
     <Compile Include="Server\Xhtml\TextInputTests.cs" />
   </ItemGroup>
