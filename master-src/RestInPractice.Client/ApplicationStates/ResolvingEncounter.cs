@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using RestInPractice.Client.Comparers;
 using RestInPractice.Client.Extensions;
@@ -31,7 +32,10 @@ namespace RestInPractice.Client.ApplicationStates
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
                 {
                     var form = FormReader.Read(feed.ElementExtensions.First());
-                    client.Send(new HttpRequestMessage {Method = form.Method, RequestUri = form.Action});
+                    form.TextInputFields.First().Value = applicationStateInfo.Endurance.ToString();
+                    var request = new HttpRequestMessage {Method = form.Method, RequestUri = form.Action, Content = form.ToFormUrlEncodedContent()};
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                    client.Send(request);
                 }
                 return new Error(currentResponse, applicationStateInfo);
             }

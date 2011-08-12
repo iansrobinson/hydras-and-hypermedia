@@ -59,6 +59,11 @@ namespace RestInPractice.Client.Xhtml
             get { return textInputFields; }
         }
 
+        public FormUrlEncodedContent ToFormUrlEncodedContent()
+        {
+            return new FormUrlEncodedContent(textInputFields.Select(f => new KeyValuePair<string, string>(f.Name, f.Value)));
+        }
+
         private static dynamic GetControlData(XContainer doc)
         {
             return (from form in doc.Descendants(XhtmlNamespace + "form")
