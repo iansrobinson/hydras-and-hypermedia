@@ -34,7 +34,7 @@ namespace RestInPractice.Client.ApplicationStates
                     var form = FormReader.Read(feed.ElementExtensions.First());
                     form.TextInputFields.First().Value = applicationStateInfo.Endurance.ToString();
                     var request = new HttpRequestMessage {Method = form.Method, RequestUri = form.Action, Content = form.ToFormUrlEncodedContent()};
-                    request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(form.Enctype);
                     client.Send(request);
                 }
                 return new Error(currentResponse, applicationStateInfo);
