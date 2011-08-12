@@ -83,5 +83,25 @@ namespace Tests.RestInPractice.Client.Xhtml
             var reader = FormReader.Read(AtomExtension);
             Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
         }
+
+        [Test]
+        public void ShouldParseFormFromFeedWithFeedExtension()
+        {
+            var feed = new SyndicationFeed();
+            feed.ElementExtensions.Add(XmlReader.Create(new StringReader(Xhtml)));
+
+            var reader = FormReader.Read(feed);
+            Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
+        }
+
+        [Test]
+        public void ShouldParseFormFromItemWithXhtmlContent()
+        {
+            var item = new SyndicationItem {Content = SyndicationContent.CreateXhtmlContent(Xhtml)};
+
+            var reader = FormReader.Read(item);
+            Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
+
+        }
     }
 }

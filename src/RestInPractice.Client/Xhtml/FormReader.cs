@@ -9,6 +9,16 @@ namespace RestInPractice.Client.Xhtml
 {
     public class FormReader
     {
+        public static FormReader Read(SyndicationFeed feed)
+        {
+            return Read(feed.ElementExtensions.First(e => e.OuterNamespace.Equals(XhtmlNamespace.NamespaceName)));
+        }
+
+        public static FormReader Read(SyndicationItem entry)
+        {
+            return Read(((TextSyndicationContent)entry.Content).Text);
+        }
+        
         public static FormReader Read(SyndicationElementExtension atomExtension)
         {
             return Read(atomExtension.GetReader().ReadOuterXml());
