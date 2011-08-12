@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.ServiceModel.Syndication;
+using System.Xml;
 using NUnit.Framework;
 using RestInPractice.Client.Xhtml;
 
@@ -16,6 +19,8 @@ namespace Tests.RestInPractice.Client.Xhtml
     <input type=""text"" name=""field3"" value="""" />
   </form>
 </div>";
+
+        private static readonly SyndicationElementExtension AtomExtension = new SyndicationElementExtension(XmlReader.Create(new StringReader(Xhtml)));
 
         [Test]
         public void ShouldParseActionFromForm()
@@ -70,6 +75,13 @@ namespace Tests.RestInPractice.Client.Xhtml
             var field3 = reader.TextInputFields.Single("field3");
 
             Assert.AreEqual(string.Empty, field3.Value);
+        }
+
+        [Test]
+        public void ShouldParseFormFromSyndicationElementExtension()
+        {
+            var reader = FormReader.Read(AtomExtension);
+            Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
         }
     }
 }
