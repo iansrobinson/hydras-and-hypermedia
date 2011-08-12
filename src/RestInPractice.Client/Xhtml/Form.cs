@@ -7,31 +7,40 @@ using System.Xml.Linq;
 
 namespace RestInPractice.Client.Xhtml
 {
-    public class FormReader
+    public class Form
     {
-        public static FormReader Read(SyndicationFeed feed)
+        public static Form ParseFromFeedExtension(SyndicationFeed feed)
         {
-            return Read(feed.ElementExtensions.First(e => e.OuterNamespace.Equals(XhtmlNamespace.NamespaceName)));
+            var atomExtension = feed.ElementExtensions.FirstOrDefault(e => e.OuterNamespace.Equals(XhtmlNamespace.NamespaceName));
+            if (atomExtension == null)
+            {
+                throw new ArgumentException("Feed does not contain XHTML form extension.", "feed");
+            }
+            return Parse(atomExtension);
         }
 
-        public static FormReader Read(SyndicationItem entry)
+        public static Form ParseFromEntryContent(SyndicationItem entry)
         {
-            return Read(((TextSyndicationContent)entry.Content).Text);
+            if (entry.Content == null || !entry.Content.Type.Equals("xhtml"))
+            {
+                throw new ArgumentException("Entry does not contain XHTML form content.", "entry");
+            }
+            return Parse(((TextSyndicationContent)entry.Content).Text);
         }
         
-        public static FormReader Read(SyndicationElementExtension atomExtension)
+        public static Form Parse(SyndicationElementExtension atomExtension)
         {
-            return Read(atomExtension.GetReader().ReadOuterXml());
+            return Parse(atomExtension.GetReader().ReadOuterXml());
         }
         
-        public static FormReader Read(string xhtml)
+        public static Form Parse(string xhtml)
         {
             var doc = XDocument.Parse(xhtml);
 
             var controlData = GetControlData(doc);
             var textInputFields = GetTextInputData(doc);
 
-            return new FormReader(controlData.Action, controlData.Method, controlData.Enctype, textInputFields.ToArray());
+            return new Form(controlData.Action, controlData.Method, controlData.Enctype, textInputFields.ToArray());
         }
 
         public static XNamespace XhtmlNamespace = "http://www.w3.org/1999/xhtml";
@@ -41,7 +50,7 @@ namespace RestInPractice.Client.Xhtml
         private readonly string enctype;
         private readonly IEnumerable<TextInput> textInputFields;
 
-        public FormReader(string action, string method, string enctype, params TextInput[] textInputFields)
+        public Form(string action, string method, string enctype, params TextInput[] textInputFields)
         {
             this.action = new Uri(action, UriKind.RelativeOrAbsolute);
             this.method = new HttpMethod(method.ToUpper());

@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\ApplicationStateInfoTests.cs" />
-    <Compile Include="Client\Xhtml\FormReaderTests.cs" />
+    <Compile Include="Client\Xhtml\FormTests.cs" />
     <Compile Include="Client\Xhtml\TextInputTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Domain\EncounterTests.cs" />

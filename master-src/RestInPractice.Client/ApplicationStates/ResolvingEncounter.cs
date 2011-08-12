@@ -31,7 +31,7 @@ namespace RestInPractice.Client.ApplicationStates
                 }
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
                 {
-                    var form = FormReader.Read(feed);
+                    var form = Form.ParseFromFeedExtension(feed);
                     form.TextInputFields.First().Value = applicationStateInfo.Endurance.ToString();
                     var request = new HttpRequestMessage {Method = form.Method, RequestUri = form.Action, Content = form.ToFormUrlEncodedContent()};
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(form.Enctype);
