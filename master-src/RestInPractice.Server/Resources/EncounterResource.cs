@@ -132,7 +132,7 @@ namespace RestInPractice.Server.Resources
             }
 
             var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
-            response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/1/round/2", Environment.MachineName));
+            response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, result.Round.Id));
             response.Content.Headers.ContentType = AtomMediaType.Entry;
 
             return response;

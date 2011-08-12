@@ -31,15 +31,18 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void ShouldReturnLocationHeaderWithUriOfNewlyCreatedResource()
+        public void ShouldReturnLocationHeaderWithUriOfEachNewlyCreatedResource()
         {
             var encounter = CreateEncounter();
-            var resource = CreateEncounterResource(encounter);
-            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-
-            var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
-
-            Assert.AreEqual(expectedUri, response.Headers.Location);
+            
+            for (var i = 0; i < 3; i++)
+            {
+                var resource = CreateEncounterResource(encounter);
+                var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
+                Assert.AreEqual(expectedUri, response.Headers.Location);
+            }
+           
         }
 
         [Test]
