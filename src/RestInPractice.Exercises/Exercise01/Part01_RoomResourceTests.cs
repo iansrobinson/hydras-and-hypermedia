@@ -14,7 +14,7 @@ namespace RestInPractice.Exercises.Exercise01
     [TestFixture]
     public class Part01_RoomResourceTests
     {
-        private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
+        private static readonly Uri BaseUri = new Uri(string.Format("http://{0}:8081/", Environment.MachineName));
 
         [Test]
         public void ShouldReturn200Ok()

@@ -8,7 +8,7 @@ using RestInPractice.Server.Resources;
 namespace RestInPractice.Exercises.Exercise03
 {
     [TestFixture]
-    public class Part04_UpdateRoomResourceTests
+    public class Part04_RoomResourceTests
     {
         [Test]
         public void WhenRoomIsGuardedByUnresolvedEncounterResponseShouldBe303SeeOther()
@@ -30,7 +30,7 @@ namespace RestInPractice.Exercises.Exercise03
             var resource = CreateRoomResource(room, encounter);
             var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
-            var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}", encounter.Id));
+            var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}", Environment.MachineName, encounter.Id));
 
             Assert.AreEqual(expectedUri, response.Headers.Location);
         }

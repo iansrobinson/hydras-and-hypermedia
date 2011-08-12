@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
-using System.Text;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
 using RestInPractice.Client.Comparers;
@@ -18,7 +17,7 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part02_ResolvingEncounterResourceTests
     {
-        private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
+        private static readonly Uri BaseUri = new Uri(string.Format("http://{0}:8081/", Environment.MachineName));
         private static readonly KeyValuePair<string, string> ClientEndurance = new KeyValuePair<string, string>("endurance", "10");
 
         [Test]
@@ -38,7 +37,7 @@ namespace RestInPractice.Exercises.Exercise03
             var resource = CreateEncounterResource(encounter);
             var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
 
-            var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id));
+            var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
 
             Assert.AreEqual(expectedUri, response.Headers.Location);
         }
@@ -47,7 +46,7 @@ namespace RestInPractice.Exercises.Exercise03
         public void ShouldReturn404NotFoundIfPostingToEncounterThatDoesNotExist()
         {
             const int invalidEncounterId = 999;
-            
+
             try
             {
                 var resource = CreateEncounterResource(CreateEncounter());
@@ -125,7 +124,7 @@ namespace RestInPractice.Exercises.Exercise03
             var item = response.Content.ReadAsOrDefault();
             var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-            var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id));
+            var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
 
             Assert.AreEqual(expectedUri, selfLink.Uri);
         }
@@ -153,7 +152,7 @@ namespace RestInPractice.Exercises.Exercise03
             var item = response.Content.ReadAsOrDefault();
 
             var expectedTitle = "Round " + encounter.GetAllRounds().Last().Id;
-            
+
             Assert.AreEqual(expectedTitle, item.Title.Text);
         }
 
@@ -166,7 +165,7 @@ namespace RestInPractice.Exercises.Exercise03
             var item = response.Content.ReadAsOrDefault();
 
             var expectedSummary = string.Format("The {0} has {1} Endurance Points", encounter.Title, encounter.GetAllRounds().Last().Endurance);
-            
+
             Assert.AreEqual(expectedSummary, item.Summary.Text);
         }
 
@@ -282,7 +281,7 @@ namespace RestInPractice.Exercises.Exercise03
             }
             catch (HttpResponseException ex)
             {
-                Assert.IsTrue(new []{"GET"}.SequenceEqual(ex.Response.Content.Headers.Allow));
+                Assert.IsTrue(new[] {"GET"}.SequenceEqual(ex.Response.Content.Headers.Allow));
             }
         }
 

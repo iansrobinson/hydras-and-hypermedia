@@ -41,14 +41,14 @@ namespace RestInPractice.Server.Resources
             if (room.IsGuarded(encounters))
             {
                 var seeOtherResponse = new HttpResponseMessage<SyndicationItem>(HttpStatusCode.SeeOther);
-                seeOtherResponse.Headers.Location = new Uri(string.Format("http://localhost:8081/encounters/{0}", room.GetEncounter(encounters).Id));
+                seeOtherResponse.Headers.Location = new Uri(string.Format("http://" + Environment.MachineName + ":8081/encounters/{0}", room.GetEncounter(encounters).Id));
                 return seeOtherResponse;
             }
 
             var entry = new SyndicationItem
                            {
                                Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
-                               BaseUri = new Uri("http://localhost:8081"),
+                               BaseUri = new Uri("http://" + Environment.MachineName + ":8081"),
                                Title = SyndicationContent.CreatePlaintextContent(room.Title),
                                Summary = SyndicationContent.CreatePlaintextContent(room.Description)
                            };

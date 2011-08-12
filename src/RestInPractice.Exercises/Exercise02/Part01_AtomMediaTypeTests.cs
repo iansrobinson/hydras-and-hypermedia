@@ -9,7 +9,7 @@ using RestInPractice.MediaTypes;
 namespace RestInPractice.Exercises.Exercise02
 {
     [TestFixture]
-    public class Part01_MoreAtomMediaTypeTests
+    public class Part01_AtomMediaTypeTests
     {
         private const string FeedXml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <feed xmlns=""http://www.w3.org/2005/Atom"">

@@ -18,7 +18,7 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part01_UnresolvedEncounterResourceTests
     {
-        private static readonly Uri BaseUri = new Uri("http://localhost:8081/");
+        private static readonly Uri BaseUri = new Uri(string.Format("http://{0}:8081/", Environment.MachineName));
 
         [Test]
         public void ShouldReturn200Ok()
@@ -198,7 +198,7 @@ namespace RestInPractice.Exercises.Exercise03
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
-            for (var i = 0; i < numberOfRounds; i++ )
+            for (var i = 0; i < numberOfRounds; i++)
             {
                 var expectedTitle = "Round " + (numberOfRounds - i);
                 Assert.AreEqual(expectedTitle, feed.Items.ElementAt(i).Title.Text);
@@ -219,7 +219,7 @@ namespace RestInPractice.Exercises.Exercise03
             {
                 var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, numberOfRounds - i);
                 Assert.AreEqual(expectedId, feed.Items.ElementAt(i).Id);
-            } 
+            }
         }
 
         [Test]
@@ -231,15 +231,15 @@ namespace RestInPractice.Exercises.Exercise03
             var resource = CreateEncounterResource(encounter);
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
-            
+
             for (var i = 0; i < numberOfRounds; i++)
             {
                 var item = feed.Items.ElementAt(i);
                 var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-                var expectedUri = new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, numberOfRounds - i));
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, numberOfRounds - i));
                 Assert.AreEqual(expectedUri, selfLink.Uri);
-            }    
+            }
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace RestInPractice.Exercises.Exercise03
                 var expectedSummary = string.Format("The {0} has {1} Endurance Points", encounter.Title, encounter.GetRound(numberOfRounds - i).Endurance);
 
                 Assert.AreEqual(expectedSummary, item.Summary.Text);
-            }   
+            }
         }
 
         [Test]

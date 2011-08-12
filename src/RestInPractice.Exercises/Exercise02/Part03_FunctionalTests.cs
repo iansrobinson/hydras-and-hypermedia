@@ -21,16 +21,16 @@ namespace RestInPractice.Exercises.Exercise02
         {
             var expectedPath = new[]
                                    {
-                                       "http://localhost:8081/rooms/1",
-                                       "http://localhost:8081/rooms/4",
-                                       "http://localhost:8081/rooms/7",
-                                       "http://localhost:8081/rooms/6",
-                                       "http://localhost:8081/rooms/5",
-                                       "http://localhost:8081/rooms/4",
-                                       "http://localhost:8081/rooms/8",
-                                       "http://localhost:8081/rooms/9",
-                                       "http://localhost:8081/rooms/8",
-                                       "http://localhost:8081/rooms/10"
+                                       CreatePath(1),
+                                       CreatePath(4),
+                                       CreatePath(7),
+                                       CreatePath(6),
+                                       CreatePath(5),
+                                       CreatePath(4),
+                                       CreatePath(8),
+                                       CreatePath(9),
+                                       CreatePath(8),
+                                       CreatePath(10)
                                    };
 
             var path = new List<string>();
@@ -44,14 +44,14 @@ namespace RestInPractice.Exercises.Exercise02
             hostConfiguration.OperationHandlerFactory.Formatters.Clear();
             hostConfiguration.OperationHandlerFactory.Formatters.Insert(0, AtomMediaType.Formatter);
 
-            using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://localhost:8081/rooms/")))
+            using (var host = new HttpConfigurableServiceHost(typeof(RoomResource), configuration, new Uri("http://" + Environment.MachineName + ":8081/rooms/")))
             {
                 host.Open();
 
                 var moveCount = 0;
                 var client = AtomClient.CreateDefault();
 
-                IApplicationState state = new Started(new Uri("http://localhost:8081/rooms/1"), ApplicationStateInfo.WithEndurance(5));
+                IApplicationState state = new Started(new Uri("http://" + Environment.MachineName + ":8081/rooms/1"), ApplicationStateInfo.WithEndurance(5));
                 while (!state.IsTerminalState && moveCount++ < 20)
                 {
                     state = state.NextState(client);
@@ -66,6 +66,11 @@ namespace RestInPractice.Exercises.Exercise02
 
                 host.Close();
             }
+        }
+
+        private static string CreatePath(int roomId)
+        {
+            return string.Format("http://{0}:8081/rooms/{1}", Environment.MachineName.ToLower(), roomId);
         }
     }
 }

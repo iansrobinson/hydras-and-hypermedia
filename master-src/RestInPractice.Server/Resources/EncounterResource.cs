@@ -18,8 +18,8 @@ namespace RestInPractice.Server.Resources
 {
     public class EncounterResource
     {
-        private static readonly Uri BaseUri = new Uri("http://localhost:8081");
-        
+        private static readonly Uri BaseUri = new Uri(string.Format("http://{0}:8081/", Environment.MachineName));
+
         private readonly Repository<Encounter> encounters;
 
         public EncounterResource(Repository<Encounter> encounters)
@@ -51,11 +51,11 @@ namespace RestInPractice.Server.Resources
 
             if (encounter.IsResolved)
             {
-                feed.Links.Add(new SyndicationLink { RelationshipType = "continue", Uri = new Uri("/rooms/" + encounter.GuardedRoomId, UriKind.Relative) });
+                feed.Links.Add(new SyndicationLink {RelationshipType = "continue", Uri = new Uri("/rooms/" + encounter.GuardedRoomId, UriKind.Relative)});
             }
             else
             {
-                feed.Links.Add(new SyndicationLink { RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative) });
+                feed.Links.Add(new SyndicationLink {RelationshipType = "flee", Uri = new Uri("/rooms/" + encounter.FleeRoomId, UriKind.Relative)});
                 var xhtml = new FormWriter(new Uri("/encounters/" + encounter.Id, UriKind.RelativeOrAbsolute), HttpMethod.Post, new TextInput("endurance")).ToXhtml();
                 feed.ElementExtensions.Add(XmlReader.Create(new StringReader(xhtml)));
             }
@@ -70,7 +70,7 @@ namespace RestInPractice.Server.Resources
                                                     Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
                                                     Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
                                                 };
-                                entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
+                                entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, round.Id))));
                                 entry.Categories.Add(new SyndicationCategory("round"));
                                 return entry;
                             });
@@ -97,12 +97,12 @@ namespace RestInPractice.Server.Resources
 
             if (encounter.IsResolved)
             {
-                var methodNotAllowedResponse = new HttpResponseMessage {StatusCode = HttpStatusCode.MethodNotAllowed, Content = new ByteArrayContent(new byte[]{})};
+                var methodNotAllowedResponse = new HttpResponseMessage {StatusCode = HttpStatusCode.MethodNotAllowed, Content = new ByteArrayContent(new byte[] {})};
                 methodNotAllowedResponse.Content.Headers.Allow.Add("GET");
                 throw new HttpResponseException(methodNotAllowedResponse);
             }
 
-            var form = request.Content.ReadAs<JsonValue>(new[] { new FormUrlEncodedMediaTypeFormatter() });
+            var form = request.Content.ReadAs<JsonValue>(new[] {new FormUrlEncodedMediaTypeFormatter()});
             var clientEndurance = form["endurance"].ReadAs<int>();
 
             var result = encounter.Action(clientEndurance);
@@ -118,7 +118,7 @@ namespace RestInPractice.Server.Resources
                                 Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Point{2}", encounter.Title, round.Endurance, Math.Abs(round.Endurance).Equals(1) ? "" : "s")),
                                 Content = SyndicationContent.CreateXhtmlContent(xhtml),
                             };
-            entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://localhost:8081/encounters/{0}/round/{1}", encounter.Id, round.Id))));
+            entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, round.Id))));
             entry.Categories.Add(new SyndicationCategory("round"));
 
             if (encounter.IsResolved)
@@ -132,7 +132,7 @@ namespace RestInPractice.Server.Resources
             }
 
             var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
-            response.Headers.Location = new Uri("http://localhost:8081/encounters/1/round/2");
+            response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/1/round/2", Environment.MachineName));
             response.Content.Headers.ContentType = AtomMediaType.Entry;
 
             return response;

@@ -10,7 +10,7 @@ using RestInPractice.MediaTypes;
 namespace RestInPractice.Exercises.Exercise03
 {
     [TestFixture]
-    public class Part05_ClientTests
+    public class Part05_ExploringTests
     {
         private static readonly ApplicationStateInfo ApplicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(new Uri("http://localhost/rooms/1")).Build();
 

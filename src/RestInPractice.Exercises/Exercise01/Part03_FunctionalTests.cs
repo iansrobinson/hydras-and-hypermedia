@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using System.Xml;
 using Microsoft.ApplicationServer.Http.Activation;
@@ -28,18 +26,18 @@ namespace RestInPractice.Exercises.Exercise01
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.
-            var hostConfiguration = (HttpHostConfiguration)configuration;
+            var hostConfiguration = (HttpHostConfiguration) configuration;
             hostConfiguration.OperationHandlerFactory.Formatters.Clear();
             hostConfiguration.OperationHandlerFactory.Formatters.Insert(0, AtomMediaType.Formatter);
 
-            using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://localhost:8081/rooms/")))
+            using (var host = new HttpConfigurableServiceHost(typeof (RoomResource), configuration, new Uri("http://" + Environment.MachineName + ":8081/rooms/")))
             {
                 host.Open();
 
                 var entryFormatter = new Atom10ItemFormatter();
                 var client = AtomClient.CreateDefault();
-                
-                using (var firstResponse = client.Get("http://localhost:8081/rooms/1"))
+
+                using (var firstResponse = client.Get("http://" + Environment.MachineName + ":8081/rooms/1"))
                 {
                     entryFormatter.ReadFrom(XmlReader.Create(firstResponse.Content.ContentReadStream));
                 }
