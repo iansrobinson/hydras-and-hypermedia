@@ -17,10 +17,12 @@ namespace RestInPractice.Server.Resources
     public class RoomResource
     {
         private readonly Repository<Room> rooms;
+        private readonly Repository<Encounter> encounters;
 
         public RoomResource(Repository<Room> rooms, Repository<Encounter> encounters)
         {
             this.rooms = rooms;
+            this.encounters = encounters;
         }
 
         [WebGet(UriTemplate = "{id}")]
@@ -34,6 +36,13 @@ namespace RestInPractice.Server.Resources
             catch (KeyNotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            if (room.IsGuarded(encounters))
+            {
+                var seeOtherResponse = new HttpResponseMessage<SyndicationItem>(HttpStatusCode.SeeOther);
+                seeOtherResponse.Headers.Location = new Uri(string.Format("http://localhost:8081/encounters/{0}", room.GetEncounter(encounters).Id));
+                return seeOtherResponse;
             }
 
             var entry = new SyndicationItem

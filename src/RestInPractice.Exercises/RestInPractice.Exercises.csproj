@@ -87,7 +87,8 @@
     <Compile Include="Exercise03\Part01_UnresolvedEncounterResourceTests.cs" />
     <Compile Include="Exercise03\Part02_ResolvingEncounterResourceTests.cs" />
     <Compile Include="Exercise03\Part03_ResolvedEncounterResourceTests.cs" />
-    <Compile Include="Exercise03\Part04_ClientTests.cs" />
+    <Compile Include="Exercise03\Part04_UpdateRoomResourceTests.cs" />
+    <Compile Include="Exercise03\Part05_ClientTests.cs" />
     <Compile Include="Helpers\EntryBuilder.cs" />
     <Compile Include="Helpers\AtomClient.cs" />
     <Compile Include="Helpers\FeedBuilder.cs" />
