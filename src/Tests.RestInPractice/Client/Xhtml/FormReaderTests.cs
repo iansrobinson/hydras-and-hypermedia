@@ -19,7 +19,7 @@ namespace Tests.RestInPractice.Client.Xhtml
 
         [Test]
         public void ShouldParseActionFromForm()
-        {
+        {            
             var reader = FormReader.Read(Xhtml);
             Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
         }

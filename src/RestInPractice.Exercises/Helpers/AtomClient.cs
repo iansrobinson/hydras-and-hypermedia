@@ -14,7 +14,7 @@ namespace RestInPractice.Exercises.Helpers
             return client;
         }
 
-        public static HttpClient CreateWithStubEndpoint(StubEndpoint endpoint)
+        public static HttpClient CreateWithChannel(HttpClientChannel endpoint)
         {
             var client = new HttpClient {Channel = endpoint};
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(AtomMediaType.Value.MediaType));

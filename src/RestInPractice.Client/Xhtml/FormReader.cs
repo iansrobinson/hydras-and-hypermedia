@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Xml;
+using System.ServiceModel.Syndication;
 using System.Xml.Linq;
 
 namespace RestInPractice.Client.Xhtml
 {
     public class FormReader
     {
+        public static FormReader Read(SyndicationElementExtension atomExtension)
+        {
+            return Read(atomExtension.GetReader().ReadOuterXml());
+        }
+        
         public static FormReader Read(string xhtml)
         {
             var doc = XDocument.Parse(xhtml);

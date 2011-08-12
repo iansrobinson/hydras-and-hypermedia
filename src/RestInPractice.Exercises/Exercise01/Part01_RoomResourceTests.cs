@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.ServiceModel.Syndication;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
+using RestInPractice.Client.Comparers;
 using RestInPractice.MediaTypes;
 using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
@@ -124,6 +125,17 @@ namespace RestInPractice.Exercises.Exercise01
             var item = response.Content.ReadAsOrDefault();
 
             Assert.AreEqual(BaseUri, item.BaseUri);
+        }
+
+        [Test]
+        public void ItemShouldIncludeRoomCategory()
+        {
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
+            var item = response.Content.ReadAsOrDefault();
+
+            Assert.IsTrue(item.Categories.Contains(new SyndicationCategory("room"), CategoryComparer.Instance));
         }
 
         [Test]

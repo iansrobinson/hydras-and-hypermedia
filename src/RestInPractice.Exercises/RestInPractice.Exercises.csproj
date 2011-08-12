@@ -94,6 +94,7 @@
     <Compile Include="Helpers\AtomClient.cs" />
     <Compile Include="Helpers\FeedBuilder.cs" />
     <Compile Include="Helpers\Maze.cs" />
+    <Compile Include="Helpers\MockEndpoint.cs" />
     <Compile Include="Helpers\Monsters.cs" />
     <Compile Include="Helpers\StubEndpoint.cs" />
     <Compile Include="Helpers\Utf8Writer.cs" />

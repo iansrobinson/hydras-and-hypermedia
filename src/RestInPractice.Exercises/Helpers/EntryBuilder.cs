@@ -26,6 +26,12 @@ namespace RestInPractice.Exercises.Helpers
             return this;
         }
 
+        public EntryBuilder WithCategory(string category)
+        {
+            entry.Categories.Add(new SyndicationCategory(category));
+            return this;
+        }
+
         public EntryBuilder WithNorthLink(Uri uri)
         {
             entry.Links.Add(new SyndicationLink {Uri = uri, RelationshipType = "north"});

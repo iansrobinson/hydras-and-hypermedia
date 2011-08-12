@@ -54,6 +54,7 @@ namespace RestInPractice.Server.Resources
                            };
 
             entry.Authors.Add(new SyndicationPerson{Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
+            entry.Categories.Add(new SyndicationCategory("room"));
 
             foreach (var exit in room.Exits)
             {

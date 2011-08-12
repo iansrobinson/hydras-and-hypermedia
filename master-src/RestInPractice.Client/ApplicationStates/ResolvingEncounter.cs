@@ -1,5 +1,10 @@
-﻿using System;
+﻿using System.Linq;
 using System.Net.Http;
+using System.ServiceModel.Syndication;
+using RestInPractice.Client.Comparers;
+using RestInPractice.Client.Extensions;
+using RestInPractice.Client.Xhtml;
+using RestInPractice.MediaTypes;
 
 namespace RestInPractice.Client.ApplicationStates
 {
@@ -16,7 +21,22 @@ namespace RestInPractice.Client.ApplicationStates
 
         public IApplicationState NextState(HttpClient client)
         {
-            throw new NotImplementedException();
+            if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.Feed))
+            {
+                var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
+                if (feed.Categories.Contains(new SyndicationCategory("room"), CategoryComparer.Instance))
+                {
+                    return new Exploring(currentResponse, applicationStateInfo);
+                }
+                if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
+                {
+                    var form = FormReader.Read(feed.ElementExtensions.First());
+                    client.Send(new HttpRequestMessage {Method = form.Method, RequestUri = form.Action});
+                }
+                return new Error(currentResponse, applicationStateInfo);
+            }
+
+            return null;
         }
 
         public HttpResponseMessage CurrentResponse
@@ -31,7 +51,7 @@ namespace RestInPractice.Client.ApplicationStates
 
         public bool IsTerminalState
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
     }
 }

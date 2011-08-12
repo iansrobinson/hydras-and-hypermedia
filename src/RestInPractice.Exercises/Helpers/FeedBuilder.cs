@@ -1,6 +1,8 @@
-﻿using System.ServiceModel.Syndication;
+﻿using System.IO;
+using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
+using RestInPractice.Server.Xhtml;
 
 namespace RestInPractice.Exercises.Helpers
 {
@@ -11,6 +13,12 @@ namespace RestInPractice.Exercises.Helpers
         public FeedBuilder()
         {
             feed = new SyndicationFeed();
+        }
+
+        public FeedBuilder WithForm(FormWriter form)
+        {
+            feed.ElementExtensions.Add(XmlReader.Create(new StringReader(form.ToXhtml())));
+            return this;
         }
 
         public FeedBuilder WithCategory(string category)

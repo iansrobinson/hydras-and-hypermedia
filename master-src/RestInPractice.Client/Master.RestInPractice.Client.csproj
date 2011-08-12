@@ -98,6 +98,12 @@
     <Compile Include="..\..\src\RestInPractice.Client\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Client\Xhtml\FormReader.cs">
+      <Link>Xhtml\FormReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Client\Xhtml\TextInput.cs">
+      <Link>Xhtml\TextInput.cs</Link>
+    </Compile>
     <Compile Include="ApplicationStates\Exploring.cs" />
     <Compile Include="ApplicationStates\ResolvingEncounter.cs" />
   </ItemGroup>
