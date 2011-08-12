@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
@@ -18,6 +19,12 @@ namespace RestInPractice.Exercises.Helpers
         public FeedBuilder WithForm(FormWriter form)
         {
             feed.ElementExtensions.Add(XmlReader.Create(new StringReader(form.ToXhtml())));
+            return this;
+        }
+
+        public FeedBuilder WithBaseUri(Uri baseUri)
+        {
+            feed.BaseUri = baseUri;
             return this;
         }
 

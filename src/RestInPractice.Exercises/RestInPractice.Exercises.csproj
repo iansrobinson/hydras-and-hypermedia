@@ -93,6 +93,7 @@
     <Compile Include="Helpers\EntryBuilder.cs" />
     <Compile Include="Helpers\AtomClient.cs" />
     <Compile Include="Helpers\FeedBuilder.cs" />
+    <Compile Include="Helpers\HttpRequestComparer.cs" />
     <Compile Include="Helpers\Maze.cs" />
     <Compile Include="Helpers\MockEndpoint.cs" />
     <Compile Include="Helpers\Monsters.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using NUnit.Framework;
 using RestInPractice.Client;
 using RestInPractice.Client.ApplicationStates;
@@ -14,7 +15,7 @@ namespace RestInPractice.Exercises.Exercise03
     public class Part06_ResolvingEncounterTests
     {
         private static readonly ApplicationStateInfo ApplicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().Build();
-        private static readonly Uri Action = new Uri("http://localhost:8081/encounters/1");
+        private static readonly Uri Action = new Uri("/encounters/1", UriKind.Relative);
         private static readonly HttpMethod Method = HttpMethod.Post;
         private static readonly TextInput Field = new TextInput("endurance");
 
@@ -36,9 +37,12 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void IfResponseContainsFeedWithFormShouldSubmitFormWithMethodSpecifiedByForm()
+        public void IfResponseContainsEncounterFeedWithFormShouldSubmitFormWithCurrentEndurance()
         {
-            var feed = new FeedBuilder().WithCategory("encounter").WithForm(new FormWriter(Action, Method, Field)).ToString();
+            var feed = new FeedBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("encounter")
+                .WithForm(new FormWriter(Action, Method, Field)).ToString();
             var entry = new EntryBuilder().WithCategory("round").ToString();
             
             var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
@@ -47,52 +51,16 @@ namespace RestInPractice.Exercises.Exercise03
             var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo);
             initialState.NextState(client);
 
-            Assert.AreEqual(Method, mockEndpoint.ReceivedRequest.Method);
-        }
+            var expectedContent = new StringContent("endurance=5");
+            expectedContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            var expectedRequest = new HttpRequestMessage
+                                      {
+                                          Method = HttpMethod.Post, 
+                                          RequestUri = new Uri("http://localhost:8081/encounters/1"), 
+                                          Content = expectedContent
+                                      };
 
-        [Test]
-        public void IfResponseContainsFeedWithFormShouldSubmitFormToActionUriSpecifiedByForm()
-        {
-            var feed = new FeedBuilder().WithCategory("encounter").WithForm(new FormWriter(Action, Method, Field)).ToString();
-            var entry = new EntryBuilder().WithCategory("round").ToString();
-
-            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
-            var client = AtomClient.CreateWithChannel(mockEndpoint);
-
-            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo);
-            initialState.NextState(client);
-
-            Assert.AreEqual(Action, mockEndpoint.ReceivedRequest.RequestUri);
-        }
-
-        [Test]
-        public void IfResponseContainsFeedWithFormShouldSubmitFormWithContentTypeSpecifiedByForm()
-        {
-            var feed = new FeedBuilder().WithCategory("encounter").WithForm(new FormWriter(Action, Method, Field)).ToString();
-            var entry = new EntryBuilder().WithCategory("round").ToString();
-
-            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
-            var client = AtomClient.CreateWithChannel(mockEndpoint);
-
-            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo);
-            initialState.NextState(client);
-
-            Assert.AreEqual("application/x-www-form-urlencoded", mockEndpoint.ReceivedRequest.Content.Headers.ContentType.MediaType);
-        }
-
-        [Test]
-        public void IfResponseContainsFeedWithFormShouldFillOutFormFieldWithCurrentEndurance()
-        {
-            var feed = new FeedBuilder().WithCategory("encounter").WithForm(new FormWriter(Action, Method, Field)).ToString();
-            var entry = new EntryBuilder().WithCategory("round").ToString();
-
-            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
-            var client = AtomClient.CreateWithChannel(mockEndpoint);
-
-            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo);
-            initialState.NextState(client);
-
-            Assert.AreEqual("endurance=5", mockEndpoint.ReceivedRequest.Content.ReadAsString());
+            Assert.IsTrue(HttpRequestComparer.Instance.Equals(expectedRequest, mockEndpoint.ReceivedRequest));
         }
 
         [Test]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using System.Xml.Linq;
 
@@ -78,9 +79,12 @@ namespace RestInPractice.Client.Xhtml
             get { return textInputFields; }
         }
 
-        public FormUrlEncodedContent ToFormUrlEncodedContent()
+        public HttpRequestMessage CreateRequest(Uri baseUri)
         {
-            return new FormUrlEncodedContent(textInputFields.Select(f => new KeyValuePair<string, string>(f.Name, f.Value)));
+            var content = new FormUrlEncodedContent(textInputFields.Select(f => new KeyValuePair<string, string>(f.Name, f.Value)));
+            content.Headers.ContentType = new MediaTypeHeaderValue(enctype);
+            var request = new HttpRequestMessage{Method = method, RequestUri = new Uri(baseUri, action), Content = content};
+            return request;
         }
 
         private static dynamic GetControlData(XContainer doc)

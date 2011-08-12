@@ -126,5 +126,42 @@ namespace Tests.RestInPractice.Client.Xhtml
             var entry = new SyndicationItem { Content = SyndicationContent.CreatePlaintextContent("") };
             Form.ParseFromEntryContent(entry);
         }
+
+        [Test]
+        public void ShouldCreateHttpRequestWithMethodSpecifiedInForm()
+        {
+            var form = Form.Parse(Xhtml);
+            var request = form.CreateRequest(new Uri("http://localhost:8081/"));
+
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+        }
+
+        [Test]
+        public void ShouldCreateHttpRequestForUriSpecifiedInForm()
+        {
+            var form = Form.Parse(Xhtml);
+            var request = form.CreateRequest(new Uri("http://localhost:8081/"));
+
+            Assert.AreEqual(new Uri("http://localhost:8081/encounters/1"), request.RequestUri);
+        }
+
+        [Test]
+        public void ShouldCreateHttpRequestWithContentTypeSpecifiedInForm()
+        {
+            var form = Form.Parse(Xhtml);
+            var request = form.CreateRequest(new Uri("http://localhost:8081/"));
+
+            Assert.AreEqual("application/x-www-form-urlencoded", request.Content.Headers.ContentType.MediaType);
+        }
+
+        [Test]
+        public void ShouldCreateHttpRequestWithFormUrlEncodedContent()
+        {
+            var form = Form.Parse(Xhtml);
+            form.TextInputFields.Single("field2").Value = "field2value";
+            var request = form.CreateRequest(new Uri("http://localhost:8081/"));
+
+            Assert.AreEqual("field1=field1value&field2=field2value&field3=", request.Content.ReadAsString());
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using RestInPractice.Client.Comparers;
 using RestInPractice.Client.Extensions;
@@ -33,9 +32,7 @@ namespace RestInPractice.Client.ApplicationStates
                 {
                     var form = Form.ParseFromFeedExtension(feed);
                     form.TextInputFields.First().Value = applicationStateInfo.Endurance.ToString();
-                    var request = new HttpRequestMessage {Method = form.Method, RequestUri = form.Action, Content = form.ToFormUrlEncodedContent()};
-                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(form.Enctype);
-                    client.Send(request);
+                    client.Send(form.CreateRequest(feed.BaseUri));
                 }
                 return new Error(currentResponse, applicationStateInfo);
             }
