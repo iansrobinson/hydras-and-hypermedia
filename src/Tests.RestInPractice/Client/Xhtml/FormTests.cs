@@ -47,14 +47,14 @@ namespace Tests.RestInPractice.Client.Xhtml
         public void ShouldParseAllTextInputFieldsFromForm()
         {
             var form = Form.Parse(Xhtml);
-            Assert.AreEqual(3, form.TextInputFields.Count());
+            Assert.AreEqual(3, form.Fields.Count());
         }
 
         [Test]
         public void ShouldParseTextInputFieldWithValue()
         {
             var form = Form.Parse(Xhtml);
-            var field1 = form.TextInputFields.Single("field1");
+            var field1 = form.Fields.Named("field1");
 
             Assert.AreEqual("field1value", field1.Value);
         }
@@ -63,7 +63,7 @@ namespace Tests.RestInPractice.Client.Xhtml
         public void ShouldParseTextInputFieldWithoutValue()
         {
             var form = Form.Parse(Xhtml);
-            var field2 = form.TextInputFields.Single("field2");
+            var field2 = form.Fields.Named("field2");
 
             Assert.AreEqual(null, field2.Value);
         }
@@ -72,7 +72,7 @@ namespace Tests.RestInPractice.Client.Xhtml
         public void ShouldParseTextInputFieldWithEmptyValue()
         {
             var form = Form.Parse(Xhtml);
-            var field3 = form.TextInputFields.Single("field3");
+            var field3 = form.Fields.Named("field3");
 
             Assert.AreEqual(string.Empty, field3.Value);
         }
@@ -158,7 +158,7 @@ namespace Tests.RestInPractice.Client.Xhtml
         public void ShouldCreateHttpRequestWithFormUrlEncodedContent()
         {
             var form = Form.Parse(Xhtml);
-            form.TextInputFields.Single("field2").Value = "field2value";
+            form.Fields.Named("field2").Value = "field2value";
             var request = form.CreateRequest(new Uri("http://localhost:8081/"));
 
             Assert.AreEqual("field1=field1value&field2=field2value&field3=", request.Content.ReadAsString());

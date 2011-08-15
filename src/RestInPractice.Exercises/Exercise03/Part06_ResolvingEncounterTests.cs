@@ -14,7 +14,6 @@ namespace RestInPractice.Exercises.Exercise03
     [TestFixture]
     public class Part06_ResolvingEncounterTests
     {
-        private static readonly ApplicationStateInfo ApplicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().Build();
         private static readonly Uri Action = new Uri("/encounters/1", UriKind.Relative);
         private static readonly HttpMethod Method = HttpMethod.Post;
         private static readonly TextInput Field = new TextInput("endurance");
@@ -30,7 +29,7 @@ namespace RestInPractice.Exercises.Exercise03
         public void ShouldReturnExploringApplicationStateIfCurrentResponseContainsRoomEntry()
         {
             var feed = new FeedBuilder().WithCategory("room").ToString();
-            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo);
+            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof (Exploring), nextState);
@@ -39,28 +38,78 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void IfResponseContainsEncounterFeedWithFormShouldSubmitFormWithCurrentEndurance()
         {
+            const int endurance = 5;
+
             var feed = new FeedBuilder()
                 .WithBaseUri(new Uri("http://localhost:8081/"))
                 .WithCategory("encounter")
                 .WithForm(new FormWriter(Action, Method, Field)).ToString();
-            var entry = new EntryBuilder().WithCategory("round").ToString();
-            
+            var entry = new EntryBuilder()
+                .WithCategory("round")
+                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", "3")))
+                .ToString();
+
             var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
-            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo);
+            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(endurance));
             initialState.NextState(client);
 
-            var expectedContent = new StringContent("endurance=5");
+            var expectedContent = new StringContent("endurance=" + endurance);
             expectedContent.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             var expectedRequest = new HttpRequestMessage
                                       {
-                                          Method = HttpMethod.Post, 
-                                          RequestUri = new Uri("http://localhost:8081/encounters/1"), 
+                                          Method = HttpMethod.Post,
+                                          RequestUri = new Uri("http://localhost:8081/encounters/1"),
                                           Content = expectedContent
                                       };
 
             Assert.IsTrue(HttpRequestComparer.Instance.Equals(expectedRequest, mockEndpoint.ReceivedRequest));
+        }
+
+        [Test]
+        public void AfterSubmittingFormShouldReturnNewResolvingEncounterApplicationState()
+        {
+            var feed = new FeedBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("encounter")
+                .WithForm(new FormWriter(Action, Method, Field)).ToString();
+            var entry = new EntryBuilder()
+                .WithCategory("round")
+                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", "3")))
+                .ToString();
+
+            var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(entry));
+            var client = AtomClient.CreateWithChannel(stubEndpoint);
+
+            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
+            var newState = initialState.NextState(client);
+
+            Assert.IsInstanceOf(typeof (ResolvingEncounter), newState);
+        }
+
+        [Test]
+        public void NewStateShouldContainRevisedEnduranceFromResponse()
+        {
+            const int newEndurance = 3;
+            
+            var feed = new FeedBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("encounter")
+                .WithForm(new FormWriter(Action, Method, Field))
+                .ToString();
+            var entry = new EntryBuilder()
+                .WithCategory("round")
+                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", newEndurance.ToString())))
+                .ToString();
+            
+            var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(entry));
+            var client = AtomClient.CreateWithChannel(stubEndpoint);
+
+            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
+            var newState = initialState.NextState(client);
+
+            Assert.AreEqual(newEndurance, newState.ApplicationStateInfo.Endurance);
         }
 
         [Test]
@@ -70,7 +119,7 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateResponseWithFeed(feed);
 
-            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo);
+            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof (Error), nextState);
@@ -83,7 +132,7 @@ namespace RestInPractice.Exercises.Exercise03
 
             var currentResponse = CreateResponseWithFeed(feed);
 
-            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo);
+            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.AreEqual(currentResponse, nextState.CurrentResponse);
@@ -92,14 +141,15 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ErrorStateIsInitializedWithCurrentHistory()
         {
+            var applicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(new Uri("http://localhost/rooms1")).Build();
             var feed = new FeedBuilder().ToString();
-
             var currentResponse = CreateResponseWithFeed(feed);
 
-            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo);
+
+            var initialState = new ResolvingEncounter(currentResponse, applicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsTrue(nextState.ApplicationStateInfo.History.SequenceEqual(ApplicationStateInfo.History));
+            Assert.IsTrue(nextState.ApplicationStateInfo.History.SequenceEqual(applicationStateInfo.History));
         }
 
         private static HttpResponseMessage CreateResponseWithFeed(string feed)
@@ -111,7 +161,7 @@ namespace RestInPractice.Exercises.Exercise03
 
         private static HttpResponseMessage CreateResponseWithEntry(string entry)
         {
-            var currentResponse = new HttpResponseMessage { Content = new StringContent(entry) };
+            var currentResponse = new HttpResponseMessage {Content = new StringContent(entry)};
             currentResponse.Content.Headers.ContentType = AtomMediaType.Entry;
             return currentResponse;
         }

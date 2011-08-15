@@ -49,14 +49,14 @@ namespace RestInPractice.Client.Xhtml
         private readonly Uri action;
         private readonly HttpMethod method;
         private readonly string enctype;
-        private readonly IEnumerable<TextInput> textInputFields;
+        private readonly IEnumerable<TextInput> fields;
 
-        public Form(string action, string method, string enctype, params TextInput[] textInputFields)
+        public Form(string action, string method, string enctype, params TextInput[] fields)
         {
             this.action = new Uri(action, UriKind.RelativeOrAbsolute);
             this.method = new HttpMethod(method.ToUpper());
             this.enctype = enctype;
-            this.textInputFields = new List<TextInput>(textInputFields).AsReadOnly();
+            this.fields = new List<TextInput>(fields).AsReadOnly();
         }
 
         public Uri Action
@@ -74,14 +74,14 @@ namespace RestInPractice.Client.Xhtml
             get { return enctype; }
         }
 
-        public IEnumerable<TextInput> TextInputFields
+        public IEnumerable<TextInput> Fields
         {
-            get { return textInputFields; }
+            get { return fields; }
         }
 
         public HttpRequestMessage CreateRequest(Uri baseUri)
         {
-            var content = new FormUrlEncodedContent(textInputFields.Select(f => new KeyValuePair<string, string>(f.Name, f.Value)));
+            var content = new FormUrlEncodedContent(fields.Select(f => new KeyValuePair<string, string>(f.Name, f.Value)));
             content.Headers.ContentType = new MediaTypeHeaderValue(enctype);
             var request = new HttpRequestMessage{Method = method, RequestUri = new Uri(baseUri, action), Content = content};
             return request;
@@ -110,7 +110,7 @@ namespace RestInPractice.Client.Xhtml
 
     public static class TextInputFieldsExtensions
     {
-        public static TextInput Single(this IEnumerable<TextInput> fields, string name)
+        public static TextInput Named(this IEnumerable<TextInput> fields, string name)
         {
             return fields.FirstOrDefault(f => f.Name.Equals(name));
         }

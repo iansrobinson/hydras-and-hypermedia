@@ -2,6 +2,7 @@
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
+using RestInPractice.Server.Xhtml;
 
 namespace RestInPractice.Exercises.Helpers
 {
@@ -23,6 +24,12 @@ namespace RestInPractice.Exercises.Helpers
         public EntryBuilder WithTitle(string title)
         {
             entry.Title = SyndicationContent.CreatePlaintextContent(title);
+            return this;
+        }
+
+        public EntryBuilder WithForm(FormWriter form)
+        {
+            entry.Content = SyndicationContent.CreateXhtmlContent(form.ToXhtml());
             return this;
         }
 

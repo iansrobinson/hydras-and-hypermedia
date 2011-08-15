@@ -31,8 +31,14 @@ namespace RestInPractice.Client.ApplicationStates
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
                 {
                     var form = Form.ParseFromFeedExtension(feed);
-                    form.TextInputFields.First().Value = applicationStateInfo.Endurance.ToString();
-                    client.Send(form.CreateRequest(feed.BaseUri));
+                    form.Fields.Named("endurance").Value = applicationStateInfo.Endurance.ToString();
+
+                    var newResponse = client.Send(form.CreateRequest(feed.BaseUri));
+                    var newContent = newResponse.Content.ReadAsObject<SyndicationItem>(AtomMediaType.Formatter);
+                    var newForm = Form.ParseFromEntryContent(newContent);
+                    var newEndurance = int.Parse(newForm.Fields.Named("endurance").Value);
+
+                    return new ResolvingEncounter(newResponse, applicationStateInfo.GetBuilder().UpdateEndurance(newEndurance).Build());
                 }
                 return new Error(currentResponse, applicationStateInfo);
             }
