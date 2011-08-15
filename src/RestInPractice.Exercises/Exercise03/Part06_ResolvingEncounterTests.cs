@@ -16,7 +16,6 @@ namespace RestInPractice.Exercises.Exercise03
     {
         private static readonly Uri Action = new Uri("/encounters/1", UriKind.Relative);
         private static readonly HttpMethod Method = HttpMethod.Post;
-        private static readonly TextInput Field = new TextInput("endurance");
 
         [Test]
         public void ShouldBeNonTerminalState()
@@ -40,14 +39,8 @@ namespace RestInPractice.Exercises.Exercise03
         {
             const int endurance = 5;
 
-            var feed = new FeedBuilder()
-                .WithBaseUri(new Uri("http://localhost:8081/"))
-                .WithCategory("encounter")
-                .WithForm(new FormWriter(Action, Method, Field)).ToString();
-            var entry = new EntryBuilder()
-                .WithCategory("round")
-                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", "3")))
-                .ToString();
+            var feed = CreateEncounterFeed();
+            var entry = CreateRoundEntry(3);
 
             var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(mockEndpoint);
@@ -70,14 +63,8 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void AfterSubmittingFormShouldReturnNewResolvingEncounterApplicationState()
         {
-            var feed = new FeedBuilder()
-                .WithBaseUri(new Uri("http://localhost:8081/"))
-                .WithCategory("encounter")
-                .WithForm(new FormWriter(Action, Method, Field)).ToString();
-            var entry = new EntryBuilder()
-                .WithCategory("round")
-                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", "3")))
-                .ToString();
+            var feed = CreateEncounterFeed();
+            var entry = CreateRoundEntry(3);
 
             var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
@@ -92,17 +79,10 @@ namespace RestInPractice.Exercises.Exercise03
         public void NewStateShouldContainRevisedEnduranceFromResponse()
         {
             const int newEndurance = 3;
-            
-            var feed = new FeedBuilder()
-                .WithBaseUri(new Uri("http://localhost:8081/"))
-                .WithCategory("encounter")
-                .WithForm(new FormWriter(Action, Method, Field))
-                .ToString();
-            var entry = new EntryBuilder()
-                .WithCategory("round")
-                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", newEndurance.ToString())))
-                .ToString();
-            
+
+            var feed = CreateEncounterFeed();
+            var entry = CreateRoundEntry(newEndurance);
+
             var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
@@ -145,7 +125,6 @@ namespace RestInPractice.Exercises.Exercise03
             var feed = new FeedBuilder().ToString();
             var currentResponse = CreateResponseWithFeed(feed);
 
-
             var initialState = new ResolvingEncounter(currentResponse, applicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
@@ -164,6 +143,23 @@ namespace RestInPractice.Exercises.Exercise03
             var currentResponse = new HttpResponseMessage {Content = new StringContent(entry)};
             currentResponse.Content.Headers.ContentType = AtomMediaType.Entry;
             return currentResponse;
+        }
+
+        private static string CreateRoundEntry(int endurance)
+        {
+            return new EntryBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("round")
+                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", endurance.ToString())))
+                .ToString();
+        }
+
+        private static string CreateEncounterFeed()
+        {
+            return new FeedBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("encounter")
+                .WithForm(new FormWriter(Action, Method, new TextInput("endurance"))).ToString();
         }
     }
 }
