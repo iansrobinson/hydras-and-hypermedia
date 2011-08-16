@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using NUnit.Framework;
@@ -12,7 +11,7 @@ using RestInPractice.Server.Xhtml;
 namespace RestInPractice.Exercises.Exercise03
 {
     [TestFixture]
-    public class Part06_ResolvingEncounterTests
+    public class Part06_BeginResolvingEncounterTests
     {
         private static readonly Uri Action = new Uri("/encounters/1", UriKind.Relative);
         private static readonly HttpMethod Method = HttpMethod.Post;
@@ -76,7 +75,7 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void NewStateShouldContainRevisedEnduranceFromResponse()
+        public void NewStateShouldContainRevisedEnduranceAsSpecifiedInResponse()
         {
             const int newEndurance = 3;
 
@@ -90,6 +89,21 @@ namespace RestInPractice.Exercises.Exercise03
             var newState = initialState.NextState(client);
 
             Assert.AreEqual(newEndurance, newState.ApplicationStateInfo.Endurance);
+        }
+         
+        [Test]
+        public void IfResponseToSubmittingFormIsNotAtomEntryShouldReturnErrorState()
+        {
+            var feed = CreateEncounterFeed();
+            var secondFeed = CreateEncounterFeed();
+
+            var stubEndpoint = new StubEndpoint(request => CreateResponseWithFeed(secondFeed));
+            var client = AtomClient.CreateWithChannel(stubEndpoint);
+
+            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
+            var newState = initialState.NextState(client);
+
+            Assert.IsInstanceOf(typeof(Error), newState);
         }
 
         [Test]
@@ -133,20 +147,18 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ShouldReturnErrorApplicationStateIfCurrentResponseContainsNonAtomMediaType()
         {
-            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
-            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            var currentResponse = CreateHtmlResponse();
 
             var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsInstanceOf(typeof(Error), nextState);
+            Assert.IsInstanceOf(typeof (Error), nextState);
         }
 
         [Test]
         public void ErrorStateForNonAtomMediaTypeShouldBeInitializedWithCurrentResponse()
         {
-            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
-            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            var currentResponse = CreateHtmlResponse();
 
             var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo.WithEndurance(5));
             var nextState = initialState.NextState(new HttpClient());
@@ -158,9 +170,8 @@ namespace RestInPractice.Exercises.Exercise03
         public void ErrorStateForNonAtomMediaTypeShouldBeInitializedWithCurrentApplicationStateInfo()
         {
             var applicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(new Uri("http://localhost/rooms1")).Build();
-            
-            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
-            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            var currentResponse = CreateHtmlResponse();
 
             var initialState = new ResolvingEncounter(currentResponse, applicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
@@ -197,6 +208,13 @@ namespace RestInPractice.Exercises.Exercise03
                 .WithBaseUri(new Uri("http://localhost:8081/"))
                 .WithCategory("encounter")
                 .WithForm(new FormWriter(Action, Method, new TextInput("endurance"))).ToString();
+        }
+
+        private static HttpResponseMessage CreateHtmlResponse()
+        {
+            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
+            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return currentResponse;
         }
     }
 }

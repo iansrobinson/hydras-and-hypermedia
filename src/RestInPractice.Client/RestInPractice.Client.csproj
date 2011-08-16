@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationStateInfo.cs" />
+    <Compile Include="ApplicationStates\Defeated.cs" />
     <Compile Include="ApplicationStates\Error.cs" />
     <Compile Include="ApplicationStates\Exploring.cs" />
     <Compile Include="ApplicationStates\GoalAchieved.cs" />

@@ -74,6 +74,9 @@
     <Compile Include="..\..\src\RestInPractice.Client\ApplicationStateInfo.cs">
       <Link>ApplicationStateInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Defeated.cs">
+      <Link>ApplicationStates\Defeated.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Error.cs">
       <Link>ApplicationStates\Error.cs</Link>
     </Compile>
