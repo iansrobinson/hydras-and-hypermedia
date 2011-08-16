@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
@@ -18,6 +17,7 @@ namespace RestInPractice.Exercises.Exercise03
     public class Part08_FunctionalTests
     {
         [Test]
+        [Ignore]
         public void ShouldDefeatMonsterAndNavigateMaze()
         {
             var expectedPath = new[]
@@ -40,11 +40,11 @@ namespace RestInPractice.Exercises.Exercise03
             var configuration = HttpHostConfiguration.Create()
                 .SetResourceFactory((type, instanceContext, request) =>
                                         {
-                                            if (type.Equals(typeof(RoomResource)))
+                                            if (type.Equals(typeof (RoomResource)))
                                             {
                                                 return new RoomResource(Maze.NewInstance(), encounterRepository);
                                             }
-                                            if (type.Equals(typeof(EncounterResource)))
+                                            if (type.Equals(typeof (EncounterResource)))
                                             {
                                                 return new EncounterResource(encounterRepository);
                                             }
@@ -66,7 +66,7 @@ namespace RestInPractice.Exercises.Exercise03
 
                 var moveCount = 0;
                 var client = AtomClient.CreateDefault();
-                
+
                 IApplicationState state = new Started(new Uri("http://" + Environment.MachineName + ":8081/rooms/1"), ApplicationStateInfo.WithEndurance(5));
                 while (!state.IsTerminalState && moveCount++ < 20)
                 {

@@ -1,4 +1,4 @@
-<project name="Build RestInPractice" default="build">
+<project name="Build Hydras and Hypermedia" default="build">
 
   <property name="nant.settings.currentframework" value="net-4.0" />
   
@@ -6,22 +6,23 @@
   <property name="base.dir" value="${project::get-base-directory()}"/>
   <property name="output.dir" value="${base.dir}\output"/>
   <property name="bin.dir" value="${output.dir}\bin"/>
+  <property name="bin.server.dir" value="${bin.dir}\server"/>
+  <property name="bin.client.dir" value="${bin.dir}\client"/>
   <property name="reports.dir" value="${output.dir}\reports"/>
-  <property name="binaries.dir" value="${base.dir}\src\RestInPractice.Server\bin\"/>
+  <property name="reports.tests.dir" value="${reports.dir}\tests"/>
+  <property name="reports.exercises.dir" value="${reports.dir}\exercises"/>
+  <property name="binaries.server.dir" value="${base.dir}\src\RestInPractice.Server\bin"/>
+  <property name="binaries.client.dir" value="${base.dir}\src\RestInPractice.Client\bin\${configuration}"/>
   <property name="tests.dir" value="${base.dir}\src\Tests.RestInPractice\bin\${configuration}"/>
+  <property name="exercises.dir" value="${base.dir}\src\RestInPractice.Exercises\bin\${configuration}"/>
   <property name="solution.file" value="ProgressiveDotNet.sln"/>
   <property name="unit.test.assembly" value="Tests.RestInPractice.dll"/>
   <property name="unit.tests.file" value="results.xml"/>
   <property name="assemblyinfo.files" value="src\RestInPractice.*\Properties\AssemblyInfo.cs"/>
-  <property name="project.description" value="RestInPractice Progressive .NET Exercises"/>
+  <property name="project.description" value="Hydras and Hypermedia Exercises"/>
   <property name="copyright" value="Copyright (c) ${datetime::get-year(datetime::now())}, iansrobinson.com"/>
-
-  <property name="bin.rip.dir" value="${output.dir}\bin.rip"/>
-  <property name="reports.rip.dir" value="${output.dir}\reports.rip"/>
-  <property name="binaries.rip.dir" value="${base.dir}\src\RestInPractice.RestToolkit\bin\"/>
-  <property name="tests.rip.dir" value="${base.dir}\src\Tests.RestInPractice\bin\${configuration}"/>
-  <property name="unit.test.assembly.rip" value="Tests.RestInPractice.dll"/>
-  <property name="unit.tests.rip.file" value="results.rip.xml"/>
+  <property name="exercises.assembly" value="RestInPractice.Exercises.dll"/>
+  <property name="exercises.file" value="results.xml"/>
 
   <loadtasks>
     <fileset>
@@ -39,36 +40,10 @@
 
   <target name="create.output.directories">
     <mkdir dir="${output.dir}" />
-    <mkdir dir="${bin.dir}" />
-    <mkdir dir="${reports.dir}" />
-    <mkdir dir="${bin.rip.dir}" />
-    <mkdir dir="${reports.rip.dir}" />
-  </target>
-
-  <target name="build.assemblyinfos" if="${environment::variable-exists('CRUISE_REVISION')}">
-    <foreach item="File" property="filename">
-      <in>
-        <items>
-          <include name="${assemblyinfo.files}" />
-        </items>
-      </in>
-      <do>
-        <asminfo output="${filename}" language="CSharp">
-          <imports>
-            <import namespace="System.Reflection" />
-            <import namespace="System.Runtime.InteropServices" />
-          </imports>
-          <attributes>
-            <attribute type="ComVisibleAttribute" value="false" />
-            <attribute type="AssemblyVersionAttribute" value="1.0.${environment::get-variable('CRUISE_REVISION')}.0" />
-            <attribute type="AssemblyTitleAttribute" value="${project.description}" />
-            <attribute type="AssemblyProductAttribute" value="${project.description}" />
-            <attribute type="AssemblyDescriptionAttribute" value="${project.description}" />
-            <attribute type="AssemblyCopyrightAttribute" value="${copyright}" />
-          </attributes>
-        </asminfo>
-      </do>
-    </foreach>
+    <mkdir dir="${bin.server.dir}" />
+    <mkdir dir="${bin.client.dir}" />
+    <mkdir dir="${reports.tests.dir}" />
+    <mkdir dir="${reports.exercises.dir}" />
   </target>
 
   <target name="build.solution">
@@ -80,30 +55,29 @@
   </target>
 
   <target name="deploy">
-    <copy todir="${bin.dir}">
-      <fileset basedir="${binaries.dir}">
+    <copy todir="${bin.server.dir}">
+      <fileset basedir="${binaries.server.dir}">
         <include name="**/*.dll" />
         <include name="**/*.exe" />
         <include name="**/*.exe.config" />
       </fileset>
     </copy>
-    <copy todir="${reports.dir}">
+    <copy todir="${bin.client.dir}">
+      <fileset basedir="${binaries.client.dir}">
+        <include name="**/*.dll" />
+        <include name="**/*.exe" />
+        <include name="**/*.exe.config" />
+      </fileset>
+    </copy>
+    <copy todir="${reports.tests.dir}">
       <fileset basedir="${tests.dir}">
         <include name="**/${unit.tests.file}" />
         <include name="**/*.html" />
       </fileset>
     </copy>
-
-    <copy todir="${bin.rip.dir}">
-      <fileset basedir="${binaries.rip.dir}">
-        <include name="**/*.dll" />
-        <include name="**/*.exe" />
-        <include name="**/*.exe.config" />
-      </fileset>
-    </copy>
-    <copy todir="${reports.rip.dir}">
-      <fileset basedir="${tests.rip.dir}">
-        <include name="**/${unit.tests.rip.file}" />
+    <copy todir="${reports.exercises.dir}">
+      <fileset basedir="${exercises.dir}">
+        <include name="**/${exercises.file}" />
         <include name="**/*.html" />
       </fileset>
     </copy>
@@ -113,10 +87,12 @@
     <exec program="${base.dir}\tools\nunit\bin\net-2.0\nunit-console.exe"
       workingdir="${tests.dir}"
       commandline="${unit.test.assembly} /xml:${unit.tests.file} /nologo" failonerror="false" resultproperty="unit.tests.result"/>
-    
+  </target>
+
+  <target name="run.exercises">
     <exec program="${base.dir}\tools\nunit\bin\net-2.0\nunit-console.exe"
-      workingdir="${tests.rip.dir}"
-      commandline="${unit.test.assembly.rip} /xml:${unit.tests.rip.file} /nologo" failonerror="false" resultproperty="unit.tests.rip.result"/>
+      workingdir="${exercises.dir}"
+      commandline="${exercises.assembly} /xml:${exercises.file} /nologo" failonerror="false" resultproperty="exercises.result"/>
   </target>
 
   <target name="generate.reports"> 
@@ -125,9 +101,9 @@
         <include name="${tests.dir}\${unit.tests.file}" />
       </fileset>
     </nunit2report>
-    <nunit2report todir="${tests.rip.dir}">
+    <nunit2report todir="${exercises.dir}">
       <fileset>
-        <include name="${tests.rip.dir}\${unit.tests.rip.file}" />
+        <include name="${exercises.dir}\${exercises.file}" />
       </fileset>
     </nunit2report>
   </target>
@@ -136,8 +112,8 @@
     <exec program="run.bat" spawn="true"/>
   </target>
 
-  <target name="build" depends="intro, clean, create.output.directories, build.solution, run.unit.tests, generate.reports, deploy">
-    <fail if="${unit.tests.result != '0' or unit.tests.rip.result !='0'}">One or more unit tests failed</fail>
+  <target name="build" depends="intro, clean, create.output.directories, build.solution, run.unit.tests, run.exercises, generate.reports, deploy">
+    <fail if="${unit.tests.result != '0' or exercises.result !='0'}">One or more unit tests failed</fail>
   </target>
 
   <target name="run" depends="build, start.application"/>

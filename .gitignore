@@ -1,5 +1,6 @@
 _ReSharper.*
-src/*/bin/
-src/*/obj/
 *.user
 *.suo
+output/
+bin/
+obj/
