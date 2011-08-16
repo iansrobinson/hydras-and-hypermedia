@@ -23,7 +23,9 @@ namespace RestInPractice.MediaTypes
             FeedValue = new MediaTypeHeaderValue(MediaType);
             EntryValue = new MediaTypeHeaderValue(MediaType);
             FeedValue.Parameters.Add(new NameValueHeaderValue("type", "feed"));
+            FeedValue.CharSet = "utf-8";
             EntryValue.Parameters.Add(new NameValueHeaderValue("type", "entry"));
+            EntryValue.CharSet = "utf-8";
             Instance = new AtomMediaType();
         }
 

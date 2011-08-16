@@ -69,7 +69,6 @@ namespace RestInPractice.Server.Resources
             var response = new HttpResponseMessage<SyndicationItem>(entry) { StatusCode = HttpStatusCode.OK };
             response.Headers.CacheControl = new CacheControlHeaderValue {Public = true, MaxAge = new TimeSpan(0, 0, 0, 10)};
             response.Content.Headers.ContentType = AtomMediaType.Entry;
-            response.Content.Headers.ContentType.CharSet = "UTF-8";
 
             return response;
         }

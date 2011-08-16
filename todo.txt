@@ -1,12 +1,2 @@
-EncounterResource
-Ensure utf-8 written to content-type
-
-RoomResource
-Ensure writes entry header
-
 Atom media type
 Ensure stream set to 0
-
-Resolving encounter
-Handle "continue" link
-Return Exploring if room feed

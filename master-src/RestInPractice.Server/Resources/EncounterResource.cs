@@ -83,7 +83,6 @@ namespace RestInPractice.Server.Resources
             var response = new HttpResponseMessage<SyndicationFeed>(feed) {StatusCode = HttpStatusCode.OK};
             response.Headers.CacheControl = new CacheControlHeaderValue {NoCache = true, NoStore = true};
             response.Content.Headers.ContentType = AtomMediaType.Feed;
-            response.Content.Headers.ContentType.CharSet = "UTF-8";
 
             return response;
         }
@@ -140,7 +139,6 @@ namespace RestInPractice.Server.Resources
             var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
             response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, result.Round.Id));
             response.Content.Headers.ContentType = AtomMediaType.Entry;
-            response.Content.Headers.ContentType.CharSet = "UTF-8";
            
             return response;
         }

@@ -48,13 +48,13 @@ namespace RestInPractice.Exercises.Exercise01
         }
 
         [Test]
-        public void ResponseContentTypeShouldBeApplicationAtomPlusXml()
+        public void ResponseContentTypeShouldBeAtomMediaTypeWithEntryTypeParameter()
         {
             var room = CreateRoom();
             var resource = CreateRoomResource(room);
             var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
-            Assert.AreEqual(AtomMediaType.Value, response.Content.Headers.ContentType);
+            Assert.AreEqual(AtomMediaType.Entry, response.Content.Headers.ContentType);
         }
 
         [Test]
