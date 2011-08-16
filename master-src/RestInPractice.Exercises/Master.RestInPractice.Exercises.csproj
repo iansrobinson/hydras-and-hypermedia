@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AE16BE2A-8756-416B-8C1A-D3150C2DE790}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RestInPractice.Exercises</RootNamespace>
+    <AssemblyName>RestInPractice.Exercises</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationServer.Common">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Http">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements.Tests">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.HttpEnhancements.Tests.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Serialization">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
+      <HintPath>..\..\lib\http\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http">
+      <HintPath>..\..\lib\http\Microsoft.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QueryComposition">
+      <HintPath>..\..\lib\http\Microsoft.QueryComposition.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Runtime.Serialization.Json">
+      <HintPath>..\..\lib\http\Microsoft.Runtime.Serialization.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Web.jQuery">
+      <HintPath>..\..\lib\http\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\tools\nunit\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise01\Part01_RoomResourceTests.cs">
+      <Link>Exercise01\Part01_RoomResourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise01\Part02_AtomMediaTypeTests.cs">
+      <Link>Exercise01\Part02_AtomMediaTypeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise01\Part03_FunctionalTests.cs">
+      <Link>Exercise01\Part03_FunctionalTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise02\Part01_AtomMediaTypeTests.cs">
+      <Link>Exercise02\Part01_AtomMediaTypeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise02\Part02_ExploringTests.cs">
+      <Link>Exercise02\Part02_ExploringTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise02\Part03_FunctionalTests.cs">
+      <Link>Exercise02\Part03_FunctionalTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part01_UnresolvedEncounterResourceTests.cs">
+      <Link>Exercise03\Part01_UnresolvedEncounterResourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part02_ResolvingEncounterResourceTests.cs">
+      <Link>Exercise03\Part02_ResolvingEncounterResourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part03_ResolvedEncounterResourceTests.cs">
+      <Link>Exercise03\Part03_ResolvedEncounterResourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part04_RoomResourceTests.cs">
+      <Link>Exercise03\Part04_RoomResourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part05_ExploringTests.cs">
+      <Link>Exercise03\Part05_ExploringTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part06_BeginResolvingEncounterTests.cs">
+      <Link>Exercise03\Part06_BeginResolvingEncounterTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part07_ResolvingEncounterTests.cs">
+      <Link>Exercise03\Part07_ResolvingEncounterTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part08_FunctionalTests.cs">
+      <Link>Exercise03\Part08_FunctionalTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\AtomClient.cs">
+      <Link>Helpers\AtomClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\EntryBuilder.cs">
+      <Link>Helpers\EntryBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\FeedBuilder.cs">
+      <Link>Helpers\FeedBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\HttpRequestComparer.cs">
+      <Link>Helpers\HttpRequestComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\Maze.cs">
+      <Link>Helpers\Maze.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\MockEndpoint.cs">
+      <Link>Helpers\MockEndpoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\Monsters.cs">
+      <Link>Helpers\Monsters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\StubEndpoint.cs">
+      <Link>Helpers\StubEndpoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\Utf8Writer.cs">
+      <Link>Helpers\Utf8Writer.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RestInPractice.Client\Master.RestInPractice.Client.csproj">
+      <Project>{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}</Project>
+      <Name>Master.RestInPractice.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RestInPractice.MediaTypes\Master.RestInPractice.MediaTypes.csproj">
+      <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
+      <Name>Master.RestInPractice.MediaTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RestInPractice.Server\Master.RestInPractice.Server.csproj">
+      <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>
+      <Name>Master.RestInPractice.Server</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
