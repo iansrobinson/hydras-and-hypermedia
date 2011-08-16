@@ -26,8 +26,8 @@ namespace RestInPractice.Exercises.Exercise03
         [Test]
         public void ShouldReturnExploringApplicationStateIfCurrentResponseContainsRoomEntry()
         {
-            var feed = new FeedBuilder().WithCategory("room").ToString();
-            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
+            var entry = new EntryBuilder().WithCategory("room").ToString();
+            var initialState = new ResolvingEncounter(CreateResponseWithEntry(entry), ApplicationStateInfo.WithEndurance(5));
             var nextState = initialState.NextState(new HttpClient());
 
             Assert.IsInstanceOf(typeof (Exploring), nextState);

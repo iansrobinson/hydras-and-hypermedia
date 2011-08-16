@@ -39,6 +39,12 @@ namespace RestInPractice.Exercises.Helpers
             return this;
         }
 
+        public EntryBuilder WithContinueLink(Uri uri)
+        {
+            entry.Links.Add(new SyndicationLink { Uri = uri, RelationshipType = "continue" });
+            return this;
+        }
+
         public EntryBuilder WithNorthLink(Uri uri)
         {
             entry.Links.Add(new SyndicationLink {Uri = uri, RelationshipType = "north"});

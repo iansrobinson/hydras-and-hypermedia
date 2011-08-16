@@ -116,6 +116,29 @@ namespace RestInPractice.Exercises.Exercise03
             Assert.IsInstanceOf(typeof(Defeated), newState);
         }
 
+        [Test]
+        public void ShouldFollowContinueLinkIfPresentInResponse()
+        {
+            const int endurance = 1;
+
+            var entry = new EntryBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("round")
+                .WithContinueLink(new Uri("/rooms/1", UriKind.Relative))
+                .WithForm(new FormWriter(Action, Method, new TextInput("endurance", endurance.ToString())))
+                .ToString();
+            var newEntry = CreateRoomEntry();
+
+            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(newEntry));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
+
+            var initialState = new ResolvingEncounter(CreateResponseWithEntry(entry), ApplicationStateInfo.WithEndurance(endurance));
+            initialState.NextState(client);
+
+            Assert.AreEqual(new Uri("http://localhost:8081/rooms/1"), mockEndpoint.ReceivedRequest.RequestUri);
+            Assert.AreEqual(HttpMethod.Get, mockEndpoint.ReceivedRequest.Method);
+        }
+
         private static HttpResponseMessage CreateResponseWithEntry(string entry)
         {
             var currentResponse = new HttpResponseMessage {Content = new StringContent(entry)};
@@ -130,6 +153,14 @@ namespace RestInPractice.Exercises.Exercise03
                 .WithBaseUri(new Uri("http://localhost:8081/"))
                 .WithCategory("round")
                 .WithForm(new FormWriter(Action, Method, new TextInput("endurance", endurance.ToString())))
+                .ToString();
+        }
+
+        private static string CreateRoomEntry()
+        {
+            return new EntryBuilder()
+                .WithBaseUri(new Uri("http://localhost:8081/"))
+                .WithCategory("room")
                 .ToString();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using RestInPractice.Client.Comparers;
@@ -29,10 +30,6 @@ namespace RestInPractice.Client.ApplicationStates
             if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.Feed))
             {
                 var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
-                if (feed.Categories.Contains(new SyndicationCategory("room"), CategoryComparer.Instance))
-                {
-                    return new Exploring(currentResponse, applicationStateInfo);
-                }
                 if (feed.Categories.Contains(new SyndicationCategory("encounter"), CategoryComparer.Instance))
                 {
                     var form = Form.ParseFromFeedExtension(feed);
@@ -56,6 +53,18 @@ namespace RestInPractice.Client.ApplicationStates
             if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.Entry))
             {
                 var entry = currentResponse.Content.ReadAsObject<SyndicationItem>(AtomMediaType.Formatter);
+
+                if (entry.Categories.Contains(new SyndicationCategory("room"), CategoryComparer.Instance))
+                {
+                    return new Exploring(currentResponse, applicationStateInfo);
+                }
+
+                var continueLink = entry.Links.FirstOrDefault(l => l.RelationshipType.Equals("continue"));
+                if (continueLink != null)
+                {
+                    return new ResolvingEncounter(client.Get(new Uri(entry.BaseUri, continueLink.Uri)), applicationStateInfo);
+                }
+
                 var form = Form.ParseFromEntryContent(entry);
                 var newResponse = client.Send(form.CreateRequest(entry.BaseUri));
 

@@ -21,16 +21,17 @@ namespace RestInPractice.Exercises.Exercise03
         {
             var expectedPath = new[]
                                    {
-                                       CreatePath(1),
-                                       CreatePath(4),
-                                       CreatePath(7),
-                                       CreatePath(6),
-                                       CreatePath(5),
-                                       CreatePath(4),
-                                       CreatePath(8),
-                                       CreatePath(9),
-                                       CreatePath(8),
-                                       CreatePath(10)
+                                       CreateRoomPath(1),
+                                       CreateEncounterPath(1),
+                                       CreateRoomPath(4),
+                                       CreateRoomPath(7),
+                                       CreateRoomPath(6),
+                                       CreateRoomPath(5),
+                                       CreateRoomPath(4),
+                                       CreateRoomPath(8),
+                                       CreateRoomPath(9),
+                                       CreateRoomPath(8),
+                                       CreateRoomPath(10)
                                    };
 
             var path = new List<string>();
@@ -84,9 +85,14 @@ namespace RestInPractice.Exercises.Exercise03
             }
         }
 
-        private static string CreatePath(int roomId)
+        private static string CreateRoomPath(int roomId)
         {
             return string.Format("http://{0}:8081/rooms/{1}", Environment.MachineName.ToLower(), roomId);
+        }
+
+        private static string CreateEncounterPath(int roomId)
+        {
+            return string.Format("http://{0}:8081/encounters/{1}", Environment.MachineName.ToLower(), roomId);
         }
     }
 }
