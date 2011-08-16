@@ -13,7 +13,7 @@ namespace RestInPractice.Exercises.Helpers
         {
             return new Repository<Room>(
                 new Room(1, "Entrance", "Maze entrance.", Exit.North(4), Exit.East(2), Exit.West(3)),
-                new Room(2, "Room 2", "Room 2 description", Exit.West(1)),
+                new Room(2, "Room 2", "Room 2 description", 2, Exit.West(1)),
                 new Room(3, "Room 3", "Room 3 description", Exit.East(1)),
                 new Room(4, "Room 4", "Room 4 description", 1, Exit.North(7), Exit.South(1), Exit.East(5), Exit.West(8)),
                 new Room(5, "Room 5", "Room 5 description", Exit.North(6), Exit.West(4)),

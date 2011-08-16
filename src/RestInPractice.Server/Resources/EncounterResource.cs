@@ -16,5 +16,10 @@ namespace RestInPractice.Server.Resources
         {
             throw new NotImplementedException();
         }
+
+        public HttpResponseMessage<SyndicationItem> Post(string id, HttpRequestMessage request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

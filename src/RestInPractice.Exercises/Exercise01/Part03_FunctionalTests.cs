@@ -7,7 +7,6 @@ using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
 using RestInPractice.Exercises.Helpers;
 using RestInPractice.MediaTypes;
-using RestInPractice.Server.Domain;
 using RestInPractice.Server.Resources;
 
 namespace RestInPractice.Exercises.Exercise01
@@ -22,7 +21,7 @@ namespace RestInPractice.Exercises.Exercise01
         public void FunctionalTest()
         {
             var configuration = HttpHostConfiguration.Create()
-                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.NewInstance(), new Repository<Encounter>()), (instanceContext, obj) => { });
+                .SetResourceFactory((type, instanceContext, request) => new RoomResource(Maze.NewInstance(), Monsters.NullEncounters()), (instanceContext, obj) => { });
 
             // Workaround for serialization issue in Preview 4. 
             // Must clear default XML formatter from Formatters before adding Atom formatter.
