@@ -43,7 +43,7 @@ namespace RestInPractice.Client.ApplicationStates
                 return new Error(currentResponse, applicationStateInfo);
             }
 
-            return null;
+            return new Error(currentResponse, applicationStateInfo);;
         }
 
         public HttpResponseMessage CurrentResponse

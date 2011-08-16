@@ -106,7 +106,7 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void ErrorStateIsInitializedWithCurrentResponse()
+        public void ErrorStateForUncategorizedFeedShouldBeInitializedWithCurrentResponse()
         {
             var feed = new FeedBuilder().ToString();
 
@@ -119,16 +119,53 @@ namespace RestInPractice.Exercises.Exercise03
         }
 
         [Test]
-        public void ErrorStateIsInitializedWithCurrentHistory()
+        public void ErrorStateForUncategorizedFeedShouldBeInitializedWithCurrentApplicationStateInfo()
         {
             var applicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(new Uri("http://localhost/rooms1")).Build();
-            var feed = new FeedBuilder().ToString();
-            var currentResponse = CreateResponseWithFeed(feed);
+            var currentResponse = CreateResponseWithFeed(new FeedBuilder().ToString());
 
             var initialState = new ResolvingEncounter(currentResponse, applicationStateInfo);
             var nextState = initialState.NextState(new HttpClient());
 
-            Assert.IsTrue(nextState.ApplicationStateInfo.History.SequenceEqual(applicationStateInfo.History));
+            Assert.AreEqual(applicationStateInfo, nextState.ApplicationStateInfo);
+        }
+
+        [Test]
+        public void ShouldReturnErrorApplicationStateIfCurrentResponseContainsNonAtomMediaType()
+        {
+            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
+            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo.WithEndurance(5));
+            var nextState = initialState.NextState(new HttpClient());
+
+            Assert.IsInstanceOf(typeof(Error), nextState);
+        }
+
+        [Test]
+        public void ErrorStateForNonAtomMediaTypeShouldBeInitializedWithCurrentResponse()
+        {
+            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
+            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            var initialState = new ResolvingEncounter(currentResponse, ApplicationStateInfo.WithEndurance(5));
+            var nextState = initialState.NextState(new HttpClient());
+
+            Assert.AreEqual(currentResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
+        public void ErrorStateForNonAtomMediaTypeShouldBeInitializedWithCurrentApplicationStateInfo()
+        {
+            var applicationStateInfo = ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(new Uri("http://localhost/rooms1")).Build();
+            
+            var currentResponse = new HttpResponseMessage { Content = new StringContent("") };
+            currentResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            var initialState = new ResolvingEncounter(currentResponse, applicationStateInfo);
+            var nextState = initialState.NextState(new HttpClient());
+
+            Assert.AreEqual(applicationStateInfo, nextState.ApplicationStateInfo);
         }
 
         private static HttpResponseMessage CreateResponseWithFeed(string feed)
