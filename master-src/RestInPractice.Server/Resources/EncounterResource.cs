@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.ServiceModel;
 using System.ServiceModel.Syndication;
+using System.ServiceModel.Web;
 using System.Xml;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
@@ -16,6 +18,7 @@ using RestInPractice.Server.Xhtml;
 
 namespace RestInPractice.Server.Resources
 {
+    [ServiceContract]
     public class EncounterResource
     {
         private static readonly Uri BaseUri = new Uri(string.Format("http://{0}:8081/", Environment.MachineName));
@@ -27,6 +30,7 @@ namespace RestInPractice.Server.Resources
             this.encounters = encounters;
         }
 
+        [WebGet(UriTemplate = "{id}")]
         public HttpResponseMessage<SyndicationFeed> Get(string id, HttpRequestMessage request)
         {
             Encounter encounter;

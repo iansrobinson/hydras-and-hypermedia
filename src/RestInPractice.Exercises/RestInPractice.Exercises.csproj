@@ -91,6 +91,7 @@
     <Compile Include="Exercise03\Part05_ExploringTests.cs" />
     <Compile Include="Exercise03\Part06_BeginResolvingEncounterTests.cs" />
     <Compile Include="Exercise03\Part07_ResolvingEncounterTests.cs" />
+    <Compile Include="Exercise03\Part08_FunctionalTests.cs" />
     <Compile Include="Helpers\EntryBuilder.cs" />
     <Compile Include="Helpers\AtomClient.cs" />
     <Compile Include="Helpers\FeedBuilder.cs" />
