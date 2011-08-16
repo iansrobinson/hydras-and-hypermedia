@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.Client", "src\RestInPractice.Client\RestInPractice.Client.csproj", "{5F6CB86D-5D79-4425-BF67-84988F9235AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.Exercises", "master-src\Master.RestInPractice.Exercises\Master.RestInPractice.Exercises.csproj", "{AE16BE2A-8756-416B-8C1A-D3150C2DE790}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.Exercises", "master-src\RestInPractice.Exercises\Master.RestInPractice.Exercises.csproj", "{AE16BE2A-8756-416B-8C1A-D3150C2DE790}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

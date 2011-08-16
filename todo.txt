@@ -1,0 +1,2 @@
+Ensure utf-8 written to content-type
+Ensure stream set to 0

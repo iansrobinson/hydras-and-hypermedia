@@ -17,7 +17,6 @@ namespace RestInPractice.Exercises.Exercise03
     public class Part08_FunctionalTests
     {
         [Test]
-        [Ignore]
         public void ShouldDefeatMonsterAndNavigateMaze()
         {
             var expectedPath = new[]

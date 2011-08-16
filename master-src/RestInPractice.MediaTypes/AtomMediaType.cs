@@ -15,7 +15,7 @@ namespace RestInPractice.MediaTypes
         private static readonly MediaTypeHeaderValue DefaultValue;       
         private static readonly MediaTypeHeaderValue FeedValue;
         private static readonly MediaTypeHeaderValue EntryValue;
-        private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates };
+        private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { Indent = true, NamespaceHandling = NamespaceHandling.OmitDuplicates};
 
         static AtomMediaType()
         {
@@ -54,6 +54,8 @@ namespace RestInPractice.MediaTypes
 
         public override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)
         {
+            stream.Seek(0, SeekOrigin.Begin); 
+            
             if (type.Equals(typeof(SyndicationItem)))
             {
                 var entryFormatter = new Atom10ItemFormatter();
