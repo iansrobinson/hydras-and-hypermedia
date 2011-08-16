@@ -1,29 +1,26 @@
-<project name="Build Hydras and Hypermedia" default="build">
+<project name="Hydras and Hypermedia" default="build">
 
   <property name="nant.settings.currentframework" value="net-4.0" />
   
   <property name="configuration" value="debug"/>
   <property name="base.dir" value="${project::get-base-directory()}"/>
   <property name="output.dir" value="${base.dir}\output"/>
-  <property name="bin.dir" value="${output.dir}\bin"/>
-  <property name="bin.server.dir" value="${bin.dir}\server"/>
-  <property name="bin.client.dir" value="${bin.dir}\client"/>
-  <property name="reports.dir" value="${output.dir}\reports"/>
-  <property name="reports.tests.dir" value="${reports.dir}\tests"/>
-  <property name="reports.exercises.dir" value="${reports.dir}\exercises"/>
+  <property name="output.bin.dir" value="${output.dir}\bin"/>
+  <property name="output.bin.server.dir" value="${output.bin.dir}\server"/>
+  <property name="output.bin.client.dir" value="${output.bin.dir}\client"/>
+  <property name="output.reports.dir" value="${output.dir}\reports"/>
+  <property name="output.reports.unit-tests.dir" value="${output.reports.dir}\unit-tests"/>
+  <property name="output.reports.exercises.dir" value="${output.reports.dir}\exercises"/>
   <property name="binaries.server.dir" value="${base.dir}\src\RestInPractice.Server\bin"/>
   <property name="binaries.client.dir" value="${base.dir}\src\RestInPractice.Client\bin\${configuration}"/>
-  <property name="tests.dir" value="${base.dir}\src\Tests.RestInPractice\bin\${configuration}"/>
-  <property name="exercises.dir" value="${base.dir}\src\RestInPractice.Exercises\bin\${configuration}"/>
+  <property name="binaries.unit-tests.dir" value="${base.dir}\src\Tests.RestInPractice\bin\${configuration}"/>
+  <property name="binaries.exercises.dir" value="${base.dir}\src\RestInPractice.Exercises\bin\${configuration}"/>
   <property name="solution.file" value="ProgressiveDotNet.sln"/>
-  <property name="unit.test.assembly" value="Tests.RestInPractice.dll"/>
-  <property name="unit.tests.file" value="results.xml"/>
-  <property name="assemblyinfo.files" value="src\RestInPractice.*\Properties\AssemblyInfo.cs"/>
-  <property name="project.description" value="Hydras and Hypermedia Exercises"/>
-  <property name="copyright" value="Copyright (c) ${datetime::get-year(datetime::now())}, iansrobinson.com"/>
+  <property name="unit-tests.assembly" value="Tests.RestInPractice.dll"/>
+  <property name="unit-tests.file" value="results.xml"/>
   <property name="exercises.assembly" value="RestInPractice.Exercises.dll"/>
   <property name="exercises.file" value="results.xml"/>
-
+  
   <loadtasks>
     <fileset>
         <include name=".\tools\nantcontrib\bin\NAnt.Contrib.Tasks.dll" />
@@ -40,10 +37,10 @@
 
   <target name="create.output.directories">
     <mkdir dir="${output.dir}" />
-    <mkdir dir="${bin.server.dir}" />
-    <mkdir dir="${bin.client.dir}" />
-    <mkdir dir="${reports.tests.dir}" />
-    <mkdir dir="${reports.exercises.dir}" />
+    <mkdir dir="${output.bin.server.dir}" />
+    <mkdir dir="${output.bin.client.dir}" />
+    <mkdir dir="${output.reports.unit-tests.dir}" />
+    <mkdir dir="${output.reports.exercises.dir}" />
   </target>
 
   <target name="build.solution">
@@ -55,28 +52,28 @@
   </target>
 
   <target name="deploy">
-    <copy todir="${bin.server.dir}">
+    <copy todir="${output.bin.server.dir}">
       <fileset basedir="${binaries.server.dir}">
         <include name="**/*.dll" />
         <include name="**/*.exe" />
         <include name="**/*.exe.config" />
       </fileset>
     </copy>
-    <copy todir="${bin.client.dir}">
+    <copy todir="${output.bin.client.dir}">
       <fileset basedir="${binaries.client.dir}">
         <include name="**/*.dll" />
         <include name="**/*.exe" />
         <include name="**/*.exe.config" />
       </fileset>
     </copy>
-    <copy todir="${reports.tests.dir}">
-      <fileset basedir="${tests.dir}">
-        <include name="**/${unit.tests.file}" />
+    <copy todir="${output.reports.unit-tests.dir}">
+      <fileset basedir="${binaries.unit-tests.dir}">
+        <include name="**/${unit-tests.file}" />
         <include name="**/*.html" />
       </fileset>
     </copy>
-    <copy todir="${reports.exercises.dir}">
-      <fileset basedir="${exercises.dir}">
+    <copy todir="${output.reports.exercises.dir}">
+      <fileset basedir="${binaries.exercises.dir}">
         <include name="**/${exercises.file}" />
         <include name="**/*.html" />
       </fileset>
@@ -85,25 +82,25 @@
 
   <target name="run.unit.tests">
     <exec program="${base.dir}\tools\nunit\bin\net-2.0\nunit-console.exe"
-      workingdir="${tests.dir}"
-      commandline="${unit.test.assembly} /xml:${unit.tests.file} /nologo" failonerror="false" resultproperty="unit.tests.result"/>
+      workingdir="${binaries.unit-tests.dir}"
+      commandline="${unit-tests.assembly} /xml:${unit-tests.file} /nologo" failonerror="false" resultproperty="unit-tests.result"/>
   </target>
 
   <target name="run.exercises">
     <exec program="${base.dir}\tools\nunit\bin\net-2.0\nunit-console.exe"
-      workingdir="${exercises.dir}"
+      workingdir="${binaries.exercises.dir}"
       commandline="${exercises.assembly} /xml:${exercises.file} /nologo" failonerror="false" resultproperty="exercises.result"/>
   </target>
 
   <target name="generate.reports"> 
-    <nunit2report todir="${tests.dir}">
+    <nunit2report todir="${binaries.unit-tests.dir}">
       <fileset>
-        <include name="${tests.dir}\${unit.tests.file}" />
+        <include name="${binaries.unit-tests.dir}\${unit-tests.file}" />
       </fileset>
     </nunit2report>
-    <nunit2report todir="${exercises.dir}">
+    <nunit2report todir="${binaries.exercises.dir}">
       <fileset>
-        <include name="${exercises.dir}\${exercises.file}" />
+        <include name="${binaries.exercises.dir}\${exercises.file}" />
       </fileset>
     </nunit2report>
   </target>
@@ -113,7 +110,7 @@
   </target>
 
   <target name="build" depends="intro, clean, create.output.directories, build.solution, run.unit.tests, run.exercises, generate.reports, deploy">
-    <fail if="${unit.tests.result != '0' or exercises.result !='0'}">One or more unit tests failed</fail>
+    <fail if="${unit-tests.result != '0' or exercises.result !='0'}">One or more unit tests failed</fail>
   </target>
 
   <target name="run" depends="build, start.application"/>
