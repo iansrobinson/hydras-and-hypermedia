@@ -67,5 +67,19 @@ namespace RestInPractice.Exercises.Exercise02
             var formatter = AtomMediaType.Formatter;
             formatter.ReadFromStream(typeof (String), new MemoryStream(), null);
         }
+
+        [Test]
+        public void ShouldBeAbleToReadFromAStreamThatHaslareadyBeenRead()
+        {
+            using (var input = new MemoryStream(Encoding.UTF8.GetBytes(EntryXml)))
+            {
+                var buffer = new Byte[input.Length];
+                input.Read(buffer, 0, buffer.Length);
+                
+                var formatter = AtomMediaType.Formatter;
+                var entry = formatter.ReadFromStream(typeof(SyndicationItem), input, null);
+
+                Assert.IsInstanceOf(typeof(SyndicationItem), entry);            }
+        }
     }
 }
