@@ -2,7 +2,11 @@
 
   <property name="nant.settings.currentframework" value="net-4.0" />
 
-  <property name="src" value="src"/>
+  <property name="mode" value="tutorial"/>
+  <property name="src" value="src" if="${property::get-value('mode')=='tutorial'}"/>
+  <property name="src" value="master-src" unless="${property::get-value('mode')=='tutorial'}"/>
+  <property name="solution.file" value="HydrasAndHypermedia.sln" if="${property::get-value('mode')=='tutorial'}"/>
+  <property name="solution.file" value="Master.HydrasAndHypermedia.sln" unless="${property::get-value('mode')=='tutorial'}"/>
   <property name="configuration" value="debug"/>
   <property name="base.dir" value="${project::get-base-directory()}"/>
   <property name="output.dir" value="${base.dir}\output"/>
@@ -16,7 +20,6 @@
   <property name="binaries.client.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Client\bin\${configuration}"/>
   <property name="binaries.unit-tests.dir" value="${base.dir}\src\Tests.HydrasAndHypermedia\bin\${configuration}"/>
   <property name="binaries.exercises.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Exercises\bin\${configuration}"/>
-  <property name="solution.file" value="HydrasAndHypermedia.sln"/>
   <property name="unit-tests.assembly" value="Tests.HydrasAndHypermedia.dll"/>
   <property name="unit-tests.file" value="results.xml"/>
   <property name="exercises.assembly" value="HydrasAndHypermedia.Exercises.dll"/>
@@ -111,7 +114,9 @@
   </target>
 
   <target name="build" depends="intro, clean, create.output.directories, build.solution, run.unit.tests, run.exercises, generate.reports, deploy">
-    <echo message="Src: ${src}"/>
+    <echo message="mode          : ${mode}"/>
+    <echo message="src           : ${src}"/>
+    <echo message="solution.file : ${solution.file}"/>
     <fail if="${unit-tests.result != '0' or exercises.result !='0'}">One or more unit tests failed</fail>
   </target>
 

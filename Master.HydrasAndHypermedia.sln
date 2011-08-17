@@ -11,6 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrasAndHypermedia.Server"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.HydrasAndHypermedia", "src\Tests.HydrasAndHypermedia\Tests.HydrasAndHypermedia.csproj", "{623CF38B-A2CD-4131-BA28-2956B28B0E3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.Client", "master-src\HydrasAndHypermedia.Client\Master.HydrasAndHypermedia.Client.csproj", "{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.Exercises", "master-src\HydrasAndHypermedia.Exercises\Master.HydrasAndHypermedia.Exercises.csproj", "{AE16BE2A-8756-416B-8C1A-D3150C2DE790}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.MediaTypes", "master-src\HydrasAndHypermedia.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj", "{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.Server", "master-src\HydrasAndHypermedia.Server\Master.HydrasAndHypermedia.Server.csproj", "{ABADB660-3434-4C68-A4C9-595E3F338457}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +45,22 @@ Global
 		{623CF38B-A2CD-4131-BA28-2956B28B0E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623CF38B-A2CD-4131-BA28-2956B28B0E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623CF38B-A2CD-4131-BA28-2956B28B0E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE16BE2A-8756-416B-8C1A-D3150C2DE790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE16BE2A-8756-416B-8C1A-D3150C2DE790}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE16BE2A-8756-416B-8C1A-D3150C2DE790}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE16BE2A-8756-416B-8C1A-D3150C2DE790}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABADB660-3434-4C68-A4C9-595E3F338457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABADB660-3434-4C68-A4C9-595E3F338457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABADB660-3434-4C68-A4C9-595E3F338457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABADB660-3434-4C68-A4C9-595E3F338457}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
