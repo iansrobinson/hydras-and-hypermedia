@@ -16,7 +16,7 @@
   <property name="binaries.client.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Client\bin\${configuration}"/>
   <property name="binaries.unit-tests.dir" value="${base.dir}\src\Tests.HydrasAndHypermedia\bin\${configuration}"/>
   <property name="binaries.exercises.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Exercises\bin\${configuration}"/>
-  <property name="solution.file" value="ProgressiveDotNet.sln"/>
+  <property name="solution.file" value="HydrasAndHypermedia.sln"/>
   <property name="unit-tests.assembly" value="Tests.HydrasAndHypermedia.dll"/>
   <property name="unit-tests.file" value="results.xml"/>
   <property name="exercises.assembly" value="HydrasAndHypermedia.Exercises.dll"/>
