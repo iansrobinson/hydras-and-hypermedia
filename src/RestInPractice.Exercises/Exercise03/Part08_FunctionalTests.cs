@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HydrasAndHypermedia.Client;
+using HydrasAndHypermedia.Client.ApplicationStates;
+using HydrasAndHypermedia.Exercises.Helpers;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Resources;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
-using RestInPractice.Client;
-using RestInPractice.Client.ApplicationStates;
-using RestInPractice.Exercises.Helpers;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Resources;
 
-namespace RestInPractice.Exercises.Exercise03
+namespace HydrasAndHypermedia.Exercises.Exercise03
 {
     [TestFixture]
     public class Part08_FunctionalTests

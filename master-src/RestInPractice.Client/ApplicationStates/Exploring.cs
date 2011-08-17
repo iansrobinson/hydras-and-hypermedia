@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
-using RestInPractice.Client.Comparers;
-using RestInPractice.Client.Extensions;
-using RestInPractice.MediaTypes;
+using HydrasAndHypermedia.Client.Comparers;
+using HydrasAndHypermedia.Client.Extensions;
+using HydrasAndHypermedia.MediaTypes;
 
-namespace RestInPractice.Client.ApplicationStates
+namespace HydrasAndHypermedia.Client.ApplicationStates
 {
     public class Exploring : IApplicationState
     {
@@ -43,7 +43,7 @@ namespace RestInPractice.Client.ApplicationStates
 
             var newResponse = client.Get(new Uri(entry.BaseUri, exitLink.Uri));
             var exitUri = applicationStateInfo.History.Contains(exitLink.Uri) ? null : exitLink.Uri;
-            
+
             return new Exploring(newResponse, applicationStateInfo.GetBuilder().AddToHistory(exitUri).Build());
         }
 

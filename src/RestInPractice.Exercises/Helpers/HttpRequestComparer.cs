@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 
-namespace RestInPractice.Exercises.Helpers
+namespace HydrasAndHypermedia.Exercises.Helpers
 {
     public class HttpRequestComparer : IEqualityComparer<HttpRequestMessage>
     {

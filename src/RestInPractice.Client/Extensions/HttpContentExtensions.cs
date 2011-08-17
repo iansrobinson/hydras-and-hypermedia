@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using Microsoft.ApplicationServer.Http;
 
-namespace RestInPractice.Client.Extensions
+namespace HydrasAndHypermedia.Client.Extensions
 {
     public static class HttpContentExtensions
     {

@@ -3,9 +3,9 @@ using System.IO;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
-using RestInPractice.Server.Xhtml;
+using HydrasAndHypermedia.Server.Xhtml;
 
-namespace RestInPractice.Exercises.Helpers
+namespace HydrasAndHypermedia.Exercises.Helpers
 {
     public class FeedBuilder
     {

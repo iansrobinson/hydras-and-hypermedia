@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace RestInPractice.Client
+namespace HydrasAndHypermedia.Client
 {
     public interface IApplicationState
     {

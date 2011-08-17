@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using HydrasAndHypermedia.Client;
 using NUnit.Framework;
-using RestInPractice.Client;
 
-namespace Tests.RestInPractice.Client
+namespace Tests.HydrasAndHypermedia.Client
 {
     [TestFixture]
     public class ApplicationStateInfoTests

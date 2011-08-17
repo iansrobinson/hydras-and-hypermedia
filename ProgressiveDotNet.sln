@@ -1,23 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.Exercises", "src\RestInPractice.Exercises\RestInPractice.Exercises.csproj", "{D473D789-9ED8-4976-A360-A074CD138FEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrasAndHypermedia.Exercises", "src\RestInPractice.Exercises\HydrasAndHypermedia.Exercises.csproj", "{D473D789-9ED8-4976-A360-A074CD138FEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.RestInPractice", "src\Tests.RestInPractice\Tests.RestInPractice.csproj", "{623CF38B-A2CD-4131-BA28-2956B28B0E3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.HydrasAndHypermedia", "src\Tests.RestInPractice\Tests.HydrasAndHypermedia.csproj", "{623CF38B-A2CD-4131-BA28-2956B28B0E3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.Server", "master-src\RestInPractice.Server\Master.RestInPractice.Server.csproj", "{ABADB660-3434-4C68-A4C9-595E3F338457}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.Server", "master-src\RestInPractice.Server\Master.HydrasAndHypermedia.Server.csproj", "{ABADB660-3434-4C68-A4C9-595E3F338457}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.Server", "src\RestInPractice.Server\RestInPractice.Server.csproj", "{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrasAndHypermedia.Server", "src\RestInPractice.Server\HydrasAndHypermedia.Server.csproj", "{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.MediaTypes", "master-src\RestInPractice.MediaTypes\Master.RestInPractice.MediaTypes.csproj", "{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.MediaTypes", "master-src\RestInPractice.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj", "{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.MediaTypes", "src\RestInPractice.MediaTypes\RestInPractice.MediaTypes.csproj", "{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrasAndHypermedia.MediaTypes", "src\RestInPractice.MediaTypes\HydrasAndHypermedia.MediaTypes.csproj", "{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.Client", "master-src\RestInPractice.Client\Master.RestInPractice.Client.csproj", "{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.Client", "master-src\RestInPractice.Client\Master.HydrasAndHypermedia.Client.csproj", "{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestInPractice.Client", "src\RestInPractice.Client\RestInPractice.Client.csproj", "{5F6CB86D-5D79-4425-BF67-84988F9235AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydrasAndHypermedia.Client", "src\RestInPractice.Client\HydrasAndHypermedia.Client.csproj", "{5F6CB86D-5D79-4425-BF67-84988F9235AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.RestInPractice.Exercises", "master-src\RestInPractice.Exercises\Master.RestInPractice.Exercises.csproj", "{AE16BE2A-8756-416B-8C1A-D3150C2DE790}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Master.HydrasAndHypermedia.Exercises", "master-src\RestInPractice.Exercises\Master.HydrasAndHypermedia.Exercises.csproj", "{AE16BE2A-8756-416B-8C1A-D3150C2DE790}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

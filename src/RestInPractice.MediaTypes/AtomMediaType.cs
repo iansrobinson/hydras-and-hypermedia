@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Xml;
 using Microsoft.ApplicationServer.Http;
 
-namespace RestInPractice.MediaTypes
+namespace HydrasAndHypermedia.MediaTypes
 {
     public class AtomMediaType : MediaTypeFormatter
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using HydrasAndHypermedia.Client.ApplicationStates;
 
-namespace RestInPractice.Client.ApplicationStates
+namespace HydrasAndHypermedia.Client.ApplicationStates
 {
     public class Started : IApplicationState
     {

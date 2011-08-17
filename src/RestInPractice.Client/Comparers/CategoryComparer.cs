@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel.Syndication;
 
-namespace RestInPractice.Client.Comparers
+namespace HydrasAndHypermedia.Client.Comparers
 {
     public class CategoryComparer : IEqualityComparer<SyndicationCategory>
     {

@@ -10,13 +10,13 @@ using System.ServiceModel;
 using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
 using System.Xml;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Domain;
+using HydrasAndHypermedia.Server.Xhtml;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Domain;
-using RestInPractice.Server.Xhtml;
 
-namespace RestInPractice.Server.Resources
+namespace HydrasAndHypermedia.Server.Resources
 {
     [ServiceContract]
     public class EncounterResource
@@ -87,7 +87,7 @@ namespace RestInPractice.Server.Resources
             return response;
         }
 
-        [WebInvoke(Method="POST", UriTemplate = "{id}")]
+        [WebInvoke(Method = "POST", UriTemplate = "{id}")]
         public HttpResponseMessage<SyndicationItem> Post(string id, HttpRequestMessage request)
         {
             Encounter encounter;
@@ -139,7 +139,7 @@ namespace RestInPractice.Server.Resources
             var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
             response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, result.Round.Id));
             response.Content.Headers.ContentType = AtomMediaType.Entry;
-           
+
             return response;
         }
     }

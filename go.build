@@ -11,14 +11,14 @@
   <property name="output.reports.dir" value="${output.dir}\reports"/>
   <property name="output.reports.unit-tests.dir" value="${output.reports.dir}\unit-tests"/>
   <property name="output.reports.exercises.dir" value="${output.reports.dir}\exercises"/>
-  <property name="binaries.server.dir" value="${base.dir}\src\RestInPractice.Server\bin"/>
-  <property name="binaries.client.dir" value="${base.dir}\src\RestInPractice.Client\bin\${configuration}"/>
-  <property name="binaries.unit-tests.dir" value="${base.dir}\src\Tests.RestInPractice\bin\${configuration}"/>
-  <property name="binaries.exercises.dir" value="${base.dir}\src\RestInPractice.Exercises\bin\${configuration}"/>
+  <property name="binaries.server.dir" value="${base.dir}\src\HydrasAndHypermedia.Server\bin"/>
+  <property name="binaries.client.dir" value="${base.dir}\src\HydrasAndHypermedia.Client\bin\${configuration}"/>
+  <property name="binaries.unit-tests.dir" value="${base.dir}\src\Tests.HydrasAndHypermedia\bin\${configuration}"/>
+  <property name="binaries.exercises.dir" value="${base.dir}\src\HydrasAndHypermedia.Exercises\bin\${configuration}"/>
   <property name="solution.file" value="ProgressiveDotNet.sln"/>
-  <property name="unit-tests.assembly" value="Tests.RestInPractice.dll"/>
+  <property name="unit-tests.assembly" value="Tests.HydrasAndHypermedia.dll"/>
   <property name="unit-tests.file" value="results.xml"/>
-  <property name="exercises.assembly" value="RestInPractice.Exercises.dll"/>
+  <property name="exercises.assembly" value="HydrasAndHypermedia.Exercises.dll"/>
   <property name="exercises.file" value="results.xml"/>
   
   <loadtasks>

@@ -2,14 +2,14 @@
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Xml;
+using HydrasAndHypermedia.Exercises.Helpers;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Resources;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
 using NUnit.Framework;
-using RestInPractice.Exercises.Helpers;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Resources;
 
-namespace RestInPractice.Exercises.Exercise01
+namespace HydrasAndHypermedia.Exercises.Exercise01
 {
     [TestFixture]
     public class Part03_FunctionalTests

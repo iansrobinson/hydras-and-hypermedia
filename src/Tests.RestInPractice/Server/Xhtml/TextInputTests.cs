@@ -1,8 +1,8 @@
 ﻿using System;
+using HydrasAndHypermedia.Server.Xhtml;
 using NUnit.Framework;
-using RestInPractice.Server.Xhtml;
 
-namespace Tests.RestInPractice.Server.Xhtml
+namespace Tests.HydrasAndHypermedia.Server.Xhtml
 {
     [TestFixture]
     public class TextInputTests

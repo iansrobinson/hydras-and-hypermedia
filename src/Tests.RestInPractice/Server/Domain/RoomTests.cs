@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using RestInPractice.Server.Domain;
+﻿using HydrasAndHypermedia.Server.Domain;
+using NUnit.Framework;
 
-namespace Tests.RestInPractice.Server.Domain
+namespace Tests.HydrasAndHypermedia.Server.Domain
 {
     [TestFixture]
     public class RoomTests

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RestInPractice.Client
+namespace HydrasAndHypermedia.Client
 {
     public class ApplicationStateInfo
     {

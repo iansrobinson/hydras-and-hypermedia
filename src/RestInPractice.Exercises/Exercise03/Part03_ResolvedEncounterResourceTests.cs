@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using HydrasAndHypermedia.Server.Domain;
+using HydrasAndHypermedia.Server.Resources;
 using NUnit.Framework;
-using RestInPractice.Server.Domain;
-using RestInPractice.Server.Resources;
 
-namespace RestInPractice.Exercises.Exercise03
+namespace HydrasAndHypermedia.Exercises.Exercise03
 {
     [TestFixture]
     public class Part03_ResolvedEncounterResourceTests

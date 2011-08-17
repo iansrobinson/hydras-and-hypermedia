@@ -6,12 +6,12 @@ using System.Net.Http.Headers;
 using System.ServiceModel;
 using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Domain;
 using Microsoft.ApplicationServer.Http;
 using Microsoft.ApplicationServer.Http.Dispatcher;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Domain;
 
-namespace RestInPractice.Server.Resources
+namespace HydrasAndHypermedia.Server.Resources
 {
     [ServiceContract]
     public class RoomResource
@@ -46,14 +46,14 @@ namespace RestInPractice.Server.Resources
             }
 
             var entry = new SyndicationItem
-                           {
-                               Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
-                               BaseUri = new Uri("http://" + Environment.MachineName + ":8081"),
-                               Title = SyndicationContent.CreatePlaintextContent(room.Title),
-                               Summary = SyndicationContent.CreatePlaintextContent(room.Description)
-                           };
+                            {
+                                Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
+                                BaseUri = new Uri("http://" + Environment.MachineName + ":8081"),
+                                Title = SyndicationContent.CreatePlaintextContent(room.Title),
+                                Summary = SyndicationContent.CreatePlaintextContent(room.Description)
+                            };
 
-            entry.Authors.Add(new SyndicationPerson{Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
+            entry.Authors.Add(new SyndicationPerson {Name = "Dungeon Master", Email = "dungeon.master@restinpractice.com"});
             entry.Categories.Add(new SyndicationCategory("room"));
 
             foreach (var exit in room.Exits)
@@ -66,7 +66,7 @@ namespace RestInPractice.Server.Resources
                 entry.Links.Add(link);
             }
 
-            var response = new HttpResponseMessage<SyndicationItem>(entry) { StatusCode = HttpStatusCode.OK };
+            var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.OK};
             response.Headers.CacheControl = new CacheControlHeaderValue {Public = true, MaxAge = new TimeSpan(0, 0, 0, 10)};
             response.Content.Headers.ContentType = AtomMediaType.Entry;
 

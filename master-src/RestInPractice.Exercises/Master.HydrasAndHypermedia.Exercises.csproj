@@ -8,8 +8,8 @@
     <ProjectGuid>{AE16BE2A-8756-416B-8C1A-D3150C2DE790}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RestInPractice.Exercises</RootNamespace>
-    <AssemblyName>RestInPractice.Exercises</AssemblyName>
+    <RootNamespace>HydrasAndHypermedia.Exercises</RootNamespace>
+    <AssemblyName>HydrasAndHypermedia.Exercises</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -146,17 +146,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.Client\Master.RestInPractice.Client.csproj">
+    <ProjectReference Include="..\RestInPractice.Client\Master.HydrasAndHypermedia.Client.csproj">
       <Project>{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}</Project>
-      <Name>Master.RestInPractice.Client</Name>
+      <Name>Master.HydrasAndHypermedia.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.MediaTypes\Master.RestInPractice.MediaTypes.csproj">
+    <ProjectReference Include="..\RestInPractice.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
       <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
-      <Name>Master.RestInPractice.MediaTypes</Name>
+      <Name>Master.HydrasAndHypermedia.MediaTypes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.Server\Master.RestInPractice.Server.csproj">
+    <ProjectReference Include="..\RestInPractice.Server\Master.HydrasAndHypermedia.Server.csproj">
       <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>
-      <Name>Master.RestInPractice.Server</Name>
+      <Name>Master.HydrasAndHypermedia.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

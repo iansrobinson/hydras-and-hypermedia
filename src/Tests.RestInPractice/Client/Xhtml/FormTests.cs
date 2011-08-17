@@ -4,10 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Xml;
+using HydrasAndHypermedia.Client.Xhtml;
 using NUnit.Framework;
-using RestInPractice.Client.Xhtml;
 
-namespace Tests.RestInPractice.Client.Xhtml
+namespace Tests.HydrasAndHypermedia.Client.Xhtml
 {
     [TestFixture]
     public class FormTests
@@ -24,7 +24,7 @@ namespace Tests.RestInPractice.Client.Xhtml
 
         [Test]
         public void ShouldParseActionFromForm()
-        {            
+        {
             var reader = Form.Parse(Xhtml);
             Assert.AreEqual(new Uri("/encounters/1", UriKind.Relative), reader.Action);
         }
@@ -95,7 +95,7 @@ namespace Tests.RestInPractice.Client.Xhtml
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof(ArgumentException), ExpectedMessage = "Feed does not contain XHTML form extension.\r\nParameter name: feed")]
+        [ExpectedException(ExpectedException = typeof (ArgumentException), ExpectedMessage = "Feed does not contain XHTML form extension.\r\nParameter name: feed")]
         public void ThrowsExceptionIfFeedDoesNotContainXhtmlFeedExtension()
         {
             var feed = new SyndicationFeed();
@@ -112,7 +112,7 @@ namespace Tests.RestInPractice.Client.Xhtml
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof(ArgumentException), ExpectedMessage = "Entry does not contain XHTML form content.\r\nParameter name: entry")]
+        [ExpectedException(ExpectedException = typeof (ArgumentException), ExpectedMessage = "Entry does not contain XHTML form content.\r\nParameter name: entry")]
         public void ThrowsExceptionIfEntryDoesNotContainContent()
         {
             var entry = new SyndicationItem();
@@ -120,10 +120,10 @@ namespace Tests.RestInPractice.Client.Xhtml
         }
 
         [Test]
-        [ExpectedException(ExpectedException = typeof(ArgumentException), ExpectedMessage = "Entry does not contain XHTML form content.\r\nParameter name: entry")]     
+        [ExpectedException(ExpectedException = typeof (ArgumentException), ExpectedMessage = "Entry does not contain XHTML form content.\r\nParameter name: entry")]
         public void ThrowsExceptionIfEntryDoesNotContainXhtmlFormContent()
         {
-            var entry = new SyndicationItem { Content = SyndicationContent.CreatePlaintextContent("") };
+            var entry = new SyndicationItem {Content = SyndicationContent.CreatePlaintextContent("")};
             Form.ParseFromEntryContent(entry);
         }
 

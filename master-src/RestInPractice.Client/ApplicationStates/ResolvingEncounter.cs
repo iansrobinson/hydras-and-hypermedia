@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
-using RestInPractice.Client.Comparers;
-using RestInPractice.Client.Extensions;
-using RestInPractice.Client.Xhtml;
-using RestInPractice.MediaTypes;
+using HydrasAndHypermedia.Client.Comparers;
+using HydrasAndHypermedia.Client.Extensions;
+using HydrasAndHypermedia.Client.Xhtml;
+using HydrasAndHypermedia.MediaTypes;
 
-namespace RestInPractice.Client.ApplicationStates
+namespace HydrasAndHypermedia.Client.ApplicationStates
 {
     public class ResolvingEncounter : IApplicationState
     {
@@ -26,7 +26,7 @@ namespace RestInPractice.Client.ApplicationStates
             {
                 return new Defeated(currentResponse, applicationStateInfo);
             }
-            
+
             if (currentResponse.Content.Headers.ContentType.Equals(AtomMediaType.Feed))
             {
                 var feed = currentResponse.Content.ReadAsObject<SyndicationFeed>(AtomMediaType.Formatter);
@@ -46,7 +46,7 @@ namespace RestInPractice.Client.ApplicationStates
                         return new ResolvingEncounter(newResponse, applicationStateInfo.GetBuilder().UpdateEndurance(newEndurance).Build());
                     }
                 }
-              
+
                 return new Error(currentResponse, applicationStateInfo);
             }
 

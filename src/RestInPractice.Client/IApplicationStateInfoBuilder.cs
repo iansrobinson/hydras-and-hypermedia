@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestInPractice.Client
+namespace HydrasAndHypermedia.Client
 {
     public interface IApplicationStateInfoBuilder
     {

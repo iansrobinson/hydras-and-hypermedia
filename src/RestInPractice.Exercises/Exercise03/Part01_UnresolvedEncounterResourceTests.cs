@@ -6,14 +6,14 @@ using System.Net;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Xml;
+using HydrasAndHypermedia.Client.Comparers;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Domain;
+using HydrasAndHypermedia.Server.Resources;
 using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
-using RestInPractice.Client.Comparers;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Domain;
-using RestInPractice.Server.Resources;
 
-namespace RestInPractice.Exercises.Exercise03
+namespace HydrasAndHypermedia.Exercises.Exercise03
 {
     [TestFixture]
     public class Part01_UnresolvedEncounterResourceTests

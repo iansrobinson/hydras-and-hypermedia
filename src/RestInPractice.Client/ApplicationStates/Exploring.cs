@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 
-namespace RestInPractice.Client.ApplicationStates
+namespace HydrasAndHypermedia.Client.ApplicationStates
 {
     public class Exploring : IApplicationState
     {

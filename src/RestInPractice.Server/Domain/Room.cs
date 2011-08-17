@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RestInPractice.Server.Domain
+namespace HydrasAndHypermedia.Server.Domain
 {
     public class Room : IIdentifiable
     {

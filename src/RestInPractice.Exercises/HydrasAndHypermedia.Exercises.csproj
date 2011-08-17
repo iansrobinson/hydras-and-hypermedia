@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</ProjectGuid>
+    <ProjectGuid>{D473D789-9ED8-4976-A360-A074CD138FEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RestInPractice.MediaTypes</RootNamespace>
-    <AssemblyName>RestInPractice.MediaTypes</AssemblyName>
+    <RootNamespace>HydrasAndHypermedia.Exercises</RootNamespace>
+    <AssemblyName>HydrasAndHypermedia.Exercises</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -61,6 +61,10 @@
     <Reference Include="Microsoft.ServiceModel.Web.jQuery">
       <HintPath>..\..\lib\http\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\tools\nunit\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -71,10 +75,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\RestInPractice.MediaTypes\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="AtomMediaType.cs" />
+    <Compile Include="Exercise01\Part01_RoomResourceTests.cs" />
+    <Compile Include="Exercise01\Part02_AtomMediaTypeTests.cs" />
+    <Compile Include="Exercise01\Part03_FunctionalTests.cs" />
+    <Compile Include="Exercise02\Part01_AtomMediaTypeTests.cs" />
+    <Compile Include="Exercise02\Part02_ExploringTests.cs" />
+    <Compile Include="Exercise02\Part03_FunctionalTests.cs" />
+    <Compile Include="Exercise03\Part01_UnresolvedEncounterResourceTests.cs" />
+    <Compile Include="Exercise03\Part02_ResolvingEncounterResourceTests.cs" />
+    <Compile Include="Exercise03\Part03_ResolvedEncounterResourceTests.cs" />
+    <Compile Include="Exercise03\Part04_RoomResourceTests.cs" />
+    <Compile Include="Exercise03\Part05_ExploringTests.cs" />
+    <Compile Include="Exercise03\Part06_BeginResolvingEncounterTests.cs" />
+    <Compile Include="Exercise03\Part07_ResolvingEncounterTests.cs" />
+    <Compile Include="Exercise03\Part08_FunctionalTests.cs" />
+    <Compile Include="Helpers\EntryBuilder.cs" />
+    <Compile Include="Helpers\AtomClient.cs" />
+    <Compile Include="Helpers\FeedBuilder.cs" />
+    <Compile Include="Helpers\HttpRequestComparer.cs" />
+    <Compile Include="Helpers\Maze.cs" />
+    <Compile Include="Helpers\MockEndpoint.cs" />
+    <Compile Include="Helpers\Monsters.cs" />
+    <Compile Include="Helpers\StubEndpoint.cs" />
+    <Compile Include="Helpers\Utf8Writer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RestInPractice.Client\HydrasAndHypermedia.Client.csproj">
+      <Project>{5F6CB86D-5D79-4425-BF67-84988F9235AE}</Project>
+      <Name>HydrasAndHypermedia.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RestInPractice.MediaTypes\HydrasAndHypermedia.MediaTypes.csproj">
+      <Project>{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}</Project>
+      <Name>HydrasAndHypermedia.MediaTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RestInPractice.Server\HydrasAndHypermedia.Server.csproj">
+      <Project>{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}</Project>
+      <Name>HydrasAndHypermedia.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

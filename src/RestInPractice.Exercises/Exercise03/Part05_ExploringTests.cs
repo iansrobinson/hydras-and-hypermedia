@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using HydrasAndHypermedia.Client;
+using HydrasAndHypermedia.Client.ApplicationStates;
+using HydrasAndHypermedia.Exercises.Helpers;
+using HydrasAndHypermedia.MediaTypes;
 using NUnit.Framework;
-using RestInPractice.Client;
-using RestInPractice.Client.ApplicationStates;
-using RestInPractice.Exercises.Helpers;
-using RestInPractice.MediaTypes;
 
-namespace RestInPractice.Exercises.Exercise03
+namespace HydrasAndHypermedia.Exercises.Exercise03
 {
     [TestFixture]
     public class Part05_ExploringTests

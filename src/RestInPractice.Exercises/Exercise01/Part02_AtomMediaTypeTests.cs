@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.ServiceModel.Syndication;
+using HydrasAndHypermedia.MediaTypes;
 using NUnit.Framework;
-using RestInPractice.MediaTypes;
 
-namespace RestInPractice.Exercises.Exercise01
+namespace HydrasAndHypermedia.Exercises.Exercise01
 {
     [TestFixture]
     public class Part02_AtomMediaTypeTests

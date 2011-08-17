@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 
-namespace RestInPractice.Exercises.Helpers
+namespace HydrasAndHypermedia.Exercises.Helpers
 {
     public class StubEndpoint : HttpClientChannel
     {

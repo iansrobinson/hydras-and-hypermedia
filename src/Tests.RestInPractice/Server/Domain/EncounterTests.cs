@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using HydrasAndHypermedia.Server.Domain;
 using NUnit.Framework;
-using RestInPractice.Server.Domain;
 
-namespace Tests.RestInPractice.Server.Domain
+namespace Tests.HydrasAndHypermedia.Server.Domain
 {
     [TestFixture]
     public class EncounterTests
@@ -53,7 +53,7 @@ namespace Tests.RestInPractice.Server.Domain
 
             encounter.Action(5);
             encounter.Action(4);
-            
+
             Assert.AreEqual(1, encounter.GetAllRounds().ElementAt(0).Id);
             Assert.AreEqual(2, encounter.GetAllRounds().ElementAt(1).Id);
             Assert.AreEqual(3, encounter.GetAllRounds().ElementAt(2).Id);
@@ -84,9 +84,9 @@ namespace Tests.RestInPractice.Server.Domain
             encounter.Action(2);
             Assert.IsTrue(encounter.IsResolved);
         }
-        
+
         [Test]
-        [ExpectedException(ExpectedException = typeof(InvalidOperationException), ExpectedMessage = "Encounter is already resolved.")]
+        [ExpectedException(ExpectedException = typeof (InvalidOperationException), ExpectedMessage = "Encounter is already resolved.")]
         public void ThrowsExceptionIfTryingToPeformActionAgainstResolvedEncounter()
         {
             var encounter = CreateEncounterUnderTest(0);
@@ -94,7 +94,7 @@ namespace Tests.RestInPractice.Server.Domain
         }
 
         [Test]
-        [ExpectedException(ExpectedException= typeof (ArgumentException), ExpectedMessage = "Endurance must be greater than zero.\r\nParameter name: clientEndurance")]
+        [ExpectedException(ExpectedException = typeof (ArgumentException), ExpectedMessage = "Endurance must be greater than zero.\r\nParameter name: clientEndurance")]
         public void ThrowsExceptionIfClientEnduranceIsZero()
         {
             var encounter = CreateEncounterUnderTest(EncounterEndurance);

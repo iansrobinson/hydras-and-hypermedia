@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using HydrasAndHypermedia.Client;
+using HydrasAndHypermedia.Client.ApplicationStates;
+using HydrasAndHypermedia.Exercises.Helpers;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Xhtml;
 using NUnit.Framework;
-using RestInPractice.Client;
-using RestInPractice.Client.ApplicationStates;
-using RestInPractice.Exercises.Helpers;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Xhtml;
 
-namespace RestInPractice.Exercises.Exercise03
+namespace HydrasAndHypermedia.Exercises.Exercise03
 {
     [TestFixture]
     public class Part06_BeginResolvingEncounterTests

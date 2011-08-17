@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
 using System.Xml.Linq;
 
-namespace RestInPractice.Client.Xhtml
+namespace HydrasAndHypermedia.Client.Xhtml
 {
     public class Form
     {

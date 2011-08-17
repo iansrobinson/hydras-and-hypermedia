@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using HydrasAndHypermedia.Server.Domain;
+using HydrasAndHypermedia.Server.Resources;
 using NUnit.Framework;
-using RestInPractice.Server.Domain;
-using RestInPractice.Server.Resources;
 
-namespace RestInPractice.Exercises.Exercise03
+namespace HydrasAndHypermedia.Exercises.Exercise03
 {
     [TestFixture]
     public class Part04_RoomResourceTests

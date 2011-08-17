@@ -1,4 +1,4 @@
-﻿namespace RestInPractice.Server.Domain
+﻿namespace HydrasAndHypermedia.Server.Domain
 {
     public class Exit
     {

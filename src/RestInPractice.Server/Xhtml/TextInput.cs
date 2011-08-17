@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RestInPractice.Server.Xhtml
+namespace HydrasAndHypermedia.Server.Xhtml
 {
     public class TextInput
     {

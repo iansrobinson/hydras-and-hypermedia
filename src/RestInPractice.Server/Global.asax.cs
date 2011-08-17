@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Web;
 using System.Web.Routing;
+using HydrasAndHypermedia.MediaTypes;
+using HydrasAndHypermedia.Server.Resources;
 using Microsoft.ApplicationServer.Http.Activation;
 using Microsoft.ApplicationServer.Http.Description;
-using RestInPractice.MediaTypes;
-using RestInPractice.Server.Domain;
-using RestInPractice.Server.Resources;
+using HydrasAndHypermedia.Server.Domain;
 
-namespace RestInPractice.Server
+namespace HydrasAndHypermedia.Server
 {
     public class Global : HttpApplication
     {

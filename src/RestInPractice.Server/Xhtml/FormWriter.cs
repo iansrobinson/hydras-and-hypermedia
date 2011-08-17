@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace RestInPractice.Server.Xhtml
+namespace HydrasAndHypermedia.Server.Xhtml
 {
     public class FormWriter
     {

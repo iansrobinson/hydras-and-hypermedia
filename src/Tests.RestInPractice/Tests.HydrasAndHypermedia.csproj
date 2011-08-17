@@ -8,8 +8,8 @@
     <ProjectGuid>{623CF38B-A2CD-4131-BA28-2956B28B0E3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.RestInPractice</RootNamespace>
-    <AssemblyName>Tests.RestInPractice</AssemblyName>
+    <RootNamespace>Tests.HydrasAndHypermedia</RootNamespace>
+    <AssemblyName>Tests.HydrasAndHypermedia</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -94,13 +94,13 @@
     <Compile Include="Server\Xhtml\TextInputTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.Client\RestInPractice.Client.csproj">
+    <ProjectReference Include="..\RestInPractice.Client\HydrasAndHypermedia.Client.csproj">
       <Project>{5F6CB86D-5D79-4425-BF67-84988F9235AE}</Project>
-      <Name>RestInPractice.Client</Name>
+      <Name>HydrasAndHypermedia.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.Server\RestInPractice.Server.csproj">
+    <ProjectReference Include="..\RestInPractice.Server\HydrasAndHypermedia.Server.csproj">
       <Project>{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}</Project>
-      <Name>RestInPractice.Server</Name>
+      <Name>HydrasAndHypermedia.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

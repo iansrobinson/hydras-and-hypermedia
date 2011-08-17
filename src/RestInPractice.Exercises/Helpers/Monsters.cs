@@ -1,6 +1,6 @@
-﻿using RestInPractice.Server.Domain;
+﻿using HydrasAndHypermedia.Server.Domain;
 
-namespace RestInPractice.Exercises.Helpers
+namespace HydrasAndHypermedia.Exercises.Helpers
 {
     public static class Monsters
     {

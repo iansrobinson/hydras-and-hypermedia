@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
-using RestInPractice.MediaTypes;
+using HydrasAndHypermedia.MediaTypes;
 
-namespace RestInPractice.Exercises.Helpers
+namespace HydrasAndHypermedia.Exercises.Helpers
 {
     public static class AtomClient
     {

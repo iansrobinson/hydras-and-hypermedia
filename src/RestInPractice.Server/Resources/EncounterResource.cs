@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.ServiceModel.Syndication;
+using HydrasAndHypermedia.Server.Domain;
 using Microsoft.ApplicationServer.Http;
-using RestInPractice.Server.Domain;
 
-namespace RestInPractice.Server.Resources
+namespace HydrasAndHypermedia.Server.Resources
 {
     public class EncounterResource
     {

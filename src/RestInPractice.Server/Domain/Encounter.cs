@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RestInPractice.Server.Domain
+namespace HydrasAndHypermedia.Server.Domain
 {
     public class Encounter : IIdentifiable
     {
