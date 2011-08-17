@@ -13,7 +13,7 @@ The tutorial comprises three exercises. With each exercise you'll have to fix a 
 * __Exercise 2:__ Next we build a crafty client that can discover a path through the dungeon. By the end of the exercise, the client ought to be able to navigate the dungeon from entrance to exit.
 * __Exercise 3:__ Last, we add an element of danger, populating the dungeon with encounters (more resources) that the client must overcome before it achieves its application goal.
 
-Along the way you’ll learn about:
+Along the way you'll learn about:
 
 * The Atom Syndication Format
 * 'What if' client-side intelligence
