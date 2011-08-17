@@ -1,2 +1,0 @@
-Atom media type
-Ensure stream set to 0

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D473D789-9ED8-4976-A360-A074CD138FEF}</ProjectGuid>
+    <ProjectGuid>{623CF38B-A2CD-4131-BA28-2956B28B0E3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HydrasAndHypermedia.Exercises</RootNamespace>
-    <AssemblyName>HydrasAndHypermedia.Exercises</AssemblyName>
+    <RootNamespace>Tests.HydrasAndHypermedia</RootNamespace>
+    <AssemblyName>Tests.HydrasAndHypermedia</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,43 +31,52 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ApplicationServer.Common">
+    <Reference Include="Microsoft.ApplicationServer.Common, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Http">
+    <Reference Include="Microsoft.ApplicationServer.Http, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements">
+    <Reference Include="Microsoft.ApplicationServer.HttpEnhancements, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.ApplicationServer.HttpEnhancements.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.HttpEnhancements.Tests">
       <HintPath>..\..\lib\http\Microsoft.ApplicationServer.HttpEnhancements.Tests.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.Serialization">
+    <Reference Include="Microsoft.ApplicationServer.Serialization, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.ApplicationServer.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationServer.ServiceModel">
+    <Reference Include="Microsoft.ApplicationServer.ServiceModel, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.ApplicationServer.ServiceModel.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Net.Http">
+    <Reference Include="Microsoft.Net.Http, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.QueryComposition">
+    <Reference Include="Microsoft.QueryComposition, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.QueryComposition.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Runtime.Serialization.Json">
+    <Reference Include="Microsoft.Runtime.Serialization.Json, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.Runtime.Serialization.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceModel.Web.jQuery">
+    <Reference Include="Microsoft.ServiceModel.Web.jQuery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\http\Microsoft.ServiceModel.Web.jQuery.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>..\..\tools\nunit\bin\net-2.0\framework\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,41 +84,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exercise01\Part01_RoomResourceTests.cs" />
-    <Compile Include="Exercise01\Part02_AtomMediaTypeTests.cs" />
-    <Compile Include="Exercise01\Part03_FunctionalTests.cs" />
-    <Compile Include="Exercise02\Part01_AtomMediaTypeTests.cs" />
-    <Compile Include="Exercise02\Part02_ExploringTests.cs" />
-    <Compile Include="Exercise02\Part03_FunctionalTests.cs" />
-    <Compile Include="Exercise03\Part01_UnresolvedEncounterResourceTests.cs" />
-    <Compile Include="Exercise03\Part02_ResolvingEncounterResourceTests.cs" />
-    <Compile Include="Exercise03\Part03_ResolvedEncounterResourceTests.cs" />
-    <Compile Include="Exercise03\Part04_RoomResourceTests.cs" />
-    <Compile Include="Exercise03\Part05_ExploringTests.cs" />
-    <Compile Include="Exercise03\Part06_BeginResolvingEncounterTests.cs" />
-    <Compile Include="Exercise03\Part07_ResolvingEncounterTests.cs" />
-    <Compile Include="Exercise03\Part08_FunctionalTests.cs" />
-    <Compile Include="Helpers\EntryBuilder.cs" />
-    <Compile Include="Helpers\AtomClient.cs" />
-    <Compile Include="Helpers\FeedBuilder.cs" />
-    <Compile Include="Helpers\HttpRequestComparer.cs" />
-    <Compile Include="Helpers\Maze.cs" />
-    <Compile Include="Helpers\MockEndpoint.cs" />
-    <Compile Include="Helpers\Monsters.cs" />
-    <Compile Include="Helpers\StubEndpoint.cs" />
-    <Compile Include="Helpers\Utf8Writer.cs" />
+    <Compile Include="Client\ApplicationStateInfoTests.cs" />
+    <Compile Include="Client\Xhtml\FormTests.cs" />
+    <Compile Include="Client\Xhtml\TextInputTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Domain\EncounterTests.cs" />
+    <Compile Include="Server\Domain\RoomTests.cs" />
+    <Compile Include="Server\Xhtml\FormWriterTests.cs" />
+    <Compile Include="Server\Xhtml\TextInputTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.Client\HydrasAndHypermedia.Client.csproj">
+    <ProjectReference Include="..\HydrasAndHypermedia.Client\HydrasAndHypermedia.Client.csproj">
       <Project>{5F6CB86D-5D79-4425-BF67-84988F9235AE}</Project>
       <Name>HydrasAndHypermedia.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.MediaTypes\HydrasAndHypermedia.MediaTypes.csproj">
-      <Project>{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}</Project>
-      <Name>HydrasAndHypermedia.MediaTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.Server\HydrasAndHypermedia.Server.csproj">
+    <ProjectReference Include="..\HydrasAndHypermedia.Server\HydrasAndHypermedia.Server.csproj">
       <Project>{F9F21142-EFDF-4F1A-9915-D3759C7DE8E7}</Project>
       <Name>HydrasAndHypermedia.Server</Name>
     </ProjectReference>

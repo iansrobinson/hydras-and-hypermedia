@@ -71,47 +71,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStateInfo.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\ApplicationStateInfo.cs">
       <Link>ApplicationStateInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Defeated.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\ApplicationStates\Defeated.cs">
       <Link>ApplicationStates\Defeated.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Error.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\ApplicationStates\Error.cs">
       <Link>ApplicationStates\Error.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\GoalAchieved.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\ApplicationStates\GoalAchieved.cs">
       <Link>ApplicationStates\GoalAchieved.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\ApplicationStates\Started.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\ApplicationStates\Started.cs">
       <Link>ApplicationStates\Started.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\Comparers\CategoryComparer.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\Comparers\CategoryComparer.cs">
       <Link>Comparers\CategoryComparer.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\Extensions\HttpContentExtensions.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\Extensions\HttpContentExtensions.cs">
       <Link>Extensions\HttpContentExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\IApplicationState.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\IApplicationState.cs">
       <Link>IApplicationState.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\IApplicationStateInfoBuilder.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\IApplicationStateInfoBuilder.cs">
       <Link>IApplicationStateInfoBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\Xhtml\Form.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\Xhtml\Form.cs">
       <Link>Xhtml\Form.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Client\Xhtml\TextInput.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Client\Xhtml\TextInput.cs">
       <Link>Xhtml\TextInput.cs</Link>
     </Compile>
     <Compile Include="ApplicationStates\Exploring.cs" />
     <Compile Include="ApplicationStates\ResolvingEncounter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
+    <ProjectReference Include="..\HydrasAndHypermedia.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
       <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
       <Name>Master.HydrasAndHypermedia.MediaTypes</Name>
     </ProjectReference>

@@ -74,87 +74,89 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise01\Part01_RoomResourceTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part01_RoomResourceTests.cs">
       <Link>Exercise01\Part01_RoomResourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise01\Part02_AtomMediaTypeTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part02_AtomMediaTypeTests.cs">
       <Link>Exercise01\Part02_AtomMediaTypeTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise01\Part03_FunctionalTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part03_FunctionalTests.cs">
       <Link>Exercise01\Part03_FunctionalTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise02\Part01_AtomMediaTypeTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part01_AtomMediaTypeTests.cs">
       <Link>Exercise02\Part01_AtomMediaTypeTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise02\Part02_ExploringTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part02_ExploringTests.cs">
       <Link>Exercise02\Part02_ExploringTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise02\Part03_FunctionalTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part03_FunctionalTests.cs">
       <Link>Exercise02\Part03_FunctionalTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part01_UnresolvedEncounterResourceTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part01_UnresolvedEncounterResourceTests.cs">
       <Link>Exercise03\Part01_UnresolvedEncounterResourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part02_ResolvingEncounterResourceTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part02_ResolvingEncounterResourceTests.cs">
       <Link>Exercise03\Part02_ResolvingEncounterResourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part03_ResolvedEncounterResourceTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part03_ResolvedEncounterResourceTests.cs">
       <Link>Exercise03\Part03_ResolvedEncounterResourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part04_RoomResourceTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part04_RoomResourceTests.cs">
       <Link>Exercise03\Part04_RoomResourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part05_ExploringTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part05_ExploringTests.cs">
       <Link>Exercise03\Part05_ExploringTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part06_BeginResolvingEncounterTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part06_BeginResolvingEncounterTests.cs">
       <Link>Exercise03\Part06_BeginResolvingEncounterTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part07_ResolvingEncounterTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part07_ResolvingEncounterTests.cs">
       <Link>Exercise03\Part07_ResolvingEncounterTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Exercise03\Part08_FunctionalTests.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part08_FunctionalTests.cs">
       <Link>Exercise03\Part08_FunctionalTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\AtomClient.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\AtomClient.cs">
       <Link>Helpers\AtomClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\EntryBuilder.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\EntryBuilder.cs">
       <Link>Helpers\EntryBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\FeedBuilder.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\FeedBuilder.cs">
       <Link>Helpers\FeedBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\HttpRequestComparer.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\HttpRequestComparer.cs">
       <Link>Helpers\HttpRequestComparer.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\Maze.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\Maze.cs">
       <Link>Helpers\Maze.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\MockEndpoint.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\MockEndpoint.cs">
       <Link>Helpers\MockEndpoint.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\Monsters.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\Monsters.cs">
       <Link>Helpers\Monsters.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\StubEndpoint.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\StubEndpoint.cs">
       <Link>Helpers\StubEndpoint.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\RestInPractice.Exercises\Helpers\Utf8Writer.cs">
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\Utf8Writer.cs">
       <Link>Helpers\Utf8Writer.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RestInPractice.Client\Master.HydrasAndHypermedia.Client.csproj">
+    <ProjectReference Include="..\HydrasAndHypermedia.Client\Master.HydrasAndHypermedia.Client.csproj">
       <Project>{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}</Project>
       <Name>Master.HydrasAndHypermedia.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
+    <ProjectReference Include="..\HydrasAndHypermedia.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
       <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
       <Name>Master.HydrasAndHypermedia.MediaTypes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RestInPractice.Server\Master.HydrasAndHypermedia.Server.csproj">
+    <ProjectReference Include="..\HydrasAndHypermedia.Server\Master.HydrasAndHypermedia.Server.csproj">
       <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>
       <Name>Master.HydrasAndHypermedia.Server</Name>
     </ProjectReference>
