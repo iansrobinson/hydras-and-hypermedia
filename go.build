@@ -1,7 +1,8 @@
 <project name="Hydras and Hypermedia" default="build">
 
   <property name="nant.settings.currentframework" value="net-4.0" />
-  
+
+  <property name="src" value="src"/>
   <property name="configuration" value="debug"/>
   <property name="base.dir" value="${project::get-base-directory()}"/>
   <property name="output.dir" value="${base.dir}\output"/>
@@ -11,10 +12,10 @@
   <property name="output.reports.dir" value="${output.dir}\reports"/>
   <property name="output.reports.unit-tests.dir" value="${output.reports.dir}\unit-tests"/>
   <property name="output.reports.exercises.dir" value="${output.reports.dir}\exercises"/>
-  <property name="binaries.server.dir" value="${base.dir}\src\HydrasAndHypermedia.Server\bin"/>
-  <property name="binaries.client.dir" value="${base.dir}\src\HydrasAndHypermedia.Client\bin\${configuration}"/>
+  <property name="binaries.server.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Server\bin"/>
+  <property name="binaries.client.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Client\bin\${configuration}"/>
   <property name="binaries.unit-tests.dir" value="${base.dir}\src\Tests.HydrasAndHypermedia\bin\${configuration}"/>
-  <property name="binaries.exercises.dir" value="${base.dir}\src\HydrasAndHypermedia.Exercises\bin\${configuration}"/>
+  <property name="binaries.exercises.dir" value="${base.dir}\${src}\HydrasAndHypermedia.Exercises\bin\${configuration}"/>
   <property name="solution.file" value="ProgressiveDotNet.sln"/>
   <property name="unit-tests.assembly" value="Tests.HydrasAndHypermedia.dll"/>
   <property name="unit-tests.file" value="results.xml"/>
@@ -110,6 +111,7 @@
   </target>
 
   <target name="build" depends="intro, clean, create.output.directories, build.solution, run.unit.tests, run.exercises, generate.reports, deploy">
+    <echo message="Src: ${src}"/>
     <fail if="${unit-tests.result != '0' or exercises.result !='0'}">One or more unit tests failed</fail>
   </target>
 
