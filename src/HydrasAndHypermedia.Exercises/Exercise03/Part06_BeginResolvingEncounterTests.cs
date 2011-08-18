@@ -41,7 +41,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var feed = CreateEncounterFeed();
             var entry = CreateRoundEntry(3);
 
-            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(entry));
+            var mockEndpoint = new FakeEndpoint(CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(endurance));
@@ -65,7 +65,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var feed = CreateEncounterFeed();
             var entry = CreateRoundEntry(3);
 
-            var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(entry));
+            var stubEndpoint = new FakeEndpoint(CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
@@ -82,7 +82,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var feed = CreateEncounterFeed();
             var entry = CreateRoundEntry(newEndurance);
 
-            var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(entry));
+            var stubEndpoint = new FakeEndpoint(CreateResponseWithEntry(entry));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
@@ -97,7 +97,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var feed = CreateEncounterFeed();
             var secondFeed = CreateEncounterFeed();
 
-            var stubEndpoint = new StubEndpoint(request => CreateResponseWithFeed(secondFeed));
+            var stubEndpoint = new FakeEndpoint(CreateResponseWithFeed(secondFeed));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));

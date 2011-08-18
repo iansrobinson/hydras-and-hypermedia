@@ -4,12 +4,12 @@ using System.Threading;
 
 namespace HydrasAndHypermedia.Exercises.Helpers
 {
-    public class MockEndpoint : HttpClientChannel
+    public class FakeEndpoint : HttpClientChannel
     {
         private readonly HttpResponseMessage response;
         private HttpRequestMessage receivedRequest;
 
-        public MockEndpoint(HttpResponseMessage response)
+        public FakeEndpoint(HttpResponseMessage response)
         {
             this.response = response;
         }

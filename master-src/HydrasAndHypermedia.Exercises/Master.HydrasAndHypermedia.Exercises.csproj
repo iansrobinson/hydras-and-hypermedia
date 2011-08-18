@@ -122,6 +122,9 @@
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\EntryBuilder.cs">
       <Link>Helpers\EntryBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\FakeEndpoint.cs">
+      <Link>Helpers\FakeEndpoint.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\FeedBuilder.cs">
       <Link>Helpers\FeedBuilder.cs</Link>
     </Compile>
@@ -131,14 +134,8 @@
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\Maze.cs">
       <Link>Helpers\Maze.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\MockEndpoint.cs">
-      <Link>Helpers\MockEndpoint.cs</Link>
-    </Compile>
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\Monsters.cs">
       <Link>Helpers\Monsters.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\StubEndpoint.cs">
-      <Link>Helpers\StubEndpoint.cs</Link>
     </Compile>
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Helpers\Utf8Writer.cs">
       <Link>Helpers\Utf8Writer.cs</Link>

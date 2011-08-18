@@ -25,7 +25,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var initialEntry = CreateRoundEntry(initialEndurance);
             var newEntry = CreateRoundEntry(newEndurance);
 
-            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(newEntry));
+            var mockEndpoint = new FakeEndpoint(CreateResponseWithEntry(newEntry));
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithEntry(initialEntry), ApplicationStateInfo.WithEndurance(initialEndurance));
@@ -49,7 +49,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var initialEntry = CreateRoundEntry(3);
             var newEntry = CreateRoundEntry(1);
 
-            var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(newEntry));
+            var stubEndpoint = new FakeEndpoint(CreateResponseWithEntry(newEntry));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithEntry(initialEntry), ApplicationStateInfo.WithEndurance(3));
@@ -67,7 +67,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var initialEntry = CreateRoundEntry(initialEndurance);
             var newEntry = CreateRoundEntry(newEndurance);
 
-            var stubEndpoint = new StubEndpoint(request => CreateResponseWithEntry(newEntry));
+            var stubEndpoint = new FakeEndpoint(CreateResponseWithEntry(newEntry));
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithEntry(initialEntry), ApplicationStateInfo.WithEndurance(initialEndurance));
@@ -81,7 +81,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         {
             var entry = CreateRoundEntry(3);
             
-            var stubEndpoint = new StubEndpoint(request => CreateHtmlResponse());
+            var stubEndpoint = new FakeEndpoint(CreateHtmlResponse());
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithEntry(entry), ApplicationStateInfo.WithEndurance(5));
@@ -129,7 +129,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
                 .ToString();
             var newEntry = CreateRoomEntry();
 
-            var mockEndpoint = new MockEndpoint(CreateResponseWithEntry(newEntry));
+            var mockEndpoint = new FakeEndpoint(CreateResponseWithEntry(newEntry));
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var initialState = new ResolvingEncounter(CreateResponseWithEntry(entry), ApplicationStateInfo.WithEndurance(endurance));

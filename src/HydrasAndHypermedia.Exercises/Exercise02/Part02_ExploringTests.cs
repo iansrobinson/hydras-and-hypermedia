@@ -34,7 +34,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var stubEndpoint = new StubEndpoint(r => new HttpResponseMessage());
+            var stubEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var client = AtomClient.CreateWithChannel(stubEndpoint);
             
@@ -57,7 +57,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
             
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
@@ -79,7 +79,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
@@ -100,7 +100,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
@@ -120,7 +120,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var client = AtomClient.CreateWithChannel(mockEndpoint);
 
@@ -140,7 +140,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var stubEndpoint = new StubEndpoint(r => new HttpResponseMessage());
+            var stubEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var client = AtomClient.CreateWithChannel(stubEndpoint);
 
@@ -165,7 +165,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri};
 
@@ -190,7 +190,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
@@ -214,7 +214,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
@@ -237,7 +237,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
@@ -259,7 +259,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            var mockEndpoint = new FakeEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
