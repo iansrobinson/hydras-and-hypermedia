@@ -26,6 +26,16 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
         }
 
         [Test]
+        public void NextStateShouldReturnExploringApplicatonState()
+        {
+            var state = new Exploring(new HttpResponseMessage(), ApplicationStateInfo.WithEndurance(5));
+            var nextState = state.NextState(new HttpClient());
+
+            Assert.IsInstanceOf(typeof(Exploring), nextState);
+            Assert.AreNotEqual(state, nextState);
+        }
+
+        [Test]
         public void ShouldFollowExitToNorthInPreferenceToAllOtherExits()
         {
             var entry = new EntryBuilder()
@@ -37,14 +47,14 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
-
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
+            
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, NorthUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -58,14 +68,14 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, EastUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, EastUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -78,14 +88,14 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, WestUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, WestUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -97,14 +107,14 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, SouthUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -139,16 +149,16 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri};
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, WestUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(history).Build());
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, WestUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -163,16 +173,16 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, SouthUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(history).Build());
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, SouthUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -186,16 +196,16 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, WestUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(history).Build());
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, WestUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -208,16 +218,16 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, EastUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(history).Build());
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, EastUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -229,16 +239,16 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
                 .ToString();
 
             var currentResponse = CreateResponse(entry);
-            var newResponse = new HttpResponseMessage();
+            var mockEndpoint = new MockEndpoint(new HttpResponseMessage());
 
             var history = new[] {NorthUri, EastUri, WestUri, SouthUri};
 
-            var client = AtomClient.CreateWithChannel(CreateStubEndpoint(BaseUri, NorthUri, newResponse));
+            var client = AtomClient.CreateWithChannel(mockEndpoint);
 
             var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5).GetBuilder().AddToHistory(history).Build());
-            var nextState = state.NextState(client);
+            state.NextState(client);
 
-            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+            Assert.AreEqual(new Uri(BaseUri, NorthUri), mockEndpoint.ReceivedRequest.RequestUri);
         }
 
         [Test]
@@ -260,7 +270,14 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
         private static StubEndpoint CreateStubEndpoint(Uri baseUri, Uri relativePath, HttpResponseMessage newResponse)
         {
             var requestUri = new Uri(baseUri, relativePath);
-            return new StubEndpoint(request => request.RequestUri.Equals(requestUri) ? newResponse : null);
+            return new StubEndpoint(request =>
+                                        {
+                                            if (request.RequestUri.Equals(requestUri))
+                                            {
+                                                return newResponse;
+                                            }
+                                            throw new InvalidOperationException(string.Format("Incorrect request Uri. Expected: {0} Found: {1}", requestUri, request.RequestUri));
+                                        });
         }
 
         private static HttpResponseMessage CreateResponse(string entry)

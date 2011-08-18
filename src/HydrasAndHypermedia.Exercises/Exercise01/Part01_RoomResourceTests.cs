@@ -48,16 +48,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise01
         }
 
         [Test]
-        public void ResponseContentTypeShouldBeAtomMediaTypeWithEntryTypeParameter()
-        {
-            var room = CreateRoom();
-            var resource = CreateRoomResource(room);
-            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
-
-            Assert.AreEqual(AtomMediaType.Entry, response.Content.Headers.ContentType);
-        }
-
-        [Test]
         public void BodyShouldBeSyndicationItem()
         {
             var room = CreateRoom();
@@ -65,7 +55,17 @@ namespace HydrasAndHypermedia.Exercises.Exercise01
             var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
             var item = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationItem), item);
+            Assert.IsInstanceOf(typeof(SyndicationItem), item);
+        }
+
+        [Test]
+        public void ResponseContentTypeShouldBeAtomMediaTypeWithEntryTypeParameter()
+        {
+            var room = CreateRoom();
+            var resource = CreateRoomResource(room);
+            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
+
+            Assert.AreEqual(AtomMediaType.Entry, response.Content.Headers.ContentType);
         }
 
         [Test]

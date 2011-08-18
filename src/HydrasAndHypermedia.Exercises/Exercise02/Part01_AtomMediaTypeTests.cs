@@ -69,7 +69,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
         }
 
         [Test]
-        public void ShouldBeAbleToReadFromAStreamThatHaslareadyBeenRead()
+        public void ShouldBeAbleToReadFromAStreamThatHasAlreadyBeenRead()
         {
             using (var input = new MemoryStream(Encoding.UTF8.GetBytes(EntryXml)))
             {
