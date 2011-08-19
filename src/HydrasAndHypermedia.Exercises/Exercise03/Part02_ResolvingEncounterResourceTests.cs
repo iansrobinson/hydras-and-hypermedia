@@ -39,7 +39,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             {
                 var resource = CreateEncounterResource(encounter);
                 var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/rounds/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
                 Assert.AreEqual(expectedUri, response.Headers.Location);
             }
            
@@ -63,16 +63,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void ResponseShouldIncludeAtomEntryContentTypeHeader()
-        {
-            var encounter = CreateEncounter();
-            var resource = CreateEncounterResource(encounter);
-            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-
-            Assert.AreEqual(AtomMediaType.Entry, response.Content.Headers.ContentType);
-        }
-
-        [Test]
         public void ResponseContentShouldBeSyndicationItem()
         {
             var encounter = CreateEncounter();
@@ -80,7 +70,17 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
             var item = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationItem), item);
+            Assert.IsInstanceOf(typeof(SyndicationItem), item);
+        }
+
+        [Test]
+        public void ResponseShouldIncludeAtomEntryContentTypeHeader()
+        {
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+
+            Assert.AreEqual(AtomMediaType.Entry, response.Content.Headers.ContentType);
         }
 
         [Test]
@@ -95,16 +95,22 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void ItemIdShouldBeTagUri()
+        public void EachItemIdShouldBeTagUri()
         {
+            const int numberOfRounds = 3;
             var encounter = CreateEncounter();
+
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-            var item = response.Content.ReadAsOrDefault();
 
-            var expectedItemId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                var item = response.Content.ReadAsOrDefault();
 
-            Assert.AreEqual(expectedItemId, item.Id);
+                var expectedItemId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
+
+                Assert.AreEqual(expectedItemId, item.Id);
+            }
         }
 
         [Test]
@@ -119,17 +125,23 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void ItemShouldHaveSelfLink()
+        public void EachItemShouldHaveSelfLink()
         {
+            const int numberOfRounds = 3;
             var encounter = CreateEncounter();
+
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-            var item = response.Content.ReadAsOrDefault();
-            var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-            var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                var item = response.Content.ReadAsOrDefault();
+                var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-            Assert.AreEqual(expectedUri, selfLink.Uri);
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
+
+                Assert.AreEqual(expectedUri, selfLink.Uri);
+            }
         }
 
         [Test]
@@ -147,16 +159,22 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void ItemTitleShouldRepresentCurrentRound()
+        public void EachItemTitleShouldRepresentCurrentRound()
         {
+            const int numberOfRounds = 3;
             var encounter = CreateEncounter();
+
             var resource = CreateEncounterResource(encounter);
-            var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-            var item = response.Content.ReadAsOrDefault();
 
-            var expectedTitle = "Round " + encounter.GetAllRounds().Last().Id;
+            for (var i = 0; i < numberOfRounds; i++)
+            {
+                var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
+                var item = response.Content.ReadAsOrDefault();
+                
+                var expectedTitle = "Round " + encounter.GetAllRounds().Last().Id;
 
-            Assert.AreEqual(expectedTitle, item.Title.Text);
+                Assert.AreEqual(expectedTitle, item.Title.Text);
+            }
         }
 
         [Test]

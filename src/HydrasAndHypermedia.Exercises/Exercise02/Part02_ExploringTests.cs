@@ -46,6 +46,26 @@ namespace HydrasAndHypermedia.Exercises.Exercise02
         }
 
         [Test]
+        public void ShouldPopulateNextStateWithNewResponse()
+        {
+            var entry = new EntryBuilder()
+                .WithBaseUri(BaseUri)
+                .WithNorthLink(NorthUri)
+                .ToString();
+
+            var currentResponse = CreateResponse(entry);
+            var newResponse = new HttpResponseMessage();
+            var stubEndpoint = new FakeEndpoint(newResponse);
+
+            var client = AtomClient.CreateWithChannel(stubEndpoint);
+
+            var state = new Exploring(currentResponse, ApplicationStateInfo.WithEndurance(5));
+            var nextState = state.NextState(client);
+
+            Assert.AreEqual(newResponse, nextState.CurrentResponse);
+        }
+
+        [Test]
         public void ShouldFollowExitToNorthInPreferenceToAllOtherExits()
         {
             var entry = new EntryBuilder()

@@ -70,11 +70,11 @@ namespace HydrasAndHypermedia.Server.Resources
                             {
                                 var entry = new SyndicationItem
                                                 {
-                                                    Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                                                    Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/rounds/{1}", encounter.Id, round.Id),
                                                     Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
                                                     Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Points", encounter.Title, round.Endurance))
                                                 };
-                                entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, round.Id))));
+                                entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://{0}:8081/encounters/{1}/rounds/{2}", Environment.MachineName, encounter.Id, round.Id))));
                                 entry.Categories.Add(new SyndicationCategory("round"));
                                 return entry;
                             });
@@ -117,13 +117,13 @@ namespace HydrasAndHypermedia.Server.Resources
 
             var entry = new SyndicationItem
                             {
-                                Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, round.Id),
+                                Id = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/rounds/{1}", encounter.Id, round.Id),
                                 BaseUri = BaseUri,
                                 Title = SyndicationContent.CreatePlaintextContent("Round " + round.Id),
                                 Summary = SyndicationContent.CreatePlaintextContent(string.Format("The {0} has {1} Endurance Point{2}", encounter.Title, round.Endurance, Math.Abs(round.Endurance).Equals(1) ? "" : "s")),
                                 Content = SyndicationContent.CreateXhtmlContent(xhtml),
                             };
-            entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, round.Id))));
+            entry.Links.Add(SyndicationLink.CreateSelfLink(new Uri(string.Format("http://{0}:8081/encounters/{1}/rounds/{2}", Environment.MachineName, encounter.Id, round.Id))));
             entry.Categories.Add(new SyndicationCategory("round"));
 
             if (encounter.IsResolved)
@@ -137,7 +137,7 @@ namespace HydrasAndHypermedia.Server.Resources
             }
 
             var response = new HttpResponseMessage<SyndicationItem>(entry) {StatusCode = HttpStatusCode.Created};
-            response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, result.Round.Id));
+            response.Headers.Location = new Uri(string.Format("http://{0}:8081/encounters/{1}/rounds/{2}", Environment.MachineName, encounter.Id, result.Round.Id));
             response.Content.Headers.ContentType = AtomMediaType.Entry;
 
             return response;

@@ -51,16 +51,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void ResponseShouldIncludeAtomFeedContentTypeHeader()
-        {
-            var encounter = CreateEncounter();
-            var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
-
-            Assert.AreEqual(AtomMediaType.Feed, response.Content.Headers.ContentType);
-        }
-
-        [Test]
         public void ResponseContentShouldBeSyndicationFeed()
         {
             var encounter = CreateEncounter();
@@ -68,7 +58,17 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
             var feed = response.Content.ReadAsOrDefault();
 
-            Assert.IsInstanceOf(typeof (SyndicationFeed), feed);
+            Assert.IsInstanceOf(typeof(SyndicationFeed), feed);
+        }
+
+        [Test]
+        public void ResponseShouldIncludeAtomFeedContentTypeHeader()
+        {
+            var encounter = CreateEncounter();
+            var resource = CreateEncounterResource(encounter);
+            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
+
+            Assert.AreEqual(AtomMediaType.Feed, response.Content.Headers.ContentType);
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void ItemTitlesRepresentRoundsWithMostRecentRoundFirst()
+        public void ItemTitlesShouldIncludeRoundNumberWithMostRecentRoundFirst()
         {
             const int numberOfRounds = 3;
             var encounter = CreateEncounter(numberOfRounds);
@@ -217,13 +217,13 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
 
             for (var i = 0; i < numberOfRounds; i++)
             {
-                var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, numberOfRounds - i);
+                var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/rounds/{1}", encounter.Id, numberOfRounds - i);
                 Assert.AreEqual(expectedId, feed.Items.ElementAt(i).Id);
             }
         }
 
         [Test]
-        public void ItemIdShouldHaveASelfLink()
+        public void EachItemShouldHaveASelfLink()
         {
             const int numberOfRounds = 3;
             var encounter = CreateEncounter(numberOfRounds);
@@ -237,7 +237,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
                 var item = feed.Items.ElementAt(i);
                 var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, numberOfRounds - i));
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/rounds/{2}", Environment.MachineName, encounter.Id, numberOfRounds - i));
                 Assert.AreEqual(expectedUri, selfLink.Uri);
             }
         }
