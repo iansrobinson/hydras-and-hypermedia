@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using HydrasAndHypermedia.Server.Domain;
 using HydrasAndHypermedia.Server.Resources;
 using NUnit.Framework;
@@ -55,7 +53,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         private static HttpRequestMessage CreateRequest(int encounterId)
         {
             var requestUri = new Uri("http://localhost:8081/encounters/" + encounterId);
-            var request = new HttpRequestMessage { Method = HttpMethod.Get, RequestUri = requestUri };
+            var request = new HttpRequestMessage {Method = HttpMethod.Get, RequestUri = requestUri};
             return request;
         }
 

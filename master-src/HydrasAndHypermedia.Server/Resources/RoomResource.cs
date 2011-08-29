@@ -40,9 +40,9 @@ namespace HydrasAndHypermedia.Server.Resources
 
             if (room.IsGuarded(encounters))
             {
-                var seeOtherResponse = new HttpResponseMessage<SyndicationItem>(HttpStatusCode.SeeOther);
+                var seeOtherResponse = new HttpResponseMessage {StatusCode = HttpStatusCode.SeeOther};
                 seeOtherResponse.Headers.Location = new Uri(string.Format("http://" + Environment.MachineName + ":8081/encounters/{0}", room.GetEncounter(encounters).Id));
-                return seeOtherResponse;
+                throw new HttpResponseException(seeOtherResponse);
             }
 
             var entry = new SyndicationItem

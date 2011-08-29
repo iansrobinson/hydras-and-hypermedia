@@ -75,7 +75,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void NewStateShouldContainRevisedEnduranceAsSpecifiedInResponse()
+        public void AfterSubmittingFormNewStateShouldContainRevisedEnduranceAsSpecifiedInResponse()
         {
             const int newEndurance = 3;
 
@@ -89,6 +89,24 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             var newState = initialState.NextState(client);
 
             Assert.AreEqual(newEndurance, newState.ApplicationStateInfo.Endurance);
+        }
+
+        [Test]
+        public void AfterSubmittingFormNewStateShouldContainNewResponse()
+        {
+            const int newEndurance = 3;
+
+            var feed = CreateEncounterFeed();
+            var entry = CreateRoundEntry(newEndurance);
+            var newResponse = CreateResponseWithEntry(entry);
+
+            var stubEndpoint = new FakeEndpoint(newResponse);
+            var client = AtomClient.CreateWithChannel(stubEndpoint);
+
+            var initialState = new ResolvingEncounter(CreateResponseWithFeed(feed), ApplicationStateInfo.WithEndurance(5));
+            var newState = initialState.NextState(client);
+
+            Assert.AreEqual(newResponse, newState.CurrentResponse);
         }
          
         [Test]

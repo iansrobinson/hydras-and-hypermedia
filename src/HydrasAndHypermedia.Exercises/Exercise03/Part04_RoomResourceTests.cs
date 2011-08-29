@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using HydrasAndHypermedia.Server.Domain;
 using HydrasAndHypermedia.Server.Resources;
+using Microsoft.ApplicationServer.Http.Dispatcher;
 using NUnit.Framework;
 
 namespace HydrasAndHypermedia.Exercises.Exercise03
@@ -13,26 +14,38 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         [Test]
         public void WhenRoomIsGuardedByUnresolvedEncounterResponseShouldBe303SeeOther()
         {
-            var encounter = CreateUnresolvedEncounter();
-            var room = CreateRoomWithEncounter(encounter.Id);
-            var resource = CreateRoomResource(room, encounter);
-
-            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
-
-            Assert.AreEqual(HttpStatusCode.SeeOther, response.StatusCode);
+            try
+            {
+                var encounter = CreateUnresolvedEncounter();
+                var room = CreateRoomWithEncounter(encounter.Id);
+                var resource = CreateRoomResource(room, encounter);
+                resource.Get(room.Id.ToString(), CreateRequest(room.Id));
+                Assert.Fail("Expected 303 See Other");
+            }
+            catch (HttpResponseException ex)
+            {
+                Assert.AreEqual(HttpStatusCode.SeeOther, ex.Response.StatusCode);
+            }
         }
 
         [Test]
         public void WhenRoomIsGuardedByUnresolvedEncounterResponseShouldContainLocationHeaderWithAddressOfEncounter()
         {
             var encounter = CreateUnresolvedEncounter();
-            var room = CreateRoomWithEncounter(encounter.Id);
-            var resource = CreateRoomResource(room, encounter);
-            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
 
-            var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}", Environment.MachineName, encounter.Id));
-
-            Assert.AreEqual(expectedUri, response.Headers.Location);
+            try
+            {
+                
+                var room = CreateRoomWithEncounter(encounter.Id);
+                var resource = CreateRoomResource(room, encounter);
+                resource.Get(room.Id.ToString(), CreateRequest(room.Id));
+                Assert.Fail("Expected 303 See Other");
+            }
+            catch (HttpResponseException ex)
+            {
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}", Environment.MachineName, encounter.Id));
+                Assert.AreEqual(expectedUri, ex.Response.Headers.Location);
+            }
         }
 
         [Test]
