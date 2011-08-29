@@ -110,6 +110,24 @@
       <Link>Global.asax.cs</Link>
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Server\Hypermedia\CheckString.cs">
+      <Link>Hypermedia\CheckString.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Server\Hypermedia\IUriTemplate.cs">
+      <Link>Hypermedia\IUriTemplate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Server\Hypermedia\UriFactory.cs">
+      <Link>Hypermedia\UriFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Server\Hypermedia\UriFactoryWorker.cs">
+      <Link>Hypermedia\UriFactoryWorker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Server\Hypermedia\UriTemplateAttribute.cs">
+      <Link>Hypermedia\UriTemplateAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Server\Hypermedia\UriTemplateMissingException.cs">
+      <Link>Hypermedia\UriTemplateMissingException.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\HydrasAndHypermedia.Server\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

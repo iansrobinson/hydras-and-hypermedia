@@ -104,6 +104,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hypermedia\CheckString.cs" />
+    <Compile Include="Hypermedia\IUriTemplate.cs" />
+    <Compile Include="Hypermedia\UriFactory.cs" />
+    <Compile Include="Hypermedia\UriFactoryWorker.cs" />
+    <Compile Include="Hypermedia\UriTemplateAttribute.cs" />
+    <Compile Include="Hypermedia\UriTemplateMissingException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\EncounterResource.cs" />
     <Compile Include="Resources\RoomResource.cs" />
