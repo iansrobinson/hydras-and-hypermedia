@@ -21,6 +21,8 @@ Along the way you'll learn about:
 * Hypermedia controls: links, link relations and forms
 * DRY URIs 
 
+The tutorial has been tested on Windows 7 with Microsoft Visual Web Developer 2010 Express.
+
 
 Tutorial Dates
 --------------
