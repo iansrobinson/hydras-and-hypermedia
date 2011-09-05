@@ -107,7 +107,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
                 var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
                 var item = response.Content.ReadAsOrDefault();
 
-                var expectedItemId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/round/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
+                var expectedItemId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/rounds/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
 
                 Assert.AreEqual(expectedItemId, item.Id);
             }
@@ -138,7 +138,7 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
                 var item = response.Content.ReadAsOrDefault();
                 var selfLink = item.Links.First(l => l.RelationshipType.Equals("self"));
 
-                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/round/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
+                var expectedUri = new Uri(string.Format("http://{0}:8081/encounters/{1}/rounds/{2}", Environment.MachineName, encounter.Id, encounter.GetAllRounds().Last().Id));
 
                 Assert.AreEqual(expectedUri, selfLink.Uri);
             }
