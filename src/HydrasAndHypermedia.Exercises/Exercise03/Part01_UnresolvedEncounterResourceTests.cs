@@ -83,19 +83,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void FeedIdShouldBeTagUri()
-        {
-            var encounter = CreateEncounter();
-            var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
-            var feed = response.Content.ReadAsOrDefault();
-
-            var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}", encounter.Id);
-
-            Assert.AreEqual(expectedId, feed.Id);
-        }
-
-        [Test]
         public void FeedTitleShouldMatchEncounterTitle()
         {
             var encounter = CreateEncounter();
@@ -202,23 +189,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
             {
                 var expectedTitle = "Round " + (numberOfRounds - i);
                 Assert.AreEqual(expectedTitle, feed.Items.ElementAt(i).Title.Text);
-            }
-        }
-
-        [Test]
-        public void EachItemIdShouldBeTagUri()
-        {
-            const int numberOfRounds = 3;
-            var encounter = CreateEncounter(numberOfRounds);
-
-            var resource = CreateEncounterResource(encounter);
-            var response = resource.Get(encounter.Id.ToString(), CreateRequest(encounter.Id));
-            var feed = response.Content.ReadAsOrDefault();
-
-            for (var i = 0; i < numberOfRounds; i++)
-            {
-                var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/rounds/{1}", encounter.Id, numberOfRounds - i);
-                Assert.AreEqual(expectedId, feed.Items.ElementAt(i).Id);
             }
         }
 

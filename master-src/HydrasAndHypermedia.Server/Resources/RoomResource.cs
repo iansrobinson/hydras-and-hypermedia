@@ -47,7 +47,6 @@ namespace HydrasAndHypermedia.Server.Resources
 
             var entry = new SyndicationItem
                             {
-                                Id = "tag:restinpractice.com,2011-09-05:/rooms/" + room.Id,
                                 BaseUri = new Uri("http://" + Environment.MachineName + ":8081"),
                                 Title = SyndicationContent.CreatePlaintextContent(room.Title),
                                 Summary = SyndicationContent.CreatePlaintextContent(room.Description)

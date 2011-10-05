@@ -69,19 +69,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise01
         }
 
         [Test]
-        public void ItemIdShouldBeTagUri()
-        {
-            var room = CreateRoom();
-            var resource = CreateRoomResource(room);
-            var response = resource.Get(room.Id.ToString(), CreateRequest(room.Id));
-            var item = response.Content.ReadAsOrDefault();
-
-            var expectedId = string.Format("tag:restinpractice.com,2011-09-05:/rooms/{0}", room.Id);
-
-            Assert.AreEqual(expectedId, item.Id);
-        }
-
-        [Test]
         public void ItemTitleShouldReturnRoomTitle()
         {
             var room = CreateRoom();

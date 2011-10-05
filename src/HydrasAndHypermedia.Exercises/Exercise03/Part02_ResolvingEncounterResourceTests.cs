@@ -95,25 +95,6 @@ namespace HydrasAndHypermedia.Exercises.Exercise03
         }
 
         [Test]
-        public void EachItemIdShouldBeTagUri()
-        {
-            const int numberOfRounds = 3;
-            var encounter = CreateEncounter();
-
-            var resource = CreateEncounterResource(encounter);
-
-            for (var i = 0; i < numberOfRounds; i++)
-            {
-                var response = resource.Post(encounter.Id.ToString(), CreateRequest(encounter.Id, CreateFormUrlEncodedContent(ClientEndurance)));
-                var item = response.Content.ReadAsOrDefault();
-
-                var expectedItemId = string.Format("tag:restinpractice.com,2011-09-05:/encounters/{0}/rounds/{1}", encounter.Id, encounter.GetAllRounds().Last().Id);
-
-                Assert.AreEqual(expectedItemId, item.Id);
-            }
-        }
-
-        [Test]
         public void ItemShouldIncludeBaseUri()
         {
             var encounter = CreateEncounter();
