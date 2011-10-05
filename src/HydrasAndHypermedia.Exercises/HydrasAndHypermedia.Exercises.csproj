@@ -76,11 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exercise01\Part01_RoomResourceTests.cs" />
-    <Compile Include="Exercise01\Part02_AtomMediaTypeTests.cs" />
-    <Compile Include="Exercise01\Part03_FunctionalTests.cs" />
-    <Compile Include="Exercise02\Part01_AtomMediaTypeTests.cs" />
-    <Compile Include="Exercise02\Part02_ExploringTests.cs" />
-    <Compile Include="Exercise02\Part03_FunctionalTests.cs" />
+    <Compile Include="Exercise01\Part02_FunctionalTests.cs" />
+    <Compile Include="Exercise02\Part01_ExploringTests.cs" />
+    <Compile Include="Exercise02\Part02_FunctionalTests.cs" />
     <Compile Include="Exercise03\Part01_UnresolvedEncounterResourceTests.cs" />
     <Compile Include="Exercise03\Part02_ResolvingEncounterResourceTests.cs" />
     <Compile Include="Exercise03\Part03_ResolvedEncounterResourceTests.cs" />

@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace HydrasAndHypermedia.Exercises.Exercise02
 {
     [TestFixture]
-    public class Part03_FunctionalTests
+    public class Part02_FunctionalTests
     {
         [Test]
         public void ShouldNavigateMaze()

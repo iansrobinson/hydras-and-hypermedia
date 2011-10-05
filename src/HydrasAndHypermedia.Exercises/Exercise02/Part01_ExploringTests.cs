@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace HydrasAndHypermedia.Exercises.Exercise02
 {
     [TestFixture]
-    public class Part02_ExploringTests
+    public class Part01_ExploringTests
     {
         private static readonly Uri NorthUri = new Uri("/rooms/10", UriKind.Relative);
         private static readonly Uri SouthUri = new Uri("/rooms/11", UriKind.Relative);

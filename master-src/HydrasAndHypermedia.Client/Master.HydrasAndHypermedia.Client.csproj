@@ -111,9 +111,9 @@
     <Compile Include="ApplicationStates\ResolvingEncounter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HydrasAndHypermedia.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
-      <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
-      <Name>Master.HydrasAndHypermedia.MediaTypes</Name>
+    <ProjectReference Include="..\..\src\HydrasAndHypermedia.MediaTypes\HydrasAndHypermedia.MediaTypes.csproj">
+      <Project>{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}</Project>
+      <Name>HydrasAndHypermedia.MediaTypes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

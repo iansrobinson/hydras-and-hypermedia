@@ -77,20 +77,14 @@
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part01_RoomResourceTests.cs">
       <Link>Exercise01\Part01_RoomResourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part02_AtomMediaTypeTests.cs">
-      <Link>Exercise01\Part02_AtomMediaTypeTests.cs</Link>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part02_FunctionalTests.cs">
+      <Link>Exercise01\Part02_FunctionalTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise01\Part03_FunctionalTests.cs">
-      <Link>Exercise01\Part03_FunctionalTests.cs</Link>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part01_ExploringTests.cs">
+      <Link>Exercise02\Part01_ExploringTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part01_AtomMediaTypeTests.cs">
-      <Link>Exercise02\Part01_AtomMediaTypeTests.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part02_ExploringTests.cs">
-      <Link>Exercise02\Part02_ExploringTests.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part03_FunctionalTests.cs">
-      <Link>Exercise02\Part03_FunctionalTests.cs</Link>
+    <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise02\Part02_FunctionalTests.cs">
+      <Link>Exercise02\Part02_FunctionalTests.cs</Link>
     </Compile>
     <Compile Include="..\..\src\HydrasAndHypermedia.Exercises\Exercise03\Part01_UnresolvedEncounterResourceTests.cs">
       <Link>Exercise03\Part01_UnresolvedEncounterResourceTests.cs</Link>
@@ -145,13 +139,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\HydrasAndHypermedia.MediaTypes\HydrasAndHypermedia.MediaTypes.csproj">
+      <Project>{9FC22BFD-F551-4899-8C84-EBAB6363C8E5}</Project>
+      <Name>HydrasAndHypermedia.MediaTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HydrasAndHypermedia.Client\Master.HydrasAndHypermedia.Client.csproj">
       <Project>{1A9CF95E-876B-430D-8D06-BE39E0E4BE2A}</Project>
       <Name>Master.HydrasAndHypermedia.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HydrasAndHypermedia.MediaTypes\Master.HydrasAndHypermedia.MediaTypes.csproj">
-      <Project>{0C122BEB-C354-48F2-8609-0E0A6B7F4A45}</Project>
-      <Name>Master.HydrasAndHypermedia.MediaTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\HydrasAndHypermedia.Server\Master.HydrasAndHypermedia.Server.csproj">
       <Project>{ABADB660-3434-4C68-A4C9-595E3F338457}</Project>

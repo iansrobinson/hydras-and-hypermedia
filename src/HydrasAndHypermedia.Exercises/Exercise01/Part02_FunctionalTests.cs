@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace HydrasAndHypermedia.Exercises.Exercise01
 {
     [TestFixture]
-    public class Part03_FunctionalTests
+    public class Part02_FunctionalTests
     {
         //Before running this test for the first time, you must reserve the http://+:8081 namespace
         //Open a command propmpt as Administrator, and type:
